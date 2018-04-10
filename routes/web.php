@@ -17,4 +17,10 @@ Route::get('/', function () {
 
 Route::group(['middleware'=>'cors'], function() {
     Route::any('/send','TestController@request');
+    include('user.php');
+    include('admin.php');
 });
+
+
+
+
