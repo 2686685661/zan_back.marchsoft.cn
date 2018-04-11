@@ -13,4 +13,4 @@
 # 生成key值
 # 5 php artisan key:generate
 
-#每次推送到远程时先pull在push，有冲突及时解决！
+# 6 每次推送到远程时先pull在push，有冲突及时解决！
