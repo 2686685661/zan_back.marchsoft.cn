@@ -11,15 +11,20 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
 Route::group(['middleware'=>'cors'], function() {
+    Route::get('/','IndexController@index')->middleware('ip');
     Route::any('/send','TestController@request');
     include('user.php');
     include('admin.php');
 });
+
+
+
+Route::get('testRedis','RedisController@testRedis')->name('testRedis');
 
 
 

@@ -328,3 +328,9 @@ function secsToStr($secs) {
 //    }
     return $r;
 }
+
+function get_redis_session_user() {
+    
+    
+}
+
