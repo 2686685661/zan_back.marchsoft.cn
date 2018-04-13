@@ -15,17 +15,18 @@
 //     return view('welcome');
 // });
 
-Route::group(['middleware'=>'cors'], function() {
+Route::group(['middleware'=>['cors','login']], function() {
     Route::get('/','IndexController@index')->middleware('ip');
     Route::any('/send','TestController@request');
     include('user.php');
     include('admin.php');
+    Route::get('test',function (){return get('test');});
 });
 
 
 
-Route::get('testRedis','RedisController@testRedis')->name('testRedis');
-
-
-
+Route::get('login',function (){
+    header('Location: http://www.baidu.com');
+    die;
+});
 
