@@ -1,4 +1,5 @@
 <?php
+use \Illuminate\Support\Facades\Redis;
 /**
  * 页面json 输出
  *
@@ -33,55 +34,10 @@ function getFilename($ext)
     return $filename;
 }
 
-function get_session_user()
-{
-    /*$std               = new \stdClass();
-    $std->id           = 5;
-    $std->type         = 1;
-    $std->real_name    = "chjw";
-    $std->org_id       = 1;
-    $std->org_name     = "XX大学";
-    $std->openid       = "";
-    $std->login_openid = "";
-    $std->user_code    = "20051015112";
-    $std->sex          = "男";
-    $std->is_v         = 0;
-    $std->relation_id  = 1;
-    $std->role_id      = 2;
-
-    session(['user' => $std]);*/
-    return session("user");
-}
-
-function get_session_user_id()
-{
-    $user = session("user");
-    return $user ? $user->user_login : 0;
-}
-
-function get_wx_user_openid()
-{
-    $user = session('wechat.oauth_user');
-    return $user ? $user['openid'] : '';
-}
-
-//获取微信端登录用户的id
-function get_wx_user_id()
-{
-    $user = session("user");
-    return $user ? $user->id : 0;
-}
-
-function get_wx_user()
-{
-    return session("user");
-}
-
 
 function startWith($str, $needle)
 {
     return strpos($str, $needle) === 0;
-
 }
 
 //第一个是原串,第二个是 部份串
@@ -94,14 +50,6 @@ function endWith($haystack, $needle)
     return (substr($haystack, -$length) === $needle);
 }
 
-function wx_nickname_filter($name)
-{
-    $name = preg_replace('/\xEE[\x80-\xBF][\x80-\xBF]|\xEF[\x81-\x83][\x80-\xBF]/', '', $name);
-    $name = preg_replace('/xE0[x80-x9F][x80-xBF]‘.‘|xED[xA0-xBF][x80-xBF]/S', '?', $name);
-    $name = preg_replace('/xE0[x80-x9F][x80-xBF]' . '|xED[xA0-xBF][x80-xBF]/S', '?', $name);
-    $name = preg_replace('/\xEE[\x80-\xBF][\x80-\xBF]|\xEF[\x81-\x83][\x80-\xBF]/', '', $name);
-    return $name;
-}
 
 function create_uuid($prefix = "")
 {    //可以指定前缀
@@ -117,7 +65,7 @@ function create_uuid($prefix = "")
 /**
  * 获取用户密码加密字符串
  * @param $password
- * @param $salt
+ *               @param $salt
  * @return string
  */
 function encrypt_password($password)
@@ -334,3 +282,36 @@ function get_redis_session_user() {
     
 }
 
+
+/**
+ *
+ * @param $key
+ * @param $val
+ */
+function set($key,$val){
+    Redis::set($key,$val);
+}
+
+/**
+ * @param $key 获取所对应的值
+ * @return mixed
+ */
+function get($key){
+    return Redis::get($key);
+}
+
+/**删除对应的key
+ * @param $key
+ */
+function drop($key){
+    Redis::del($key);
+}
+
+/**
+ * 判断是否存在该key所对应的值
+ * @param $key key值
+ * @return mixed ture 或 false
+ */
+function emptyId($key){
+    return Redis::exists($key);
+}
