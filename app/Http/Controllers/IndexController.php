@@ -9,7 +9,7 @@ class IndexController extends Controller
     
 
     public function index() {
-
+        echo '这是dev分支，master分支看不见';
         // echo 'aaa';
         $user = get_redis_session_user();
 
