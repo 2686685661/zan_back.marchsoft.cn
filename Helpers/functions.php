@@ -281,37 +281,3 @@ function get_redis_session_user() {
     
     
 }
-
-
-/**
- *
- * @param $key
- * @param $val
- */
-function set($key,$val){
-    Redis::set($key,$val);
-}
-
-/**
- * @param $key 获取所对应的值
- * @return mixed
- */
-function get($key){
-    return Redis::get($key);
-}
-
-/**删除对应的key
- * @param $key
- */
-function drop($key){
-    Redis::del($key);
-}
-
-/**
- * 判断是否存在该key所对应的值
- * @param $key key值
- * @return mixed ture 或 false
- */
-function emptyId($key){
-    return Redis::exists($key);
-}
