@@ -13,8 +13,6 @@
 # 生成key值
 # 5 php artisan key:generate
 
-
-
 # 在push到远程时,必须push到dev分支，不能动master
 # 6 git push origin master:dev
 
