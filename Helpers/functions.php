@@ -277,7 +277,12 @@ function secsToStr($secs) {
     return $r;
 }
 
-function get_redis_session_user() {
-    
-    
+/**
+ * 获得用户qq头像
+ * return string 用户qq头像链接
+ */
+function get_qqimg_link($qq_num, $img_size='100') { 
+
+    $link = 'https://qlogo4.store.qq.com/qzone/'.$qq_num.DIRECTORY_SEPARATOR.$qq_num.DIRECTORY_SEPARATOR.$img_size.'?1496376294';
+    return $link;
 }
