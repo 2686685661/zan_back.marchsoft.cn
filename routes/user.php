@@ -1,6 +1,6 @@
 <?php
 
-Route::group(['prefix' => 'user'],function() {
+Route::group(['prefix' => 'User'],function() {
 
 
     
