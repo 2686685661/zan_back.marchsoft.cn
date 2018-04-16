@@ -28,7 +28,7 @@ function responseToPage($results)
  * @param $msg
  * @param $paras
  */
-function getFilename($ext)
+function getFileName($ext)
 {
     $filename = time() . '-' . uniqid() . '.' . $ext;
     return $filename;
@@ -51,7 +51,7 @@ function endWith($haystack, $needle)
 }
 
 
-function create_uuid($prefix = "")
+function createUuid($prefix = "")
 {    //可以指定前缀
     $str = md5(uniqid(mt_rand(), true));
     $uuid = substr($str, 0, 8) . '-';
@@ -68,17 +68,17 @@ function create_uuid($prefix = "")
  *               @param $salt
  * @return string
  */
-function encrypt_password($password)
+function encryptPassword($password)
 {
     return md5(md5($password));
 }
 
-function get_pinyin_simple($str)
+function getPinyinSimple($str)
 {
     return \Overtrue\LaravelPinyin\Facades\Pinyin::abbr($str);
 }
 
-function get_pinyin_all($str)
+function getPinyinAll($str)
 {
     $arr = \Overtrue\LaravelPinyin\Facades\Pinyin::convert($str);
     return implode("", $arr);
@@ -113,53 +113,6 @@ function arraySort($array,$key,$flag)
         array_multisort($arrSort[$sort['field']], constant($sort['direction']), $array);
     }
     return $array;
-}
-
-/**
- * 判断$student_id 是否在数组$stat中
- * @param $student_id
- * @param $stat
- * @return bool
- */
-function is_stat($student_id,$stat){
-    for ($i=0;$i<count($stat);$i++){
-        if($stat[$i]['student_id'] == $student_id){
-            return true;
-        }
-    }
-    return false;
-}
-/**
- *文件转为pdf
- * @param $filepath 文件路径
- * @param $source   来源
- * @param $id       文件id
- * @param $ext      文件后缀
- */
-function doc2pdf($filepath,$source,$id,$ext) {
-    //doc,docx,txt,sql,java,css,js,
-    switch($ext){
-        case 'doc':
-        case 'docx':
-        case 'txt':
-        case 'sql':
-        case 'java':
-        case 'css':
-        case 'js':
-        case 'php':
-        case 'jsp':
-        case 'vue':
-        case 'xls':
-        case 'xlsx':
-        case 'ppt':
-        case 'pptx':
-            (new App\Models\Document2PdfInfo($filepath,$source,$id))->request();
-            break;
-        case 'pdf':
-            (new App\Models\Pdf2HtmlInfo($filepath,$source,$id))->save();
-            break;
-    }
-
 }
 
 /**
@@ -220,7 +173,7 @@ function thumbnail($src, $filename, $filepath, $width = 150, $height = null) {
  * @param  string $big      现在时间
  * @param  string $little   记录更新时间
  */
-function time_diff($big,$little){
+function timeDiff($big,$little){
     $diff = $big-$little;
     if(0<=$diff&&$diff<60){
         return $diff."秒前";
@@ -241,7 +194,7 @@ function time_diff($big,$little){
  * str 字符串
  * num 位数
  * */
-function str_rand($num,$str = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'){
+function strRand($num,$str = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'){
     $key = '';
     for ( $i = 0; $i < $num; $i++ )
     {
