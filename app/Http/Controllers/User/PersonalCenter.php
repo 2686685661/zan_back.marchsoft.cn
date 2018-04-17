@@ -16,11 +16,11 @@ use Illuminate\Http\Request;
 class personalCenter extends Controller
 {
 
-    public $order;
+    public $mOrder;
 
     function __construct()
     {
-        $this->order = new order();
+        $this->mOrder = new order();
     }
 
 
@@ -66,7 +66,7 @@ class personalCenter extends Controller
     public function get_order_list(Request $request)
     {
         if ($request->isMethod('get')) {
-            $data = $this->order->get_lists($request);
+            $data = $this->mOrder->get_lists($request);
             if (sizeof($data) > 0) {
                 return responseToJson(0, 'success', $data);
             } else {
