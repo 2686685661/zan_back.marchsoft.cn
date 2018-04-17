@@ -14,4 +14,8 @@ class order
 {
 
     public $table = 'order';
+
+    public function get_lists(Request $request){
+      return  DB::table($this->table)->where('is_delete',0)->where('is_view',0)->limit($request->page,10)->get(['content','created_time','status','resaon']);
+    }
 }
