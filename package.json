@@ -19,11 +19,11 @@
     "vue": "^2.5.7"
   },
   "apidoc": {
-    "name": "example",
-    "version": "0.1.0",
-    "description": "apiDoc basic example",
+    "name": "点赞币",
+    "version": "0.0.0",
+    "description": "三月小组点赞币系统",
     "apidoc": {
-      "title": "Custom apiDoc browser title",
+      "title": "点赞币",
       "url": "https://api.github.com/v1"
     }
   }
