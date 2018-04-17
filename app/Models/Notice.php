@@ -9,8 +9,8 @@
 namespace App\Models;
 
 
-class notice
+class Notice
 {
 
-    public $table = 'notice';
+    public $mTable = 'notice';
 }

@@ -10,8 +10,8 @@ namespace App\Models;
 use DB;
 use Illuminate\Http\Request;
 
-class user
+class User
 {
 
-    public $table = 'user';
+    public $mTable = 'user';
 }

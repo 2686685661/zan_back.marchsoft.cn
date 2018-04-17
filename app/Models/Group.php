@@ -10,8 +10,8 @@ namespace App\Models;
 use DB;
 use Illuminate\Http\Request;
 
-class job_title
+class Group
 {
-    public $table = 'job_title';
 
+    public $mTable = 'group';
 }

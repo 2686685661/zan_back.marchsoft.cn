@@ -79,7 +79,7 @@ define({ "api": [
       ]
     },
     "version": "0.0.0",
-    "filename": "app/Http/Controllers/User/personalCenter.php",
+    "filename": "app/Http/Controllers/User/PersonalCenter.php",
     "groupTitle": "User"
   }
 ] });

@@ -3,15 +3,15 @@
  * Created by PhpStorm.
  * User: star
  * Date: 2018/4/16
- * Time: 18:58
+ * Time: 18:55
  */
 
 namespace App\Models;
 use DB;
 use Illuminate\Http\Request;
 
-class coin_status
+class Apply
 {
+    public $mTable = 'apply';
 
-    public $table = 'coin_status';
 }

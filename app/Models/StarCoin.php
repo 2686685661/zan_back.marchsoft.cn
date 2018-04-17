@@ -10,8 +10,8 @@ namespace App\Models;
 use DB;
 use Illuminate\Http\Request;
 
-class star_coin
+class StarCoin
 {
-    public $table = 'star_coin';
+    public $mTable = 'starCoin';
 
 }

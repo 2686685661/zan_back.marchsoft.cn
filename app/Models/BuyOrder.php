@@ -3,15 +3,15 @@
  * Created by PhpStorm.
  * User: star
  * Date: 2018/4/16
- * Time: 19:13
+ * Time: 18:57
  */
 
 namespace App\Models;
 use DB;
 use Illuminate\Http\Request;
 
-class rule
+class BuyOrder
 {
+    public $mTabel = 'buyOrder';
 
-    public $table = 'rule';
 }
