@@ -234,8 +234,25 @@ function secsToStr($secs) {
  * 获得用户qq头像
  * return string 用户qq头像链接
  */
-function get_qqimg_link($qq_num, $img_size='100') { 
+function getQqimgLink($qq_num, $img_size='100') { 
 
     $link = 'https://qlogo4.store.qq.com/qzone/'.$qq_num.DIRECTORY_SEPARATOR.$qq_num.DIRECTORY_SEPARATOR.$img_size.'?1496376294';
     return $link;
+}
+
+
+/**
+ * 字符串和数组的转换
+ * $val  需要转换的数组或者字符串
+ * $explStr  规定在哪里分割字符串或合并数组
+ */
+function strChangeArr($val,$explStr = '') {
+    // if(is_string($val))
+    //     return explode($explStr,trim($val));
+    // else if(is_array($val))
+    //     return implode($explStr,$val);
+
+    $value = null;
+    is_string($val) ? $value = explode($explStr,trim($val)) : (is_array($val) ? $value = implode($explStr,$val) : $value = 0);
+    return $value;
 }

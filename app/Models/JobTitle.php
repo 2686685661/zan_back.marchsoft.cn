@@ -12,6 +12,6 @@ use Illuminate\Http\Request;
 
 class JobTitle
 {
-    public $mTable = 'jobTitle';
+    public static $sTable = 'jobTitle';
 
 }

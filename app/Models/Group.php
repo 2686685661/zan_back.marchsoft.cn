@@ -13,5 +13,5 @@ use Illuminate\Http\Request;
 class Group
 {
 
-    public $mTable = 'group';
+    public static $sTable = 'group';
 }
