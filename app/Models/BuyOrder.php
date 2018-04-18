@@ -12,6 +12,6 @@ use Illuminate\Http\Request;
 
 class BuyOrder
 {
-    public $mTabel = 'buyOrder';
+    public static $sTable = 'buyOrder';
 
 }

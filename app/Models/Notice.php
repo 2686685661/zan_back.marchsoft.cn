@@ -12,5 +12,5 @@ namespace App\Models;
 class Notice
 {
 
-    public $mTable = 'notice';
+    public static $sTable = 'notice';
 }

@@ -13,5 +13,5 @@ use Illuminate\Http\Request;
 class Rule
 {
 
-    public $mTable = 'rule';
+    public static $sTable = 'rule';
 }

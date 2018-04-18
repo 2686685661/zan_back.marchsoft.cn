@@ -12,6 +12,10 @@ use Illuminate\Http\Request;
 
 class Apply
 {
-    public $mTable = 'apply';
+    public static $sTable = 'apply';
 
+    public static function applyStar(Request $request){
+
+        return DB::table(self::$sTable)->insert(['apply_user_id'=>$request->user_id,'apply_user_name'=>$request->user_name,'content'=>$request->apply_content]);
+    }
 }
