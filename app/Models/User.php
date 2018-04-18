@@ -13,5 +13,5 @@ use Illuminate\Http\Request;
 class User
 {
 
-    public $mTable = 'user';
+    public static $mTable = 'user';
 }

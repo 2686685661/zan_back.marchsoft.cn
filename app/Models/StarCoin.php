@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 
 class StarCoin
 {
+
     public static $sTable = 'star_coin';
 
     /**

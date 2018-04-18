@@ -12,6 +12,6 @@ use Illuminate\Http\Request;
 
 class CoinUseful
 {
-    public $mTable = 'coinUseful';
+    public  static $sTable = 'coinUseful';
 
 }
