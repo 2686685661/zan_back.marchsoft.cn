@@ -4,6 +4,7 @@ Route::group(['prefix' => 'user'],function() {
 
     Route::group(['prefix' => 'consume'],function() {
         Route::get('seeCon/{uerid}/{type}','ConsumeController@getUserConsumeCoin');
+        Route::post('insertCoinOrder','ConsumeController@insertUserConsume');
     });
    
     

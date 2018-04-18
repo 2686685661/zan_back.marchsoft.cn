@@ -45,7 +45,15 @@ class StarCoin
             ])->select('user.name','user.qq_account',self::$sTable.'.reason')->get();
 
         return $select_coins;
-        
+    }
+
+
+    public static function insertUserOrder($orderMsg) {
+
+    }
+
+    public static function updateUseCoinState($coinIdArr) {
+
     }
 
 
