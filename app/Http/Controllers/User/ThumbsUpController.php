@@ -57,7 +57,7 @@ class ThumbsUpController extends Controller
     }
 
     /**
-     * @api {post} user/getUsedCoinList 得到自己未使用（空白的，未点出的）的点赞币
+     * @api {post} user/getUsedCoinList 得到自己已使用的点赞币
      * @apiName getUsedCoinList
      * @apiGroup User
      *
@@ -101,7 +101,7 @@ class ThumbsUpController extends Controller
     }
 
     /**
-     * @api {post} user/getOverdueCoinList 得到自己未使用（空白的，未点出的）的已过期的点赞币数组
+     * @api {post} user/getOverdueCoinList 得到已过期的点赞币
      * @apiName getOverdueCoinList
      * @apiGroup User
      *
@@ -144,7 +144,7 @@ class ThumbsUpController extends Controller
     }
 
     /**
-     * @api {post} user/thumbsUp 登录
+     * @api {post} user/thumbsUp 点赞
      * @apiName thumbsUp
      * @apiGroup User
      *
