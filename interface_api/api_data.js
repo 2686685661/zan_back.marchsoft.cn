@@ -514,8 +514,8 @@ define({ "api": [
   },
   {
     "type": "get",
-    "url": "/getThumbupList/:id",
-    "title": "显示用户的点赞记录",
+    "url": "user/thumbup/:userID",
+    "title": "显示用户本周点赞记录",
     "name": "getThumbupList",
     "group": "User",
     "parameter": {
@@ -525,7 +525,7 @@ define({ "api": [
             "group": "Parameter",
             "type": "Number",
             "optional": false,
-            "field": "id",
+            "field": "userID",
             "description": "<p>用户ID</p>"
           }
         ]
@@ -535,7 +535,7 @@ define({ "api": [
       "examples": [
         {
           "title": "返回个人点赞记录",
-          "content": "HTTP/1.1 200 OK\n{\n\"code\": 200,\n\"msg\": \"success\",\n\"result\": {\n\n          },\n}",
+          "content": "HTTP/1.1 200 OK\n{\n\"code\": 0,\n\"msg\": \"success\",\n\"result\": {\n     thumbupArr:[\n                ],\n          },\n}",
           "type": "json"
         }
       ]
@@ -728,6 +728,38 @@ define({ "api": [
     "groupTitle": "User"
   },
   {
+    "type": "get",
+    "url": "user/thumbuped/:userID",
+    "title": "显示用户本周被点赞记录",
+    "name": "thumbup",
+    "group": "User",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "userID",
+            "description": "<p>用户ID</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "examples": [
+        {
+          "title": "返回个人被点赞记录",
+          "content": "HTTP/1.1 200 OK\n{\n\"code\": 0,\n\"msg\": \"success\",\n\"result\": {\n    thumbupedArr:[\n                ],\n    totalWeek:2,\n    rankWeek:20,\n          },\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "app/Http/Controllers/User/ThumbupController.php",
+    "groupTitle": "User"
+  },
+  {
     "type": "post",
     "url": "/updatePassword",
     "title": "修改密码",
@@ -816,5 +848,187 @@ define({ "api": [
     "version": "0.0.0",
     "filename": "app/Http/Controllers/User/PersonalCenter.php",
     "groupTitle": "User"
+  },
+  {
+    "type": "post",
+    "url": "/alipay/notify",
+    "title": "支付异步回调接口",
+    "name": "alipayNotify",
+    "group": "alipay",
+    "success": {
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "HTTP/1.1 200 OK",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "Error 4xx": [
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "UserNotFound",
+            "description": "<p>The id of the User was not found.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Error-Response:",
+          "content": "HTTP/1.1 200\n{\n  \"code\": \"1\",\n   \"msg\": '响应的报错信息'\n}\n\n HTTP/1.1 200\n{\n  \"code\": \"2\",\n   \"msg\": '数据加载完毕，已经无法加载相应数据'\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "app/Http/Controllers/User/Alipay/AlipayWapController.php",
+    "groupTitle": "alipay"
+  },
+  {
+    "type": "get",
+    "url": "/alipay/return",
+    "title": "支付同步回调接口",
+    "name": "alipayReturn",
+    "group": "alipay",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "out_trade_no",
+            "description": "<p>唯一订单id(后端自动生成).</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "subject",
+            "description": "<p>订单介绍.</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "total_amount",
+            "description": "<p>支付金额.</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "body",
+            "description": "<p>订单主题介绍.</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "HTTP/1.1 200 OK",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "Error 4xx": [
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "UserNotFound",
+            "description": "<p>The id of the User was not found.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Error-Response:",
+          "content": "HTTP/1.1 200\n{\n  \"code\": \"1\",\n   \"msg\": '响应的报错信息'\n}\n\n HTTP/1.1 200\n{\n  \"code\": \"2\",\n   \"msg\": '数据加载完毕，已经无法加载相应数据'\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "app/Http/Controllers/User/Alipay/AlipayWapController.php",
+    "groupTitle": "alipay"
+  },
+  {
+    "type": "get",
+    "url": "/alipay/wappay",
+    "title": "购买点赞币支付宝手机网站支付接口",
+    "name": "alipayWapPay",
+    "group": "alipay",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "out_trade_no",
+            "description": "<p>唯一订单id(后端自动生成).</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "subject",
+            "description": "<p>订单介绍.</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "total_amount",
+            "description": "<p>支付金额.</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "body",
+            "description": "<p>订单主题介绍.</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "HTTP/1.1 200 OK\n 回调return_url,页面重新加载",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "Error 4xx": [
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "UserNotFound",
+            "description": "<p>The id of the User was not found.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Error-Response:",
+          "content": "HTTP/1.1 200\n{\n  \"code\": \"1\",\n   \"msg\": '响应的报错信息'\n}\n\n HTTP/1.1 200\n{\n  \"code\": \"2\",\n   \"msg\": '数据加载完毕，已经无法加载相应数据'\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "app/Http/Controllers/User/Alipay/AlipayWapController.php",
+    "groupTitle": "alipay"
   }
 ] });

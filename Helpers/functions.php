@@ -256,3 +256,12 @@ function strChangeArr($val,$explStr = '') {
     is_string($val) ? $value = explode($explStr,trim($val)) : (is_array($val) ? $value = implode($explStr,$val) : $value = 0);
     return $value;
 }
+
+/**
+ * 生成订单号
+ */
+function getTradeNOString() {
+    return 'ZAN'.strval(time(),rand(111,999));
+}
+
+
