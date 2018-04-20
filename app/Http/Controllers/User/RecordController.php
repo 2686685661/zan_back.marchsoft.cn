@@ -82,18 +82,22 @@ class RecordController extends Controller
      * @apiParam {String} startDate 开始日期 yy-mm-dd
      * @apiParam {String} endDate 结束日期 yy-mm-dd
      *
+     * @apiSuccess {Object[]} IndRank 个人信息数组
      * @apiSuccess {Object[]} countArr 点赞排名数组
-     * @apiSuccessExample Success-Response：返回点赞记录表
+     * @apiSuccessExample Success-Response：返回点赞币统计记录
      * HTTP/1.1 200 OK
      * {
      * "code": 0,
      * "msg": "success",
      * "data": {
+     *      IndRank:[
+     *          {"name":"xxx","qq_account":"xxxxxxxx","receive_count":21,"week_count":8},
+     *       ],
      *      countArr:[
      *          {"name":"xxx","qq_account":"xxxxxxxx","receive_count":28,"week_count":7},
-     *          {"name":"xxx","qq_account":"xxxxxxxx","receive_count":28,"week_count":7},
-     *          {"name":"xxx","qq_account":"xxxxxxxx","receive_count":28,"week_count":7},
-     *          {"name":"xxx","qq_account":"xxxxxxxx","receive_count":28,"week_count":7},
+     *          {"name":"xxx","qq_account":"xxxxxxxx","receive_count":25,"week_count":2},
+     *          {"name":"xxx","qq_account":"xxxxxxxx","receive_count":20,"week_count":5},
+     *          {"name":"xxx","qq_account":"xxxxxxxx","receive_count":18,"week_count":1},
      *       ],
      *    },
      * }
@@ -114,12 +118,25 @@ class RecordController extends Controller
      *     }
      *
      */
-    public function getThumbupCount(Request $request,$userID = null)
+    public function getThumbupCount(Request $request)
     {
         if ($request->isMethod("get"))
         {
 
         }
         responseToJson(1,"request error");
+    }
+    /**
+     * 分组排名
+     */
+    private function getGroupCount($startDate,$endDate,$userID=null)
+    {
+
+    }
+    /**
+     * 点赞总数
+     */
+    private function getThumbupTotal($userID){
+
     }
 }
