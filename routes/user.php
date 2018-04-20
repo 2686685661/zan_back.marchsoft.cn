@@ -6,6 +6,8 @@ Route::group(['prefix' => 'user'],function() {
         Route::get('seeCon/{uerid}/{type}','ConsumeController@getUserConsumeCoin');
         Route::post('insertCoinOrder','ConsumeController@insertUserConsume');
     });
+
+    
    
     
 });
