@@ -1,5 +1,33 @@
 define({ "api": [
   {
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "optional": false,
+            "field": "varname1",
+            "description": "<p>No type.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "varname2",
+            "description": "<p>With type.</p>"
+          }
+        ]
+      }
+    },
+    "type": "",
+    "url": "",
+    "version": "0.0.0",
+    "filename": "./interface_api/main.js",
+    "group": "E__wamp64_www_zan_back_marchsoft_cn_interface_api_main_js",
+    "groupTitle": "E__wamp64_www_zan_back_marchsoft_cn_interface_api_main_js",
+    "name": ""
+  },
+  {
     "type": "post",
     "url": "/addApply",
     "title": "申请点赞币",
@@ -86,7 +114,7 @@ define({ "api": [
       ]
     },
     "version": "0.0.0",
-    "filename": "app/Http/Controllers/User/PersonalCenter.php",
+    "filename": "./app/Http/Controllers/User/PersonalCenter.php",
     "groupTitle": "User"
   },
   {
@@ -155,7 +183,7 @@ define({ "api": [
       ]
     },
     "version": "0.0.0",
-    "filename": "app/Http/Controllers/User/PersonalCenter.php",
+    "filename": "./app/Http/Controllers/User/PersonalCenter.php",
     "groupTitle": "User"
   },
   {
@@ -244,7 +272,7 @@ define({ "api": [
       ]
     },
     "version": "0.0.0",
-    "filename": "app/Http/Controllers/User/RecordController.php",
+    "filename": "./app/Http/Controllers/User/RecordController.php",
     "groupTitle": "User"
   },
   {
@@ -300,7 +328,7 @@ define({ "api": [
       ]
     },
     "version": "0.0.0",
-    "filename": "app/Http/Controllers/User/PersonalCenter.php",
+    "filename": "./app/Http/Controllers/User/PersonalCenter.php",
     "groupTitle": "User"
   },
   {
@@ -397,7 +425,7 @@ define({ "api": [
       ]
     },
     "version": "0.0.0",
-    "filename": "app/Http/Controllers/User/PersonalCenter.php",
+    "filename": "./app/Http/Controllers/User/PersonalCenter.php",
     "groupTitle": "User"
   },
   {
@@ -498,7 +526,7 @@ define({ "api": [
       ]
     },
     "version": "0.0.0",
-    "filename": "app/Http/Controllers/User/ThumbsUpController.php",
+    "filename": "./app/Http/Controllers/User/ThumbsUpController.php",
     "groupTitle": "User"
   },
   {
@@ -581,7 +609,7 @@ define({ "api": [
       ]
     },
     "version": "0.0.0",
-    "filename": "app/Http/Controllers/User/PersonalCenter.php",
+    "filename": "./app/Http/Controllers/User/PersonalCenter.php",
     "groupTitle": "User"
   },
   {
@@ -682,7 +710,7 @@ define({ "api": [
       ]
     },
     "version": "0.0.0",
-    "filename": "app/Http/Controllers/User/ThumbsUpController.php",
+    "filename": "./app/Http/Controllers/User/ThumbsUpController.php",
     "groupTitle": "User"
   },
   {
@@ -731,7 +759,7 @@ define({ "api": [
       ]
     },
     "version": "0.0.0",
-    "filename": "app/Http/Controllers/User/PersonalCenter.php",
+    "filename": "./app/Http/Controllers/User/PersonalCenter.php",
     "groupTitle": "User"
   },
   {
@@ -800,7 +828,7 @@ define({ "api": [
       ]
     },
     "version": "0.0.0",
-    "filename": "app/Http/Controllers/User/PersonalCenter.php",
+    "filename": "./app/Http/Controllers/User/PersonalCenter.php",
     "groupTitle": "User"
   },
   {
@@ -908,7 +936,7 @@ define({ "api": [
       ]
     },
     "version": "0.0.0",
-    "filename": "app/Http/Controllers/User/ThumbsUpController.php",
+    "filename": "./app/Http/Controllers/User/ThumbsUpController.php",
     "groupTitle": "User"
   },
   {
@@ -1012,7 +1040,7 @@ define({ "api": [
       ]
     },
     "version": "0.0.0",
-    "filename": "app/Http/Controllers/User/ConsumeController.php",
+    "filename": "./app/Http/Controllers/User/ConsumeController.php",
     "groupTitle": "User"
   },
   {
@@ -1079,7 +1107,7 @@ define({ "api": [
       ]
     },
     "version": "0.0.0",
-    "filename": "app/Http/Controllers/User/ThumbsUpController.php",
+    "filename": "./app/Http/Controllers/User/ThumbsUpController.php",
     "groupTitle": "User"
   },
   {
@@ -1158,7 +1186,7 @@ define({ "api": [
       ]
     },
     "version": "0.0.0",
-    "filename": "app/Http/Controllers/User/ConsumeController.php",
+    "filename": "./app/Http/Controllers/User/ConsumeController.php",
     "groupTitle": "User"
   },
   {
@@ -1231,7 +1259,7 @@ define({ "api": [
       ]
     },
     "version": "0.0.0",
-    "filename": "app/Http/Controllers/User/LoginController.php",
+    "filename": "./app/Http/Controllers/User/LoginController.php",
     "groupTitle": "User"
   },
   {
@@ -1304,7 +1332,7 @@ define({ "api": [
       ]
     },
     "version": "0.0.0",
-    "filename": "app/Http/Controllers/User/ThumbsUpController.php",
+    "filename": "./app/Http/Controllers/User/ThumbsUpController.php",
     "groupTitle": "User"
   },
   {
@@ -1381,7 +1409,7 @@ define({ "api": [
       ]
     },
     "version": "0.0.0",
-    "filename": "app/Http/Controllers/User/RecordController.php",
+    "filename": "./app/Http/Controllers/User/RecordController.php",
     "groupTitle": "User"
   },
   {
@@ -1471,7 +1499,7 @@ define({ "api": [
       ]
     },
     "version": "0.0.0",
-    "filename": "app/Http/Controllers/User/PersonalCenter.php",
+    "filename": "./app/Http/Controllers/User/PersonalCenter.php",
     "groupTitle": "User"
   },
   {
@@ -1509,7 +1537,7 @@ define({ "api": [
       ]
     },
     "version": "0.0.0",
-    "filename": "app/Http/Controllers/User/Alipay/AlipayWapController.php",
+    "filename": "./app/Http/Controllers/User/Alipay/AlipayWapController.php",
     "groupTitle": "alipay"
   },
   {
@@ -1581,7 +1609,7 @@ define({ "api": [
       ]
     },
     "version": "0.0.0",
-    "filename": "app/Http/Controllers/User/Alipay/AlipayWapController.php",
+    "filename": "./app/Http/Controllers/User/Alipay/AlipayWapController.php",
     "groupTitle": "alipay"
   },
   {
@@ -1653,7 +1681,7 @@ define({ "api": [
       ]
     },
     "version": "0.0.0",
-    "filename": "app/Http/Controllers/User/Alipay/AlipayWapController.php",
+    "filename": "./app/Http/Controllers/User/Alipay/AlipayWapController.php",
     "groupTitle": "alipay"
   }
 ] });
