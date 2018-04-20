@@ -204,6 +204,13 @@
             "group": "Success 200",
             "type": "Object[]",
             "optional": false,
+            "field": "IndRank",
+            "description": "<p>个人信息数组</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Object[]",
+            "optional": false,
             "field": "countArr",
             "description": "<p>点赞排名数组</p>"
           }
@@ -211,8 +218,8 @@
       },
       "examples": [
         {
-          "title": "Success-Response：返回点赞记录表",
-          "content": "HTTP/1.1 200 OK\n{\n\"code\": 0,\n\"msg\": \"success\",\n\"data\": {\n     countArr:[\n         {\"name\":\"xxx\",\"qq_account\":\"xxxxxxxx\",\"receive_count\":28,\"week_count\":7},\n         {\"name\":\"xxx\",\"qq_account\":\"xxxxxxxx\",\"receive_count\":28,\"week_count\":7},\n         {\"name\":\"xxx\",\"qq_account\":\"xxxxxxxx\",\"receive_count\":28,\"week_count\":7},\n         {\"name\":\"xxx\",\"qq_account\":\"xxxxxxxx\",\"receive_count\":28,\"week_count\":7},\n      ],\n   },\n}",
+          "title": "Success-Response：返回点赞币统计记录",
+          "content": "HTTP/1.1 200 OK\n{\n\"code\": 0,\n\"msg\": \"success\",\n\"data\": {\n     IndRank:[\n         {\"name\":\"xxx\",\"qq_account\":\"xxxxxxxx\",\"receive_count\":21,\"week_count\":8},\n      ],\n     countArr:[\n         {\"name\":\"xxx\",\"qq_account\":\"xxxxxxxx\",\"receive_count\":28,\"week_count\":7},\n         {\"name\":\"xxx\",\"qq_account\":\"xxxxxxxx\",\"receive_count\":25,\"week_count\":2},\n         {\"name\":\"xxx\",\"qq_account\":\"xxxxxxxx\",\"receive_count\":20,\"week_count\":5},\n         {\"name\":\"xxx\",\"qq_account\":\"xxxxxxxx\",\"receive_count\":18,\"week_count\":1},\n      ],\n   },\n}",
           "type": "json"
         }
       ]
@@ -237,7 +244,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "app/Http/Controllers/User/ThumbupController.php",
+    "filename": "app/Http/Controllers/User/RecordController.php",
     "groupTitle": "User"
   },
   {
@@ -851,7 +858,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "app/Http/Controllers/User/ThumbupController.php",
+    "filename": "app/Http/Controllers/User/RecordController.php",
     "groupTitle": "User"
   },
   {
