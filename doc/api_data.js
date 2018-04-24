@@ -1,4 +1,32 @@
-[
+define({ "api": [
+  {
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "optional": false,
+            "field": "varname1",
+            "description": "<p>No type.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "varname2",
+            "description": "<p>With type.</p>"
+          }
+        ]
+      }
+    },
+    "type": "",
+    "url": "",
+    "version": "0.0.0",
+    "filename": "./interface_api/main.js",
+    "group": "E__wamp64_www_zan_back_marchsoft_cn_interface_api_main_js",
+    "groupTitle": "E__wamp64_www_zan_back_marchsoft_cn_interface_api_main_js",
+    "name": ""
+  },
   {
     "type": "post",
     "url": "/addApply",
@@ -86,7 +114,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "app/Http/Controllers/User/PersonalCenter.php",
+    "filename": "./app/Http/Controllers/User/PersonalCenter.php",
     "groupTitle": "User"
   },
   {
@@ -155,11 +183,11 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "app/Http/Controllers/User/PersonalCenter.php",
+    "filename": "./app/Http/Controllers/User/PersonalCenter.php",
     "groupTitle": "User"
   },
   {
-    "type": "post",
+    "type": "get",
     "url": "user/countList",
     "title": "显示点赞币统计记录",
     "name": "countList",
@@ -219,7 +247,7 @@
       "examples": [
         {
           "title": "Success-Response：返回点赞币统计记录",
-          "content": "HTTP/1.1 200 OK\n{\n\"code\": 0,\n\"msg\": \"success\",\n\"data\": {\n     IndRank:[\n         {\"name\":\"xxx\",\"img_url\":\"xxxxxxxx\",\"receive_count\":21,\"week_count\":8},\n      ],\n     countArr:[\n         {\"name\":\"xxx\",\"img_url\":\"xxxxxxxx\",\"receive_count\":28,\"week_count\":7},\n         {\"name\":\"xxx\",\"img_url\":\"xxxxxxxx\",\"receive_count\":25,\"week_count\":2},\n         {\"name\":\"xxx\",\"img_url\":\"xxxxxxxx\",\"receive_count\":20,\"week_count\":5},\n         {\"name\":\"xxx\",\"img_url\":\"xxxxxxxx\",\"receive_count\":18,\"week_count\":1},\n      ],\n   },\n}",
+          "content": "HTTP/1.1 200 OK\n{\n\"code\": 0,\n\"msg\": \"success\",\n\"data\": {\n     IndRank:[\n         {\"name\":\"xxx\",\"qq_account\":\"xxxxxxxx\",\"receive_count\":21,\"week_count\":8},\n      ],\n     countArr:[\n         {\"name\":\"xxx\",\"qq_account\":\"xxxxxxxx\",\"receive_count\":28,\"week_count\":7},\n         {\"name\":\"xxx\",\"qq_account\":\"xxxxxxxx\",\"receive_count\":25,\"week_count\":2},\n         {\"name\":\"xxx\",\"qq_account\":\"xxxxxxxx\",\"receive_count\":20,\"week_count\":5},\n         {\"name\":\"xxx\",\"qq_account\":\"xxxxxxxx\",\"receive_count\":18,\"week_count\":1},\n      ],\n   },\n}",
           "type": "json"
         }
       ]
@@ -244,7 +272,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "app/Http/Controllers/User/RecordController.php",
+    "filename": "./app/Http/Controllers/User/RecordController.php",
     "groupTitle": "User"
   },
   {
@@ -300,7 +328,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "app/Http/Controllers/User/PersonalCenter.php",
+    "filename": "./app/Http/Controllers/User/PersonalCenter.php",
     "groupTitle": "User"
   },
   {
@@ -397,7 +425,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "app/Http/Controllers/User/PersonalCenter.php",
+    "filename": "./app/Http/Controllers/User/PersonalCenter.php",
     "groupTitle": "User"
   },
   {
@@ -498,7 +526,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "app/Http/Controllers/User/ThumbsUpController.php",
+    "filename": "./app/Http/Controllers/User/ThumbsUpController.php",
     "groupTitle": "User"
   },
   {
@@ -581,7 +609,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "app/Http/Controllers/User/PersonalCenter.php",
+    "filename": "./app/Http/Controllers/User/PersonalCenter.php",
     "groupTitle": "User"
   },
   {
@@ -682,7 +710,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "app/Http/Controllers/User/ThumbsUpController.php",
+    "filename": "./app/Http/Controllers/User/ThumbsUpController.php",
     "groupTitle": "User"
   },
   {
@@ -731,7 +759,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "app/Http/Controllers/User/PersonalCenter.php",
+    "filename": "./app/Http/Controllers/User/PersonalCenter.php",
     "groupTitle": "User"
   },
   {
@@ -800,7 +828,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "app/Http/Controllers/User/PersonalCenter.php",
+    "filename": "./app/Http/Controllers/User/PersonalCenter.php",
     "groupTitle": "User"
   },
   {
@@ -908,7 +936,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "app/Http/Controllers/User/ThumbsUpController.php",
+    "filename": "./app/Http/Controllers/User/ThumbsUpController.php",
     "groupTitle": "User"
   },
   {
@@ -1012,7 +1040,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "app/Http/Controllers/User/ConsumeController.php",
+    "filename": "./app/Http/Controllers/User/ConsumeController.php",
     "groupTitle": "User"
   },
   {
@@ -1079,7 +1107,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "app/Http/Controllers/User/ThumbsUpController.php",
+    "filename": "./app/Http/Controllers/User/ThumbsUpController.php",
     "groupTitle": "User"
   },
   {
@@ -1158,7 +1186,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "app/Http/Controllers/User/ConsumeController.php",
+    "filename": "./app/Http/Controllers/User/ConsumeController.php",
     "groupTitle": "User"
   },
   {
@@ -1231,7 +1259,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "app/Http/Controllers/User/LoginController.php",
+    "filename": "./app/Http/Controllers/User/LoginController.php",
     "groupTitle": "User"
   },
   {
@@ -1304,7 +1332,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "app/Http/Controllers/User/ThumbsUpController.php",
+    "filename": "./app/Http/Controllers/User/ThumbsUpController.php",
     "groupTitle": "User"
   },
   {
@@ -1356,7 +1384,7 @@
       "examples": [
         {
           "title": "Success-Response: 返回个人被点赞记录",
-          "content": "HTTP/1.1 200 OK\n{\n\"code\": 0,\n\"msg\": \"success\",\n\"data\": {\n    thumbupedArr:[\n         {\"name\":\"xxx\",\"img_url\":\"xxxxxxxx\",\"reason\":\"xxxxxxxxxxxx\",\"start_time\":888888,\"over_time\":888888888,\"use_time\":88888888},\n         {\"name\":\"xxx\",\"img_url\":\"xxxxxxxx\",\"reason\":\"xxxxxxxxxxxx\",\"start_time\":888888,\"over_time\":888888888,\"use_time\":88888888},\n         {\"name\":\"xxx\",\"img_url\":\"xxxxxxxx\",\"reason\":\"xxxxxxxxxxxx\",\"start_time\":888888,\"over_time\":888888888,\"use_time\":88888888},\n         {\"name\":\"xxx\",\"img_url\":\"xxxxxxxx\",\"reason\":\"xxxxxxxxxxxx\",\"start_time\":888888,\"over_time\":888888888,\"use_time\":88888888},\n         {\"name\":\"xxx\",\"img_url\":\"xxxxxxxx\",\"reason\":\"xxxxxxxxxxxx\",\"start_time\":888888,\"over_time\":888888888,\"use_time\":88888888},\n                ],\n    thumbupArr:[\n         {\"name\":\"xxx\",\"img_url\":\"xxxxxxxx\",\"reason\":\"xxxxxxxxxxxx\",\"start_time\":888888,\"over_time\":888888888,\"use_time\":88888888},\n         {\"name\":\"xxx\",\"img_url\":\"xxxxxxxx\",\"reason\":\"xxxxxxxxxxxx\",\"start_time\":888888,\"over_time\":888888888,\"use_time\":88888888},\n         {\"name\":\"xxx\",\"img_url\":\"xxxxxxxx\",\"reason\":\"xxxxxxxxxxxx\",\"start_time\":888888,\"over_time\":888888888,\"use_time\":88888888},\n         {\"name\":\"xxx\",\"img_url\":\"xxxxxxxx\",\"reason\":\"xxxxxxxxxxxx\",\"start_time\":888888,\"over_time\":888888888,\"use_time\":88888888},\n         {\"name\":\"xxx\",\"img_url\":\"xxxxxxxx\",\"reason\":\"xxxxxxxxxxxx\",\"start_time\":888888,\"over_time\":888888888,\"use_time\":88888888},\n                ],\n    countTotal: 28,\n    totalWeek: 2,\n    rankWeek: 20,\n     },\n}",
+          "content": "HTTP/1.1 200 OK\n{\n\"code\": 0,\n\"msg\": \"success\",\n\"data\": {\n    thumbupedArr:[\n         {\"name\":\"xxx\",\"qq_account\":\"xxxxxxxx\",\"reason\":\"xxxxxxxxxxxx\",\"start_time\":888888,\"over_time\":888888888,\"use_time\":88888888},\n         {\"name\":\"xxx\",\"qq_account\":\"xxxxxxxx\",\"reason\":\"xxxxxxxxxxxx\",\"start_time\":888888,\"over_time\":888888888,\"use_time\":88888888},\n         {\"name\":\"xxx\",\"qq_account\":\"xxxxxxxx\",\"reason\":\"xxxxxxxxxxxx\",\"start_time\":888888,\"over_time\":888888888,\"use_time\":88888888},\n         {\"name\":\"xxx\",\"qq_account\":\"xxxxxxxx\",\"reason\":\"xxxxxxxxxxxx\",\"start_time\":888888,\"over_time\":888888888,\"use_time\":88888888},\n         {\"name\":\"xxx\",\"qq_account\":\"xxxxxxxx\",\"reason\":\"xxxxxxxxxxxx\",\"start_time\":888888,\"over_time\":888888888,\"use_time\":88888888},\n                ],\n    thumbupArr:[\n         {\"name\":\"xxx\",\"qq_account\":\"xxxxxxxx\",\"reason\":\"xxxxxxxxxxxx\",\"start_time\":888888,\"over_time\":888888888,\"use_time\":88888888},\n         {\"name\":\"xxx\",\"qq_account\":\"xxxxxxxx\",\"reason\":\"xxxxxxxxxxxx\",\"start_time\":888888,\"over_time\":888888888,\"use_time\":88888888},\n         {\"name\":\"xxx\",\"qq_account\":\"xxxxxxxx\",\"reason\":\"xxxxxxxxxxxx\",\"start_time\":888888,\"over_time\":888888888,\"use_time\":88888888},\n         {\"name\":\"xxx\",\"qq_account\":\"xxxxxxxx\",\"reason\":\"xxxxxxxxxxxx\",\"start_time\":888888,\"over_time\":888888888,\"use_time\":88888888},\n         {\"name\":\"xxx\",\"qq_account\":\"xxxxxxxx\",\"reason\":\"xxxxxxxxxxxx\",\"start_time\":888888,\"over_time\":888888888,\"use_time\":88888888},\n                ],\n    countTotal: 28,\n    totalWeek: 2,\n    rankWeek: 20,\n     },\n}",
           "type": "json"
         }
       ]
@@ -1381,7 +1409,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "app/Http/Controllers/User/RecordController.php",
+    "filename": "./app/Http/Controllers/User/RecordController.php",
     "groupTitle": "User"
   },
   {
@@ -1471,7 +1499,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "app/Http/Controllers/User/PersonalCenter.php",
+    "filename": "./app/Http/Controllers/User/PersonalCenter.php",
     "groupTitle": "User"
   },
   {
@@ -1509,7 +1537,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "app/Http/Controllers/User/Alipay/AlipayWapController.php",
+    "filename": "./app/Http/Controllers/User/Alipay/AlipayWapController.php",
     "groupTitle": "alipay"
   },
   {
@@ -1581,7 +1609,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "app/Http/Controllers/User/Alipay/AlipayWapController.php",
+    "filename": "./app/Http/Controllers/User/Alipay/AlipayWapController.php",
     "groupTitle": "alipay"
   },
   {
@@ -1653,7 +1681,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "app/Http/Controllers/User/Alipay/AlipayWapController.php",
+    "filename": "./app/Http/Controllers/User/Alipay/AlipayWapController.php",
     "groupTitle": "alipay"
   }
-]
+] });

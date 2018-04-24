@@ -587,7 +587,7 @@ define({ "api": [
   {
     "type": "post",
     "url": "user/getOverdueCoinList",
-    "title": "得到自己未使用（空白的，未点出的）的已过期的点赞币数组",
+    "title": "得到已过期的点赞币",
     "name": "getOverdueCoinList",
     "group": "User",
     "parameter": {
@@ -806,7 +806,7 @@ define({ "api": [
   {
     "type": "post",
     "url": "user/getUsedCoinList",
-    "title": "得到自己未使用（空白的，未点出的）的点赞币",
+    "title": "得到自己已使用的点赞币",
     "name": "getUsedCoinList",
     "group": "User",
     "parameter": {
@@ -1237,7 +1237,7 @@ define({ "api": [
   {
     "type": "post",
     "url": "user/thumbsUp",
-    "title": "登录",
+    "title": "点赞",
     "name": "thumbsUp",
     "group": "User",
     "parameter": {
