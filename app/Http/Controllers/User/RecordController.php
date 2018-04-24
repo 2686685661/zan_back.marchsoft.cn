@@ -29,18 +29,18 @@ class RecordController extends Controller
      * "msg": "success",
      * "data": {
      *     thumbupedArr:[
-     *          {"name":"xxx","qq_account":"xxxxxxxx","reason":"xxxxxxxxxxxx","start_time":888888,"over_time":888888888,"use_time":88888888},
-     *          {"name":"xxx","qq_account":"xxxxxxxx","reason":"xxxxxxxxxxxx","start_time":888888,"over_time":888888888,"use_time":88888888},
-     *          {"name":"xxx","qq_account":"xxxxxxxx","reason":"xxxxxxxxxxxx","start_time":888888,"over_time":888888888,"use_time":88888888},
-     *          {"name":"xxx","qq_account":"xxxxxxxx","reason":"xxxxxxxxxxxx","start_time":888888,"over_time":888888888,"use_time":88888888},
-     *          {"name":"xxx","qq_account":"xxxxxxxx","reason":"xxxxxxxxxxxx","start_time":888888,"over_time":888888888,"use_time":88888888},
+     *          {"name":"xxx","img_url":"xxxxxxxx","reason":"xxxxxxxxxxxx","start_time":888888,"over_time":888888888,"use_time":88888888},
+     *          {"name":"xxx","img_url":"xxxxxxxx","reason":"xxxxxxxxxxxx","start_time":888888,"over_time":888888888,"use_time":88888888},
+     *          {"name":"xxx","img_url":"xxxxxxxx","reason":"xxxxxxxxxxxx","start_time":888888,"over_time":888888888,"use_time":88888888},
+     *          {"name":"xxx","img_url":"xxxxxxxx","reason":"xxxxxxxxxxxx","start_time":888888,"over_time":888888888,"use_time":88888888},
+     *          {"name":"xxx","img_url":"xxxxxxxx","reason":"xxxxxxxxxxxx","start_time":888888,"over_time":888888888,"use_time":88888888},
      *                 ],
      *     thumbupArr:[
-     *          {"name":"xxx","qq_account":"xxxxxxxx","reason":"xxxxxxxxxxxx","start_time":888888,"over_time":888888888,"use_time":88888888},
-     *          {"name":"xxx","qq_account":"xxxxxxxx","reason":"xxxxxxxxxxxx","start_time":888888,"over_time":888888888,"use_time":88888888},
-     *          {"name":"xxx","qq_account":"xxxxxxxx","reason":"xxxxxxxxxxxx","start_time":888888,"over_time":888888888,"use_time":88888888},
-     *          {"name":"xxx","qq_account":"xxxxxxxx","reason":"xxxxxxxxxxxx","start_time":888888,"over_time":888888888,"use_time":88888888},
-     *          {"name":"xxx","qq_account":"xxxxxxxx","reason":"xxxxxxxxxxxx","start_time":888888,"over_time":888888888,"use_time":88888888},
+     *          {"name":"xxx","img_url":"xxxxxxxx","reason":"xxxxxxxxxxxx","start_time":888888,"over_time":888888888,"use_time":88888888},
+     *          {"name":"xxx","img_url":"xxxxxxxx","reason":"xxxxxxxxxxxx","start_time":888888,"over_time":888888888,"use_time":88888888},
+     *          {"name":"xxx","img_url":"xxxxxxxx","reason":"xxxxxxxxxxxx","start_time":888888,"over_time":888888888,"use_time":88888888},
+     *          {"name":"xxx","img_url":"xxxxxxxx","reason":"xxxxxxxxxxxx","start_time":888888,"over_time":888888888,"use_time":88888888},
+     *          {"name":"xxx","img_url":"xxxxxxxx","reason":"xxxxxxxxxxxx","start_time":888888,"over_time":888888888,"use_time":88888888},
      *                 ],
      *     countTotal: 28,
      *     totalWeek: 2,
@@ -74,7 +74,7 @@ class RecordController extends Controller
     }
 
     /**
-     * @api {get} user/countList 显示点赞币统计记录
+     * @api {post} user/countList 显示点赞币统计记录
      * @apiName countList
      * @apiGroup User
      *
@@ -91,13 +91,13 @@ class RecordController extends Controller
      * "msg": "success",
      * "data": {
      *      IndRank:[
-     *          {"name":"xxx","qq_account":"xxxxxxxx","receive_count":21,"week_count":8},
+     *          {"name":"xxx","img_url":"xxxxxxxx","receive_count":21,"week_count":8},
      *       ],
      *      countArr:[
-     *          {"name":"xxx","qq_account":"xxxxxxxx","receive_count":28,"week_count":7},
-     *          {"name":"xxx","qq_account":"xxxxxxxx","receive_count":25,"week_count":2},
-     *          {"name":"xxx","qq_account":"xxxxxxxx","receive_count":20,"week_count":5},
-     *          {"name":"xxx","qq_account":"xxxxxxxx","receive_count":18,"week_count":1},
+     *          {"name":"xxx","img_url":"xxxxxxxx","receive_count":28,"week_count":7},
+     *          {"name":"xxx","img_url":"xxxxxxxx","receive_count":25,"week_count":2},
+     *          {"name":"xxx","img_url":"xxxxxxxx","receive_count":20,"week_count":5},
+     *          {"name":"xxx","img_url":"xxxxxxxx","receive_count":18,"week_count":1},
      *       ],
      *    },
      * }

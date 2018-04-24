@@ -159,7 +159,7 @@
     "groupTitle": "User"
   },
   {
-    "type": "get",
+    "type": "post",
     "url": "user/countList",
     "title": "显示点赞币统计记录",
     "name": "countList",
@@ -219,7 +219,7 @@
       "examples": [
         {
           "title": "Success-Response：返回点赞币统计记录",
-          "content": "HTTP/1.1 200 OK\n{\n\"code\": 0,\n\"msg\": \"success\",\n\"data\": {\n     IndRank:[\n         {\"name\":\"xxx\",\"qq_account\":\"xxxxxxxx\",\"receive_count\":21,\"week_count\":8},\n      ],\n     countArr:[\n         {\"name\":\"xxx\",\"qq_account\":\"xxxxxxxx\",\"receive_count\":28,\"week_count\":7},\n         {\"name\":\"xxx\",\"qq_account\":\"xxxxxxxx\",\"receive_count\":25,\"week_count\":2},\n         {\"name\":\"xxx\",\"qq_account\":\"xxxxxxxx\",\"receive_count\":20,\"week_count\":5},\n         {\"name\":\"xxx\",\"qq_account\":\"xxxxxxxx\",\"receive_count\":18,\"week_count\":1},\n      ],\n   },\n}",
+          "content": "HTTP/1.1 200 OK\n{\n\"code\": 0,\n\"msg\": \"success\",\n\"data\": {\n     IndRank:[\n         {\"name\":\"xxx\",\"img_url\":\"xxxxxxxx\",\"receive_count\":21,\"week_count\":8},\n      ],\n     countArr:[\n         {\"name\":\"xxx\",\"img_url\":\"xxxxxxxx\",\"receive_count\":28,\"week_count\":7},\n         {\"name\":\"xxx\",\"img_url\":\"xxxxxxxx\",\"receive_count\":25,\"week_count\":2},\n         {\"name\":\"xxx\",\"img_url\":\"xxxxxxxx\",\"receive_count\":20,\"week_count\":5},\n         {\"name\":\"xxx\",\"img_url\":\"xxxxxxxx\",\"receive_count\":18,\"week_count\":1},\n      ],\n   },\n}",
           "type": "json"
         }
       ]
@@ -1356,7 +1356,7 @@
       "examples": [
         {
           "title": "Success-Response: 返回个人被点赞记录",
-          "content": "HTTP/1.1 200 OK\n{\n\"code\": 0,\n\"msg\": \"success\",\n\"data\": {\n    thumbupedArr:[\n         {\"name\":\"xxx\",\"qq_account\":\"xxxxxxxx\",\"reason\":\"xxxxxxxxxxxx\",\"start_time\":888888,\"over_time\":888888888,\"use_time\":88888888},\n         {\"name\":\"xxx\",\"qq_account\":\"xxxxxxxx\",\"reason\":\"xxxxxxxxxxxx\",\"start_time\":888888,\"over_time\":888888888,\"use_time\":88888888},\n         {\"name\":\"xxx\",\"qq_account\":\"xxxxxxxx\",\"reason\":\"xxxxxxxxxxxx\",\"start_time\":888888,\"over_time\":888888888,\"use_time\":88888888},\n         {\"name\":\"xxx\",\"qq_account\":\"xxxxxxxx\",\"reason\":\"xxxxxxxxxxxx\",\"start_time\":888888,\"over_time\":888888888,\"use_time\":88888888},\n         {\"name\":\"xxx\",\"qq_account\":\"xxxxxxxx\",\"reason\":\"xxxxxxxxxxxx\",\"start_time\":888888,\"over_time\":888888888,\"use_time\":88888888},\n                ],\n    thumbupArr:[\n         {\"name\":\"xxx\",\"qq_account\":\"xxxxxxxx\",\"reason\":\"xxxxxxxxxxxx\",\"start_time\":888888,\"over_time\":888888888,\"use_time\":88888888},\n         {\"name\":\"xxx\",\"qq_account\":\"xxxxxxxx\",\"reason\":\"xxxxxxxxxxxx\",\"start_time\":888888,\"over_time\":888888888,\"use_time\":88888888},\n         {\"name\":\"xxx\",\"qq_account\":\"xxxxxxxx\",\"reason\":\"xxxxxxxxxxxx\",\"start_time\":888888,\"over_time\":888888888,\"use_time\":88888888},\n         {\"name\":\"xxx\",\"qq_account\":\"xxxxxxxx\",\"reason\":\"xxxxxxxxxxxx\",\"start_time\":888888,\"over_time\":888888888,\"use_time\":88888888},\n         {\"name\":\"xxx\",\"qq_account\":\"xxxxxxxx\",\"reason\":\"xxxxxxxxxxxx\",\"start_time\":888888,\"over_time\":888888888,\"use_time\":88888888},\n                ],\n    countTotal: 28,\n    totalWeek: 2,\n    rankWeek: 20,\n     },\n}",
+          "content": "HTTP/1.1 200 OK\n{\n\"code\": 0,\n\"msg\": \"success\",\n\"data\": {\n    thumbupedArr:[\n         {\"name\":\"xxx\",\"img_url\":\"xxxxxxxx\",\"reason\":\"xxxxxxxxxxxx\",\"start_time\":888888,\"over_time\":888888888,\"use_time\":88888888},\n         {\"name\":\"xxx\",\"img_url\":\"xxxxxxxx\",\"reason\":\"xxxxxxxxxxxx\",\"start_time\":888888,\"over_time\":888888888,\"use_time\":88888888},\n         {\"name\":\"xxx\",\"img_url\":\"xxxxxxxx\",\"reason\":\"xxxxxxxxxxxx\",\"start_time\":888888,\"over_time\":888888888,\"use_time\":88888888},\n         {\"name\":\"xxx\",\"img_url\":\"xxxxxxxx\",\"reason\":\"xxxxxxxxxxxx\",\"start_time\":888888,\"over_time\":888888888,\"use_time\":88888888},\n         {\"name\":\"xxx\",\"img_url\":\"xxxxxxxx\",\"reason\":\"xxxxxxxxxxxx\",\"start_time\":888888,\"over_time\":888888888,\"use_time\":88888888},\n                ],\n    thumbupArr:[\n         {\"name\":\"xxx\",\"img_url\":\"xxxxxxxx\",\"reason\":\"xxxxxxxxxxxx\",\"start_time\":888888,\"over_time\":888888888,\"use_time\":88888888},\n         {\"name\":\"xxx\",\"img_url\":\"xxxxxxxx\",\"reason\":\"xxxxxxxxxxxx\",\"start_time\":888888,\"over_time\":888888888,\"use_time\":88888888},\n         {\"name\":\"xxx\",\"img_url\":\"xxxxxxxx\",\"reason\":\"xxxxxxxxxxxx\",\"start_time\":888888,\"over_time\":888888888,\"use_time\":88888888},\n         {\"name\":\"xxx\",\"img_url\":\"xxxxxxxx\",\"reason\":\"xxxxxxxxxxxx\",\"start_time\":888888,\"over_time\":888888888,\"use_time\":88888888},\n         {\"name\":\"xxx\",\"img_url\":\"xxxxxxxx\",\"reason\":\"xxxxxxxxxxxx\",\"start_time\":888888,\"over_time\":888888888,\"use_time\":88888888},\n                ],\n    countTotal: 28,\n    totalWeek: 2,\n    rankWeek: 20,\n     },\n}",
           "type": "json"
         }
       ]
