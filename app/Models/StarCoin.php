@@ -20,7 +20,7 @@ class StarCoin
      * $type == 1 已使用
      * $type == 2 已过期
      */
-    public static function getNotUserConsumeCoin($userDd,$typeCoin) {
+    public static function getNotUserConsumeCoin($user_id,$typeCoin) {
         $now_time = time();
         $select_coins = null;
         $select_coins_handle = DB::table(self::$sTable)->leftJoin('user',self::$sTable.'.from_user_id','=','user.id')->where([
