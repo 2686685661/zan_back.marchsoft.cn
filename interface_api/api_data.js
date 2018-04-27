@@ -159,7 +159,7 @@ define({ "api": [
     "groupTitle": "User"
   },
   {
-    "type": "get",
+    "type": "post",
     "url": "user/countList",
     "title": "显示点赞币统计记录",
     "name": "countList",
@@ -204,6 +204,13 @@ define({ "api": [
             "group": "Success 200",
             "type": "Object[]",
             "optional": false,
+            "field": "IndRank",
+            "description": "<p>个人信息数组</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Object[]",
+            "optional": false,
             "field": "countArr",
             "description": "<p>点赞排名数组</p>"
           }
@@ -211,8 +218,8 @@ define({ "api": [
       },
       "examples": [
         {
-          "title": "Success-Response：返回点赞记录表",
-          "content": "HTTP/1.1 200 OK\n{\n\"code\": 0,\n\"msg\": \"success\",\n\"data\": {\n     countArr:[\n         {\"name\":\"xxx\",\"qq_account\":\"xxxxxxxx\",\"receive_count\":28,\"week_count\":7},\n         {\"name\":\"xxx\",\"qq_account\":\"xxxxxxxx\",\"receive_count\":28,\"week_count\":7},\n         {\"name\":\"xxx\",\"qq_account\":\"xxxxxxxx\",\"receive_count\":28,\"week_count\":7},\n         {\"name\":\"xxx\",\"qq_account\":\"xxxxxxxx\",\"receive_count\":28,\"week_count\":7},\n      ],\n   },\n}",
+          "title": "Success-Response：返回点赞币统计记录",
+          "content": "HTTP/1.1 200 OK\n{\n\"code\": 0,\n\"msg\": \"success\",\n\"data\": {\n     IndRank:[\n         {\"name\":\"xxx\",\"img_url\":\"xxxxxxxx\",\"receive_count\":21,\"week_count\":8},\n      ],\n     countArr:[\n         {\"name\":\"xxx\",\"img_url\":\"xxxxxxxx\",\"receive_count\":28,\"week_count\":7},\n         {\"name\":\"xxx\",\"img_url\":\"xxxxxxxx\",\"receive_count\":25,\"week_count\":2},\n         {\"name\":\"xxx\",\"img_url\":\"xxxxxxxx\",\"receive_count\":20,\"week_count\":5},\n         {\"name\":\"xxx\",\"img_url\":\"xxxxxxxx\",\"receive_count\":18,\"week_count\":1},\n      ],\n   },\n}",
           "type": "json"
         }
       ]
@@ -394,6 +401,107 @@ define({ "api": [
     "groupTitle": "User"
   },
   {
+    "type": "post",
+    "url": "user/getCoinList",
+    "title": "得到自己未使用（空白的，未点出的）的点赞币",
+    "name": "getCoinList",
+    "group": "User",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "userId",
+            "description": "<p>用户id</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "code",
+            "description": "<p>状态码：0 请求成功，其他数值 请求失败</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "msg",
+            "description": "<p>响应信息</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Object[]",
+            "optional": false,
+            "field": "coinList",
+            "description": "<p>未使用（空白的，未点出的）的点赞币数组</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "id",
+            "description": "<p>点赞币id</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "coin_id",
+            "description": "<p>币种id</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "coin_name",
+            "description": "<p>币种name</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "start_time",
+            "description": "<p>点赞币开始生效时间（时间戳）</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "over_time",
+            "description": "<p>点赞币结束生效时间（时间戳）</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response：请求成功",
+          "content": "HTTP/1.1 200 OK\n{\n \"code\": 0,\n \"msg\": \"success\",\n \"data\": {\n      coinList:[\n         {\"id\":\"xxx\",\"coin_id\":\"xxxxxxxx\",\"coin_name\":\"xxxxxxxxxxxx\",\"start_time\":888888,\"over_time\":888888888},\n         {\"id\":\"xxx\",\"coin_id\":\"xxxxxxxx\",\"coin_name\":\"xxxxxxxxxxxx\",\"start_time\":888888,\"over_time\":888888888}\n      ]\n   },\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "Error-Response: 请求失败",
+          "content": "HTTP/1.1 200\n{\n \"code\": 1,\n \"msg\": \"failed\",\n \"data\": {\n\n   },\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "app/Http/Controllers/User/ThumbsUpController.php",
+    "groupTitle": "User"
+  },
+  {
     "type": "get",
     "url": "/getOrderList",
     "title": "订单列表",
@@ -474,6 +582,107 @@ define({ "api": [
     },
     "version": "0.0.0",
     "filename": "app/Http/Controllers/User/PersonalCenter.php",
+    "groupTitle": "User"
+  },
+  {
+    "type": "post",
+    "url": "user/getOverdueCoinList",
+    "title": "得到已过期的点赞币",
+    "name": "getOverdueCoinList",
+    "group": "User",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "userId",
+            "description": "<p>用户id</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "code",
+            "description": "<p>状态码：0 请求成功，其他数值 请求失败</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "msg",
+            "description": "<p>响应信息</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Object[]",
+            "optional": false,
+            "field": "overdueCoinList",
+            "description": "<p>未使用（空白的，未点出的）的已过期的点赞币数组</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "id",
+            "description": "<p>点赞币id</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "coin_id",
+            "description": "<p>币种id</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "coin_name",
+            "description": "<p>币种name</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "start_time",
+            "description": "<p>点赞币开始生效时间（时间戳）</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "over_time",
+            "description": "<p>点赞币结束生效时间（时间戳）</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response：请求成功",
+          "content": "HTTP/1.1 200 OK\n{\n \"code\": 0,\n \"msg\": \"success\",\n \"data\": {\n      overdueCoinList:[\n         {\"id\":\"xxx\",\"coin_id\":\"xxx\",\"coin_name\":\"xxx\",\"start_time\":\"xxx\",\"over_time\":\"xxx\"},\n         {\"id\":\"xxx\",\"coin_id\":\"xxx\",\"coin_name\":\"xxx\",\"start_time\":\"xxx\",\"over_time\":\"xxx\"}\n      ]\n   },\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "Error-Response: 请求失败",
+          "content": "HTTP/1.1 200\n{\n \"code\": 1,\n \"msg\": \"failed\",\n \"data\": {\n\n   },\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "app/Http/Controllers/User/ThumbsUpController.php",
     "groupTitle": "User"
   },
   {
@@ -595,6 +804,114 @@ define({ "api": [
     "groupTitle": "User"
   },
   {
+    "type": "post",
+    "url": "user/getUsedCoinList",
+    "title": "得到自己已使用的点赞币",
+    "name": "getUsedCoinList",
+    "group": "User",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "userId",
+            "description": "<p>用户id</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "code",
+            "description": "<p>状态码：0 请求成功，其他数值 请求失败</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "msg",
+            "description": "<p>响应信息</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Object[]",
+            "optional": false,
+            "field": "usedCoinList",
+            "description": "<p>已使用（已点出的）的点赞币数组</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "id",
+            "description": "<p>点赞币id</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "coin_id",
+            "description": "<p>币种id</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "to_user_id",
+            "description": "<p>点给某人&lt;某人的id&gt;</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "to_user_name",
+            "description": "<p>点给某人&lt;某人的name&gt;</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "reason",
+            "description": "<p>点赞原因</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "use_time",
+            "description": "<p>点赞时间（时间戳）</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response：请求成功",
+          "content": "HTTP/1.1 200 OK\n{\n \"code\": 0,\n \"msg\": \"success\",\n \"data\": {\n      usedCoinList:[\n         {\"id\":\"xxx\",\"coin_id\":\"xxx\",\"to_user_id\":\"xxx\",\"to_user_name\":\"xxx\",\"reason\":\"xxx\",\"use_time\":\"xxx\"},\n         {\"id\":\"xxx\",\"coin_id\":\"xxx\",\"to_user_id\":\"xxx\",\"to_user_name\":\"xxx\",\"reason\":\"xxx\",\"use_time\":\"xxx\"}\n      ]\n   },\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "Error-Response: 请求失败",
+          "content": "HTTP/1.1 200\n{\n \"code\": 1,\n \"msg\": \"failed\",\n \"data\": {\n\n   },\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "app/Http/Controllers/User/ThumbsUpController.php",
+    "groupTitle": "User"
+  },
+  {
     "type": "get",
     "url": "/user/seeCon",
     "title": "获得点赞币消费记录",
@@ -700,6 +1017,73 @@ define({ "api": [
   },
   {
     "type": "post",
+    "url": "user/getUserList",
+    "title": "得到用户列表",
+    "name": "getUserList",
+    "group": "User",
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "code",
+            "description": "<p>状态码：0 请求成功，其他数值 请求失败</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "msg",
+            "description": "<p>响应信息</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Object[]",
+            "optional": false,
+            "field": "userList",
+            "description": "<p>用户列表数组</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "id",
+            "description": "<p>用户id</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "name",
+            "description": "<p>用户name</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response：请求成功",
+          "content": "HTTP/1.1 200 OK\n{\n \"code\": 0,\n \"msg\": \"success\",\n \"data\": {\n      userList:[\n         {\"id\":\"xxx\",\"name\":\"xxx\"},\n         {\"id\":\"xxx\",\"name\":\"xxx\"}\n      ]\n   },\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "Error-Response: 请求失败",
+          "content": "HTTP/1.1 200\n{\n \"code\": 1,\n \"msg\": \"failed\",\n \"data\": {\n\n   },\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "app/Http/Controllers/User/ThumbsUpController.php",
+    "groupTitle": "User"
+  },
+  {
+    "type": "post",
     "url": "/user/insertCoinOrder",
     "title": "使用点赞币消费",
     "name": "insertUserConsume",
@@ -778,6 +1162,152 @@ define({ "api": [
     "groupTitle": "User"
   },
   {
+    "type": "post",
+    "url": "user/login",
+    "title": "登录",
+    "name": "login",
+    "group": "User",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "username",
+            "description": "<p>账号</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "password",
+            "description": "<p>密码</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "isManager",
+            "description": "<p>是否是管理员：0 是，1 不是</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "code",
+            "description": "<p>状态码：0 登录成功，其他数值 登录失败</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "msg",
+            "description": "<p>响应信息</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response：登录成功",
+          "content": "HTTP/1.1 200 OK\n{\n \"code\": 0,\n \"msg\": \"success\",\n \"data\": {\n\n   },\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "Error-Response: 登录失败",
+          "content": "HTTP/1.1 200\n{\n \"code\": 1,\n \"msg\": \"账号或密码错误\",\n \"data\": {\n\n   },\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "app/Http/Controllers/User/LoginController.php",
+    "groupTitle": "User"
+  },
+  {
+    "type": "post",
+    "url": "user/thumbsUp",
+    "title": "点赞",
+    "name": "thumbsUp",
+    "group": "User",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "id[]",
+            "description": "<p>点赞币id数组</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "toUserId",
+            "description": "<p>点给某人&lt;某人的id&gt;</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "reason",
+            "description": "<p>点赞原因</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "code",
+            "description": "<p>状态码：0 点赞成功，其他数值 点赞失败</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "msg",
+            "description": "<p>响应信息</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response：点赞成功",
+          "content": "HTTP/1.1 200 OK\n{\n \"code\": 0,\n \"msg\": \"success\",\n \"data\": {\n\n   },\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "Error-Response: 点赞失败",
+          "content": "HTTP/1.1 200\n{\n \"code\": 1,\n \"msg\": \"failed\",\n \"data\": {\n\n   },\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "app/Http/Controllers/User/ThumbsUpController.php",
+    "groupTitle": "User"
+  },
+  {
     "type": "get",
     "url": "user/thumbup",
     "title": "显示用户本周点赞记录",
@@ -826,7 +1356,7 @@ define({ "api": [
       "examples": [
         {
           "title": "Success-Response: 返回个人被点赞记录",
-          "content": "HTTP/1.1 200 OK\n{\n\"code\": 0,\n\"msg\": \"success\",\n\"data\": {\n    thumbupedArr:[\n         {\"name\":\"xxx\",\"qq_account\":\"xxxxxxxx\",\"reason\":\"xxxxxxxxxxxx\",\"start_time\":888888,\"over_time\":888888888,\"use_time\":88888888},\n         {\"name\":\"xxx\",\"qq_account\":\"xxxxxxxx\",\"reason\":\"xxxxxxxxxxxx\",\"start_time\":888888,\"over_time\":888888888,\"use_time\":88888888},\n         {\"name\":\"xxx\",\"qq_account\":\"xxxxxxxx\",\"reason\":\"xxxxxxxxxxxx\",\"start_time\":888888,\"over_time\":888888888,\"use_time\":88888888},\n         {\"name\":\"xxx\",\"qq_account\":\"xxxxxxxx\",\"reason\":\"xxxxxxxxxxxx\",\"start_time\":888888,\"over_time\":888888888,\"use_time\":88888888},\n         {\"name\":\"xxx\",\"qq_account\":\"xxxxxxxx\",\"reason\":\"xxxxxxxxxxxx\",\"start_time\":888888,\"over_time\":888888888,\"use_time\":88888888},\n                ],\n    thumbupArr:[\n         {\"name\":\"xxx\",\"qq_account\":\"xxxxxxxx\",\"reason\":\"xxxxxxxxxxxx\",\"start_time\":888888,\"over_time\":888888888,\"use_time\":88888888},\n         {\"name\":\"xxx\",\"qq_account\":\"xxxxxxxx\",\"reason\":\"xxxxxxxxxxxx\",\"start_time\":888888,\"over_time\":888888888,\"use_time\":88888888},\n         {\"name\":\"xxx\",\"qq_account\":\"xxxxxxxx\",\"reason\":\"xxxxxxxxxxxx\",\"start_time\":888888,\"over_time\":888888888,\"use_time\":88888888},\n         {\"name\":\"xxx\",\"qq_account\":\"xxxxxxxx\",\"reason\":\"xxxxxxxxxxxx\",\"start_time\":888888,\"over_time\":888888888,\"use_time\":88888888},\n         {\"name\":\"xxx\",\"qq_account\":\"xxxxxxxx\",\"reason\":\"xxxxxxxxxxxx\",\"start_time\":888888,\"over_time\":888888888,\"use_time\":88888888},\n                ],\n    countTotal: 28,\n    totalWeek: 2,\n    rankWeek: 20,\n     },\n}",
+          "content": "HTTP/1.1 200 OK\n{\n\"code\": 0,\n\"msg\": \"success\",\n\"data\": {\n    thumbupedArr:[\n         {\"name\":\"xxx\",\"img_url\":\"xxxxxxxx\",\"reason\":\"xxxxxxxxxxxx\",\"start_time\":888888,\"over_time\":888888888,\"use_time\":88888888},\n         {\"name\":\"xxx\",\"img_url\":\"xxxxxxxx\",\"reason\":\"xxxxxxxxxxxx\",\"start_time\":888888,\"over_time\":888888888,\"use_time\":88888888},\n         {\"name\":\"xxx\",\"img_url\":\"xxxxxxxx\",\"reason\":\"xxxxxxxxxxxx\",\"start_time\":888888,\"over_time\":888888888,\"use_time\":88888888},\n         {\"name\":\"xxx\",\"img_url\":\"xxxxxxxx\",\"reason\":\"xxxxxxxxxxxx\",\"start_time\":888888,\"over_time\":888888888,\"use_time\":88888888},\n         {\"name\":\"xxx\",\"img_url\":\"xxxxxxxx\",\"reason\":\"xxxxxxxxxxxx\",\"start_time\":888888,\"over_time\":888888888,\"use_time\":88888888},\n                ],\n    thumbupArr:[\n         {\"name\":\"xxx\",\"img_url\":\"xxxxxxxx\",\"reason\":\"xxxxxxxxxxxx\",\"start_time\":888888,\"over_time\":888888888,\"use_time\":88888888},\n         {\"name\":\"xxx\",\"img_url\":\"xxxxxxxx\",\"reason\":\"xxxxxxxxxxxx\",\"start_time\":888888,\"over_time\":888888888,\"use_time\":88888888},\n         {\"name\":\"xxx\",\"img_url\":\"xxxxxxxx\",\"reason\":\"xxxxxxxxxxxx\",\"start_time\":888888,\"over_time\":888888888,\"use_time\":88888888},\n         {\"name\":\"xxx\",\"img_url\":\"xxxxxxxx\",\"reason\":\"xxxxxxxxxxxx\",\"start_time\":888888,\"over_time\":888888888,\"use_time\":88888888},\n         {\"name\":\"xxx\",\"img_url\":\"xxxxxxxx\",\"reason\":\"xxxxxxxxxxxx\",\"start_time\":888888,\"over_time\":888888888,\"use_time\":88888888},\n                ],\n    countTotal: 28,\n    totalWeek: 2,\n    rankWeek: 20,\n     },\n}",
           "type": "json"
         }
       ]
