@@ -932,7 +932,7 @@
             "type": "Number",
             "optional": false,
             "field": "type",
-            "description": "<p>点赞币使用记录种类</p>"
+            "description": "<p>点赞币使用记录种类 $type == 0 未使用 $type == 1 已使用 $type == 2 已过期</p>"
           }
         ]
       }

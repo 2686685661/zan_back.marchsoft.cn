@@ -18,7 +18,9 @@ class ConsumeController extends Controller
      *
      * @apiParam {Number} userid 查看人的id.
      * @apiParam {Number} type 点赞币使用记录种类
-     *
+     *    $type == 0 未使用
+     *    $type == 1 已使用
+     *    $type == 2 已过期
      * @apiSuccess {String} name 点赞人的姓名
      * @apiSuccess {String} qq_account  点赞人的qq号.
      * @apiSuccess {String} img_url  赞点人的头像网址.
@@ -74,30 +76,28 @@ class ConsumeController extends Controller
      *     }
      */
     public function getUserConsumeCoin(Request $request) {
-        if($request->isMethod('get')) {
-            $user_id = $request->userid;
-            $type = $request->type;
-            if(is_numeric($user_id) && is_numeric($type)) {
-            
-                $select_coins = StarCoin::getNotUserConsumeCoin($user_id,$type);
-                if($type != 2) {
-                    $select_coins = $this->coinArrayGroup($select_coins);
-                    for($i = 0; $i < count($select_coins); $i++) {
-                        for($j = 0; $j < count($select_coins[$i]); $j++) {
-                            $select_coins[$i][$j]->img_url = getQqimgLink($select_coins[$i][$j]->qq_account);
-                        }
-                    }
-                }else {
-                    for($i = 0; $i < count($select_coins); $i++) {
-                        $select_coins[$i]->img_url = getQqimgLink($select_coins[$i]->qq_account);
-                    }
-                }
-                dd($select_coins);
-                return responseToJson(0,'success',$select_coins);
-            }
-        }
+        if(!$request->isMethod('get')) 
+            return responseToJson(1,'error in server');
 
-        return responseToJson(1,'error in server');
+        if(!(is_numeric($request->userid) && is_numeric($request->type)))
+            return responseToJson(1,'error in server');
+       
+        $valArr = array(
+            'userId' => $request->userid,
+            'useType' => $request->type,
+            'createTime' =>time()
+        );
+            
+        $select_coins = StarCoin::getNotUserConsumeCoin($valArr);
+
+        if(!$select_coins) return responseToJson(1,'error in server');
+
+        $select_coins = ($request->type != 2) ? $this->coinArrayGroup($select_coins) : $select_coins;
+
+        $select_coins = $this->setUserCoinImgUrl($select_coins, $request->type);
+
+        return responseToJson(0,'success',$select_coins);
+        
     }
 
 
@@ -140,8 +140,8 @@ class ConsumeController extends Controller
     public function insertUserConsume(Request $request) {
         $formUserId = is_numeric($request->use_id)?$request->use_id :'';
         $coinUsefulId = is_numeric($request->coin_useful)?$request->coin_useful:'';
-        // $coinIdArr = is_array($request->coin_id_arr)?$request->coin_id_arr:[];
-        $coinIdArr = [5,6];
+        $coinIdArr = is_array($request->coin_id_arr)?$request->coin_id_arr:[];
+        // $coinIdArr = [5,6,7,8];
         $groupId = is_numeric($request->group_id)?$request->group_id:'';
         $content = is_string($request->content)?trim($request->content):'';
         $arr = array(
@@ -153,6 +153,7 @@ class ConsumeController extends Controller
             'createTime' => time()
         );
 
+
         $createId = order::createOrder($arr);
         $createBoo = ($createId ? $this->updateUserCoinUseState($formUserId,$coinIdArr) : false);
         return $createBoo ? responseToJson(0,'消费成功') : responseToJson(1,'消费失败');
@@ -162,6 +163,9 @@ class ConsumeController extends Controller
     /**
      * 当订单成功时修改str_coin表的回调函数
      * 用于修改str_coin表中的is_buy字段
+     * @formUserId Number
+     * @coinIdArr Array
+     * return Array
      */
     private function updateUserCoinUseState($formUserId, $coinIdArr) {
         // dd($coinIdArr);
@@ -171,20 +175,39 @@ class ConsumeController extends Controller
 
     /**
      * 对数组中集合进行分组的函数
-     * 
+     * @arr Array
+     * return Array
      */
     private function coinArrayGroup($arr) {
-        // dd($arr);
+
         if(empty($arr) && !is_array($arr)) $arr = $arr->toArray();
         $result = array();
-        foreach($arr as $key => $value) {
+        foreach($arr as $key => $value)
             $result[$value->coin_id][] = $value;
-        }
+            
         $ret = array();
-        foreach ($result as $key => $value) {
+        foreach ($result as $key => $value)
             array_push($ret, $value);
-        }
 
         return $ret;
     }
+
+    /**
+     * 设置点赞币记录的用户头像url
+     * @arr  Array
+     * @useType NUmber
+     * return Array
+     */
+    private function setUserCoinImgUrl($arr,$useType) {
+        if($useType == 2)
+            for($i = 0; $i < count($arr); $i++)
+                $arr[$i]->img_url = getQqimgLink($arr[$i]->qq_account);
+        else
+            for($i = 0; $i < count($arr); $i++)
+                for($j = 0; $j < count($arr[$i]); $j++)
+                    $arr[$i][$j]->img_url = getQqimgLink($arr[$i][$j]->qq_account);
+        
+        return $arr;
+    }
 }
+
