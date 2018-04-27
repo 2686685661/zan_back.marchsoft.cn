@@ -213,7 +213,7 @@ class StarCoin
                 ['use_time', '<=', $endDate]
             ]);
         }
-        $selectCoins = $selectCoins->get()->groupBy('to_user_id');
+        $selectCoins = $selectCoins->get()->groupBy('to_user_id')->toArray();
         return $selectCoins;
     }
 
