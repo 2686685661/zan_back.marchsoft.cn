@@ -236,7 +236,7 @@ function secsToStr($secs) {
  */
 function getQqimgLink($qq_num, $img_size='100') { 
 
-    $link = 'https://qlogo4.store.qq.com/qzone/'.$qq_num.DIRECTORY_SEPARATOR.$qq_num.DIRECTORY_SEPARATOR.$img_size.'?1496376294';
+    $link = 'https://qlogo4.store.qq.com/qzone/'.$qq_num.'/'.$qq_num.'/'.$img_size.'?1496376294';
     return $link;
 }
 
@@ -264,4 +264,27 @@ function getTradeNOString() {
     return 'ZAN'.strval(time(),rand(111,999));
 }
 
+/**
+ * 返回本周开始和结束的时间戳
+ *
+ * @return array
+ */
+function week(){
+    $timestamp = time();
+    return [
+        strtotime(date('Y-m-d', strtotime("this week Monday", $timestamp))),
+        strtotime(date('Y-m-d', strtotime("this week Sunday", $timestamp))) + 24 * 3600 - 1
+    ];
+}
 
+/**
+ * 二维数组排序 根据某一键值排序
+ *
+ */
+function funcCompare($a, $b)
+{
+    if (count($a) == count($b)) {
+        return 0;
+    }
+    return (count($a) > count($b)) ? -1 : 1;
+}
