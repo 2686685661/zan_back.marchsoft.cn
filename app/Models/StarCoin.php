@@ -63,23 +63,23 @@ class StarCoin
      * @param bool $isOverdue 是否过期,默认false未过期
      * @return mixed
      */
-    public static function getCoinList($userId,$isOverdue = false) {
+    public static function getCoinList($userId,$pageSize,$isOverdue = false) {
         $now_time = time();
         $coins_handle = DB::table(self::$sTable)->leftJoin('coin',self::$sTable.'.coin_id','=','coin.id')->where([
             ['from_user_id','=',$userId],
             ['to_user_id','=',0]
         ]);
         if($isOverdue)
-            $coins_handle->where(['over_time','<',$now_time]);
+            $coins_handle->where('over_time','<',$now_time);
         else
-            $coins_handle->where(['over_time','>=',$now_time]);
+            $coins_handle->where('over_time','>=',$now_time);
         $coins = $coins_handle->select(
-            self::$sTable.'id',
-            self::$sTable.'coin_id',
-            self::$sTable.'start_time',
-            self::$sTable.'over_time',
+            self::$sTable.'.id',
+            self::$sTable.'.coin_id',
+            self::$sTable.'.start_time',
+            self::$sTable.'.over_time',
             'coin.name as coin_name'
-        )->get();
+        )->paginate($pageSize);
         return $coins;
     }
 
@@ -88,21 +88,21 @@ class StarCoin
      * @param $userId
      * @return mixed
      */
-    public static function getUsedCoinList($userId) {
+    public static function getUsedCoinList($userId,$pageSize) {
         $coins = DB::table(self::$sTable)->leftJoin('user',self::$sTable.'.to_user_id','=','user.id')->where([
             ['from_user_id','=',$userId],
             ['to_user_id','<>',0],
         ])->select(
-            self::$sTable.'id',
-            self::$sTable.'coin_id',
-            self::$sTable.'to_user_id',
-            self::$sTable.'start_time',
-            self::$sTable.'over_time',
-            self::$sTable.'reason',
-            self::$sTable.'use_time',
+            self::$sTable.'.id',
+            self::$sTable.'.coin_id',
+            self::$sTable.'.to_user_id',
+            self::$sTable.'.start_time',
+            self::$sTable.'.over_time',
+            self::$sTable.'.reason',
+            self::$sTable.'.use_time',
             'user.name as to_user_name',
             'user.qq_account'
-        )->get();
+        )->paginate($pageSize);
         return $coins;
     }
 
@@ -111,17 +111,17 @@ class StarCoin
      * @param $userId
      * @return mixed
      */
-    public static function getOverdueCoinList($userId) {
-        return self::getCoinList($userId,true);
+    public static function getOverdueCoinList($userId,$pageSize) {
+        return self::getCoinList($userId,$pageSize,true);
     }
 
-    public static function thumbsUp($ids,$toUserId,$reason) {
+    public static function thumbsUp($userId,$ids,$toUserId,$reason) {
         DB::beginTransaction();
         try{
             foreach ($ids as $value){
                 DB::table(self::$sTable)
                     ->where('id',$value)
-                    ->where('from_user_id',get_session_user_id())
+                    ->where('from_user_id',$userId)
                     ->update([
                         'to_user_id' => $toUserId,
                         'reason'     => $reason,

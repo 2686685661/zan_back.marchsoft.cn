@@ -12,7 +12,7 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use App\Models\StarCoin;
 use App\Models\User;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Http\Request;
 
 class ThumbsUpController extends Controller
 {
@@ -20,6 +20,8 @@ class ThumbsUpController extends Controller
      * @api {post} user/thumbsUp/getCoinList 得到自己未使用（空白的，未点出的）的点赞币
      * @apiName getCoinList
      * @apiGroup User
+     *
+     * @apiParam {Number} pageSize 一次加载多少
      *
      * @apiSuccess {Number} code 状态码：0 请求成功，其他数值 请求失败
      * @apiSuccess {String} msg 响应信息
@@ -54,10 +56,11 @@ class ThumbsUpController extends Controller
      * }
      *
      */
-    public function getCoinList(){
+    public function getCoinList(Request $request){
+        $pageSize   = $request->input('pageSize', 5);
         $userId = get_session_user_id();
         if($userId){
-            $coins = StarCoin::getCoinList($userId);
+            $coins = StarCoin::getCoinList($userId,$pageSize);
             if($coins){
                 return responseToJson(0,'success',$coins);
             }else{
@@ -70,6 +73,8 @@ class ThumbsUpController extends Controller
      * @api {post} user/thumbsUp/getUsedCoinList 得到自己已使用的点赞币
      * @apiName getUsedCoinList
      * @apiGroup User
+     *
+     * @apiParam {Number} pageSize 一次加载多少
      *
      * @apiSuccess {Number} code 状态码：0 请求成功，其他数值 请求失败
      * @apiSuccess {String} msg 响应信息
@@ -89,8 +94,8 @@ class ThumbsUpController extends Controller
      *  "msg": "success",
      *  "result": {
      *       usedCoinList:[
-     *          {"id":"xxx","coin_id":"xxx","to_user_id":"xxx","to_user_name":"xxx","userImgLink":"xxx","reason":"xxx","use_time":"xxx"},
-     *          {"id":"xxx","coin_id":"xxx","to_user_id":"xxx","to_user_name":"xxx","userImgLink":"xxx","reason":"xxx","use_time":"xxx"}
+     *          {"id":"xxx","coin_id":"xxx","to_user_id":"xxx","to_user_name":"xxx","qq_account":727299708,"userImgLink":"xxx","reason":"xxx","use_time":"xxx"},
+     *          {"id":"xxx","coin_id":"xxx","to_user_id":"xxx","to_user_name":"xxx","qq_account":727299708,"userImgLink":"xxx","reason":"xxx","use_time":"xxx"}
      *       ]
      *    },
      * }
@@ -106,16 +111,15 @@ class ThumbsUpController extends Controller
      * }
      *
      */
-    public function getUsedCoinList(){
-//        $userId = get_session_user_id();
-        return 1;
-        $userId = 3;
+    public function getUsedCoinList(Request $request){
+        $pageSize   = $request->input('pageSize', 5);
+        $userId = get_session_user_id();
         if($userId){
-            $coins = StarCoin::getUsedCoinList($userId);
+            $coins = StarCoin::getUsedCoinList($userId,$pageSize);
             if($coins){
-                $coins->map(function ($value){
-                    Log::info($value);
-                });
+                foreach ($coins as $key => $value){
+                    $coins[$key]->userImgLink = getQqimgLink($value->qq_account);
+                }
                 return responseToJson(0,'success',$coins);
             }else{
                 return responseToJson(1,'failed');
@@ -127,6 +131,8 @@ class ThumbsUpController extends Controller
      * @api {post} user/thumbsUp/getOverdueCoinList 得到已过期的点赞币
      * @apiName getOverdueCoinList
      * @apiGroup User
+     *
+     * @apiParam {Number} pageSize 一次加载多少
      *
      * @apiSuccess {Number} code 状态码：0 请求成功，其他数值 请求失败
      * @apiSuccess {String} msg 响应信息
@@ -161,10 +167,11 @@ class ThumbsUpController extends Controller
      * }
      *
      */
-    public function getOverdueCoinList(){
+    public function getOverdueCoinList(Request $request){
+        $pageSize   = $request->input('pageSize', 5);
         $userId = get_session_user_id();
         if($userId){
-            $coins = StarCoin::getOverdueCoinList($userId);
+            $coins = StarCoin::getOverdueCoinList($userId,$pageSize);
             if($coins){
                 return responseToJson(0,'success',$coins);
             }else{
@@ -211,10 +218,13 @@ class ThumbsUpController extends Controller
         $toUserId = $request->toUserId;
         $reason = $request->reason;
 
-        $result = StarCoin::thumbsUp($ids,$toUserId,$reason);
-        if($result)
-            return responseToJson(0,'success');
-        return responseToJson(0,'failed');
+        $userId = get_session_user_id();
+        if($userId){
+            $result = StarCoin::thumbsUp($userId,$ids,$toUserId,$reason);
+            if($result)
+                return responseToJson(0,'success');
+            return responseToJson(0,'failed');
+        }
     }
 
     /**
@@ -253,11 +263,14 @@ class ThumbsUpController extends Controller
      *
      */
     public function getUserListExceptSelf(){
-        $users = User::getUserListExceptSelf();
-        if($users){
-            return responseToJson(0,'success',$users);
-        }else{
-            return responseToJson(1,'failed');
+        $userId = get_session_user_id();
+        if($userId){
+            $users = User::getUserListExceptSelf($userId);
+            if($users){
+                return responseToJson(0,'success',$users);
+            }else{
+                return responseToJson(1,'failed');
+            }
         }
     }
 }

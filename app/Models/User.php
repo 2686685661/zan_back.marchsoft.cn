@@ -18,9 +18,9 @@ class User
      * 得到除自己外的用户集合
      * @return mixed
      */
-    public static function getUserListExceptSelf() {
+    public static function getUserListExceptSelf($userId) {
         $users = DB::table(self::$mTable)
-            ->where(['id','<>',get_session_user_id()])
+            ->where('id','<>',$userId)
             ->select('id','name')
             ->get();
         return $users;
