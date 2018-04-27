@@ -32,28 +32,29 @@ class ConsumeController extends Controller
      *     {
      *       "code": "0",
      *       "msg": "success",
-     *       "data":{
-     *                  [
+     *       "data":[
+     *                  0=>[
      *                       {name:'test',qq_account:'261231',img_url:'www.baidu.com',reason:'test',over_time:'1234567896',coin_id:1},
      *                       {name:'test',qq_account:'261231',img_url:'www.baidu.com',reason:'test',over_time:'1234567896',coin_id:1}       
      *                  ],
-     *                  [
+     *                  1=>[
      *                       {name:'test',qq_account:'261231',img_url:'www.baidu.com',reason:'test',over_time:'1234567896',coin_id:2},
      *                       {name:'test',qq_account:'261231',img_url:'www.baidu.com',reason:'test',over_time:'1234567896',coin_id:2}
      *                  ],
-     *                  [
+     *                  2=>[
      *                       {name:'test',qq_account:'261231',img_url:'www.baidu.com',reason:'test',over_time:'1234567896',coin_id:3},
      *                       {name:'test',qq_account:'261231',img_url:'www.baidu.com',reason:'test',over_time:'1234567896',coin_id:3}
      *                  ]
-     *              }
+     *              ]
      *     }
-     *    $type == 3:
+     *    $type == 2:
      *     {
      *       "code": "0",
      *       "msg": "success",
-     *       "data":{
-     *                  {name:'test',qq_account:'261231',img_url:'www.baidu.com',reason:'test'}    
-     *              }
+     *       "data":[
+     *                  0=>{name:'test',qq_account:'261231',img_url:'www.baidu.com',reason:'test'}
+     *                  1=>{name:'test',qq_account:'261231',img_url:'www.baidu.com',reason:'test'}        
+     *              ]
      *     }
      *     
      *
@@ -77,8 +78,10 @@ class ConsumeController extends Controller
             $user_id = $request->userid;
             $type = $request->type;
             if(is_numeric($user_id) && is_numeric($type)) {
+            
                 $select_coins = StarCoin::getNotUserConsumeCoin($user_id,$type);
-                if($type != 3) {
+                if($type != 2) {
+                    $select_coins = $this->coinArrayGroup($select_coins);
                     for($i = 0; $i < count($select_coins); $i++) {
                         for($j = 0; $j < count($select_coins[$i]); $j++) {
                             $select_coins[$i][$j]->img_url = getQqimgLink($select_coins[$i][$j]->qq_account);
@@ -89,7 +92,7 @@ class ConsumeController extends Controller
                         $select_coins[$i]->img_url = getQqimgLink($select_coins[$i]->qq_account);
                     }
                 }
-
+                dd($select_coins);
                 return responseToJson(0,'success',$select_coins);
             }
         }
@@ -135,11 +138,53 @@ class ConsumeController extends Controller
      *     }
      */
     public function insertUserConsume(Request $request) {
+        $formUserId = is_numeric($request->use_id)?$request->use_id :'';
+        $coinUsefulId = is_numeric($request->coin_useful)?$request->coin_useful:'';
+        // $coinIdArr = is_array($request->coin_id_arr)?$request->coin_id_arr:[];
+        $coinIdArr = [5,6];
+        $groupId = is_numeric($request->group_id)?$request->group_id:'';
+        $content = is_string($request->content)?trim($request->content):'';
+        $arr = array(
+            'userId' => $formUserId,
+            'userfulId' => $coinUsefulId,
+            'groupId' => $groupId,
+            'coinIdStr' => strChangeArr($coinIdArr,','),
+            'content' => $content,
+            'createTime' => time()
+        );
+
+        $createId = order::createOrder($arr);
+        $createBoo = ($createId ? $this->updateUserCoinUseState($formUserId,$coinIdArr) : false);
+        return $createBoo ? responseToJson(0,'消费成功') : responseToJson(1,'消费失败');
         
     }
 
-    //当订单成功时修改str_coin表的回调函数
-    private function updateUserCoinUseState() {
+    /**
+     * 当订单成功时修改str_coin表的回调函数
+     * 用于修改str_coin表中的is_buy字段
+     */
+    private function updateUserCoinUseState($formUserId, $coinIdArr) {
+        // dd($coinIdArr);
+        return StarCoin::updateUseCoinState($formUserId,$coinIdArr);
+        
+    }
 
+    /**
+     * 对数组中集合进行分组的函数
+     * 
+     */
+    private function coinArrayGroup($arr) {
+        // dd($arr);
+        if(empty($arr) && !is_array($arr)) $arr = $arr->toArray();
+        $result = array();
+        foreach($arr as $key => $value) {
+            $result[$value->coin_id][] = $value;
+        }
+        $ret = array();
+        foreach ($result as $key => $value) {
+            array_push($ret, $value);
+        }
+
+        return $ret;
     }
 }

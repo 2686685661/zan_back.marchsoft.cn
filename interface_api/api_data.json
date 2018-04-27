@@ -237,7 +237,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "app/Http/Controllers/User/ThumbupController.php",
+    "filename": "app/Http/Controllers/User/RecordController.php",
     "groupTitle": "User"
   },
   {
@@ -596,38 +596,6 @@
   },
   {
     "type": "get",
-    "url": "user/thumbup/:userID",
-    "title": "显示用户本周点赞记录",
-    "name": "getThumbupList",
-    "group": "User",
-    "parameter": {
-      "fields": {
-        "Parameter": [
-          {
-            "group": "Parameter",
-            "type": "Number",
-            "optional": false,
-            "field": "userID",
-            "description": "<p>用户ID</p>"
-          }
-        ]
-      }
-    },
-    "success": {
-      "examples": [
-        {
-          "title": "返回个人点赞记录",
-          "content": "HTTP/1.1 200 OK\n{\n\"code\": 0,\n\"msg\": \"success\",\n\"result\": {\n     thumbupArr:[\n                ],\n          },\n}",
-          "type": "json"
-        }
-      ]
-    },
-    "version": "0.0.0",
-    "filename": "app/Http/Controllers/User/ThumbupController.php",
-    "groupTitle": "User"
-  },
-  {
-    "type": "get",
     "url": "/user/seeCon",
     "title": "获得点赞币消费记录",
     "name": "getUserConsumeCoin",
@@ -702,7 +670,7 @@
       "examples": [
         {
           "title": "Success-Response:",
-          "content": " \nHTTP/1.1 200 OK\n$type == 0 || 1:\n {\n   \"code\": \"0\",\n   \"msg\": \"success\",\n   \"data\":{\n              [\n                   {name:'test',qq_account:'261231',img_url:'www.baidu.com',reason:'test',over_time:'1234567896',coin_id:1},\n                   {name:'test',qq_account:'261231',img_url:'www.baidu.com',reason:'test',over_time:'1234567896',coin_id:1}       \n              ],\n              [\n                   {name:'test',qq_account:'261231',img_url:'www.baidu.com',reason:'test',over_time:'1234567896',coin_id:2},\n                   {name:'test',qq_account:'261231',img_url:'www.baidu.com',reason:'test',over_time:'1234567896',coin_id:2}\n              ],\n              [\n                   {name:'test',qq_account:'261231',img_url:'www.baidu.com',reason:'test',over_time:'1234567896',coin_id:3},\n                   {name:'test',qq_account:'261231',img_url:'www.baidu.com',reason:'test',over_time:'1234567896',coin_id:3}\n              ]\n          }\n }\n$type == 3:\n {\n   \"code\": \"0\",\n   \"msg\": \"success\",\n   \"data\":{\n              {name:'test',qq_account:'261231',img_url:'www.baidu.com',reason:'test'}    \n          }\n }",
+          "content": " \nHTTP/1.1 200 OK\n$type == 0 || 1:\n {\n   \"code\": \"0\",\n   \"msg\": \"success\",\n   \"data\":[\n              0=>[\n                   {name:'test',qq_account:'261231',img_url:'www.baidu.com',reason:'test',over_time:'1234567896',coin_id:1},\n                   {name:'test',qq_account:'261231',img_url:'www.baidu.com',reason:'test',over_time:'1234567896',coin_id:1}       \n              ],\n              1=>[\n                   {name:'test',qq_account:'261231',img_url:'www.baidu.com',reason:'test',over_time:'1234567896',coin_id:2},\n                   {name:'test',qq_account:'261231',img_url:'www.baidu.com',reason:'test',over_time:'1234567896',coin_id:2}\n              ],\n              2=>[\n                   {name:'test',qq_account:'261231',img_url:'www.baidu.com',reason:'test',over_time:'1234567896',coin_id:3},\n                   {name:'test',qq_account:'261231',img_url:'www.baidu.com',reason:'test',over_time:'1234567896',coin_id:3}\n              ]\n          ]\n }\n$type == 2:\n {\n   \"code\": \"0\",\n   \"msg\": \"success\",\n   \"data\":[\n              0=>{name:'test',qq_account:'261231',img_url:'www.baidu.com',reason:'test'}\n              1=>{name:'test',qq_account:'261231',img_url:'www.baidu.com',reason:'test'}        \n          ]\n }",
           "type": "json"
         }
       ]
@@ -883,7 +851,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "app/Http/Controllers/User/ThumbupController.php",
+    "filename": "app/Http/Controllers/User/RecordController.php",
     "groupTitle": "User"
   },
   {
