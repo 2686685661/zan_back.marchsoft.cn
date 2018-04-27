@@ -14,46 +14,158 @@ class StarCoin
 {
 
     public static $sTable = 'star_coin';
+    public static $sTableUser = 'user';
+
 
     /**
-     * $type == 0 未使用
-     * $type == 1 已使用
-     * $type == 2 已过期
+     * 获得取消费模块中用户点赞币情况
+     * @valArr Array
+     * return Array
      */
-    public static function getNotUserConsumeCoin($user_id,$typeCoin) {
-        $now_time = time();
+    public static function getNotUserConsumeCoin($valArr,$userId,$now_time) {
+       
         $select_coins = null;
-        $select_coins_handle = DB::table(self::$sTable)->leftJoin('user',self::$sTable.'.from_user_id','=','user.id')->where([
-            ['to_user_id','=',$user_id],
-            ['start_time','<=',$now_time],
-            ['over_time','>=',$now_time]
+        try{
+            if($valArr['useType'] == 0) 
+                $select_coins = self::getUserConsumeCoinHandle($valArr)
+                ->where('is_buy','=',1)
+                ->select(
+                    self::$sTableUser.'.name',
+                    self::$sTableUser.'.qq_account',
+                    self::$sTable.'.coin_id',
+                    self::$sTable.'.reason',
+                    self::$sTable.'.over_time'
+                )
+                ->get();
+            else if($valArr['useType'] == 1)
+                $select_coins = self::getUserConsumeCoinHandle($valArr)
+                ->where('is_buy','=',0)
+                ->select(
+                    'user.name',
+                    'user.qq_account',
+                    self::$sTable.'.reason',
+                    self::$sTable.'.coin_id'
+                )
+                ->get();
+            else if($valArr['useType'] == 2)
+                $select_coins = DB::table(self::$sTable)
+                ->leftJoin(self::$sTableUser,self::$sTable.'.from_user_id','=',self::$sTableUser.'.id')
+                ->where([
+                    ['to_user_id','=',$userId],
+                    ['over_time','<',$now_time]
+                ])
+                ->select(
+                    self::$sTableUser.'.name',
+                    self::$sTableUser.'.qq_account',
+                    self::$sTable.'.reason'
+                )
+                ->get()
+                ->toArray();
+            
+                    
+
+            return $select_coins; 
+        }catch(\Exception $e) {
+            return false;
+        }
+        
+    }
+
+
+    /**
+     * 得到句柄
+     * @valArr Array
+     * return Handle
+     */
+    private static function getUserConsumeCoinHandle($valArr) {
+        try{
+            return DB::table(self::$sTable)
+            ->leftJoin(self::$sTableUser,self::$sTable.'.from_user_id','=',self::$sTableUser.'.id')
+            ->where([
+                ['to_user_id','=',$valArr['userId']],
+                ['start_time','<=',$valArr['createTime']],
+                ['over_time','>=',$valArr['createTime']]
+            ]);
+        }catch(\Exception $e) {
+            return false;
+        }
+    }
+
+
+    /**
+     * 回调更新用户点赞币记录的is_buy
+     * @formUserId Number
+     * @coinId Arr Array
+     */
+    public static function updateUseCoinState($formUserId, $coinIdArr) {
+        try{
+            $updateRowsNUm = DB::table(self::$sTable)
+            ->where('to_user_id','=',$formUserId)
+            ->whereIn('id',$coinIdArr)
+            ->update(['is_buy' => 0]);
+            $updateRowsNUm ?  DB::commit() : DB::rollback(); 
+            return true;
+        }catch(\Exception $e) {
+            return -1;
+        }
+        
+    }
+
+    /**
+     * @param $userId 用户id
+     * @param bool $isOverdue 是否过期,默认false未过期
+     * @return mixed
+     */
+    public static function getCoinList($userId,$pageSize,$isOverdue = false) {
+        $now_time = time();
+        $coins_handle = DB::table(self::$sTable)->leftJoin('coin',self::$sTable.'.coin_id','=','coin.id')->where([
+            ['from_user_id','=',$userId],
+            ['to_user_id','=',0]
         ]);
-        if($typeCoin == 0)
-            $select_coins = $select_coins_handle->where('is_buy','=',1)
-            ->select('user.name','user.qq_account',self::$sTable.'.reason',self::$sTable.'.over_time',self::$sTable.'.coin_id')
-            ->groupBy(self::$sTable.'.coin_id')
-            ->get();
-        else if($typeCoin == 1)
-            $select_coins = $select_coins_handle->where('is_buy','=',0)
-            ->select('user.name','user.qq_account',self::$sTable.'.reason',self::$sTable.'.coin_id')
-            ->groupBy(self::$sTable.'.coin_id')
-            ->get();
-        else if($typeCoin == 2)
-            $select_coins = DB::table(self::$sTable)->leftJoin('user',self::$sTable.'.from_user_id','=','user.id')->where([
-                ['to_user_id','=',$user_id],
-                ['over_time','<',$now_time]
-            ])->select('user.name','user.qq_account',self::$sTable.'.reason')->get();
-
-        return $select_coins;
+        if($isOverdue)
+            $coins_handle->where('over_time','<',$now_time);
+        else
+            $coins_handle->where('over_time','>=',$now_time);
+        $coins = $coins_handle->select(
+            self::$sTable.'.id',
+            self::$sTable.'.coin_id',
+            self::$sTable.'.start_time',
+            self::$sTable.'.over_time',
+            'coin.name as coin_name'
+        )->paginate($pageSize);
+        return $coins;
     }
 
-
-    public static function insertUserOrder($orderMsg) {
-
+    /**
+     * 得到已使用的点赞币
+     * @param $userId
+     * @return mixed
+     */
+    public static function getUsedCoinList($userId,$pageSize) {
+        $coins = DB::table(self::$sTable)->leftJoin('user',self::$sTable.'.to_user_id','=','user.id')->where([
+            ['from_user_id','=',$userId],
+            ['to_user_id','<>',0],
+        ])->select(
+            self::$sTable.'.id',
+            self::$sTable.'.coin_id',
+            self::$sTable.'.to_user_id',
+            self::$sTable.'.start_time',
+            self::$sTable.'.over_time',
+            self::$sTable.'.reason',
+            self::$sTable.'.use_time',
+            'user.name as to_user_name',
+            'user.qq_account'
+        )->paginate($pageSize);
+        return $coins;
     }
 
-    public static function updateUseCoinState($coinIdArr) {
-
+    /**
+     * 得到已过期的点赞币
+     * @param $userId
+     * @return mixed
+     */
+    public static function getOverdueCoinList($userId,$pageSize) {
+        return self::getCoinList($userId,$pageSize,true);
     }
 
 
@@ -83,24 +195,47 @@ class StarCoin
      * @param int $endDate
      * @return arr
      */
-    public static function getThumupRank($countGrade=0, $startDate, $endDate){
+    public static function getThumupRank($countGrade=0, $startDate, $endDate)
+    {
         $selectCoins = null;
         $selectCoinsBase = DB::table(self::$sTable)
-            ->leftJoin('user',self::$sTable.'.to_user_id','=','user.id')
-            ->select('user.id','user.name','user.qq_account',self::$sTable.'.to_user_id',self::$sTable.'.use_time');
-        if ($countGrade == 0){
+            ->leftJoin('user', self::$sTable . '.to_user_id', '=', 'user.id')
+            ->select('user.id', 'user.name', 'user.qq_account', self::$sTable . '.to_user_id', self::$sTable . '.use_time');
+        if ($countGrade == 0) {
             $selectCoins = $selectCoinsBase->where([
-                ['use_time','>=',$startDate],
-                ['use_time','<=',$endDate]
+                ['use_time', '>=', $startDate],
+                ['use_time', '<=', $endDate]
             ]);
-        }else{
+        } else {
             $selectCoins = $selectCoinsBase->where([
-                ['user.group_id','=',$countGrade],
-                ['use_time','>=',$startDate],
-                ['use_time','<=',$endDate]
+                ['user.group_id', '=', $countGrade],
+                ['use_time', '>=', $startDate],
+                ['use_time', '<=', $endDate]
             ]);
         }
         $selectCoins = $selectCoins->get()->groupBy('to_user_id');
         return $selectCoins;
+    }
+
+    public static function thumbsUp($userId,$ids,$toUserId,$reason) {
+        DB::beginTransaction();
+        try{
+            foreach ($ids as $value){
+                DB::table(self::$sTable)
+                    ->where('id',$value)
+                    ->where('from_user_id',$userId)
+                    ->update([
+                        'to_user_id' => $toUserId,
+                        'reason'     => $reason,
+                        'use_time'   => millisecond()
+                    ]);
+            }
+            DB::commit();
+            return true;
+        }catch (Exception $e){
+            DB::rollback();
+            Log::info($e);
+            return false;
+        }
     }
 }

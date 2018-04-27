@@ -224,9 +224,6 @@ function secsToStr($secs) {
         $secs=$secs%60;
         $r.=$minutes.' 分钟 ';
     }
-//    $r.=$secs.' second';
-//    if($secs<>1){$r.='s';
-//    }
     return $r;
 }
 
@@ -247,10 +244,6 @@ function getQqimgLink($qq_num, $img_size='100') {
  * $explStr  规定在哪里分割字符串或合并数组
  */
 function strChangeArr($val,$explStr = '') {
-    // if(is_string($val))
-    //     return explode($explStr,trim($val));
-    // else if(is_array($val))
-    //     return implode($explStr,$val);
 
     $value = null;
     is_string($val) ? $value = explode($explStr,trim($val)) : (is_array($val) ? $value = implode($explStr,$val) : $value = 0);
@@ -269,12 +262,23 @@ function getTradeNOString() {
  *
  * @return array
  */
-function week(){
+function week()
+{
     $timestamp = time();
     return [
         strtotime(date('Y-m-d', strtotime("this week Monday", $timestamp))),
         strtotime(date('Y-m-d', strtotime("this week Sunday", $timestamp))) + 24 * 3600 - 1
     ];
+}
+
+ /** 获得session中用户的id
+ * @return int|string
+ */
+function get_session_user_id()
+{
+    $user = session("user");
+
+    return $user ? $user->id : 0;
 }
 
 /**

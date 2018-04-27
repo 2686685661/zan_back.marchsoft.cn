@@ -1,61 +1,5 @@
 [
   {
-    "success": {
-      "fields": {
-        "Success 200": [
-          {
-            "group": "Success 200",
-            "optional": false,
-            "field": "varname1",
-            "description": "<p>No type.</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "String",
-            "optional": false,
-            "field": "varname2",
-            "description": "<p>With type.</p>"
-          }
-        ]
-      }
-    },
-    "type": "",
-    "url": "",
-    "version": "0.0.0",
-    "filename": "./doc/main.js",
-    "group": "E__Project_zan_back_marchsoft_cn_doc_main_js",
-    "groupTitle": "E__Project_zan_back_marchsoft_cn_doc_main_js",
-    "name": ""
-  },
-  {
-    "success": {
-      "fields": {
-        "Success 200": [
-          {
-            "group": "Success 200",
-            "optional": false,
-            "field": "varname1",
-            "description": "<p>No type.</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "String",
-            "optional": false,
-            "field": "varname2",
-            "description": "<p>With type.</p>"
-          }
-        ]
-      }
-    },
-    "type": "",
-    "url": "",
-    "version": "0.0.0",
-    "filename": "./interface_api/main.js",
-    "group": "E__Project_zan_back_marchsoft_cn_interface_api_main_js",
-    "groupTitle": "E__Project_zan_back_marchsoft_cn_interface_api_main_js",
-    "name": ""
-  },
-  {
     "type": "post",
     "url": "/addApply",
     "title": "申请点赞币",
@@ -142,7 +86,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "./app/Http/Controllers/User/PersonalCenter.php",
+    "filename": "app/Http/Controllers/User/PersonalCenter.php",
     "groupTitle": "User"
   },
   {
@@ -211,12 +155,85 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "./app/Http/Controllers/User/PersonalCenter.php",
+    "filename": "app/Http/Controllers/User/PersonalCenter.php",
     "groupTitle": "User"
   },
   {
     "type": "post",
-    "url": "user/record/countList",
+    "url": "user/adminLogin",
+    "title": "管理员登录",
+    "name": "adminLogin",
+    "group": "User",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "username",
+            "description": "<p>账号</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "password",
+            "description": "<p>密码</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "code",
+            "description": "<p>状态码：0 登录成功，其他数值 登录失败</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "msg",
+            "description": "<p>响应信息</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "result",
+            "description": "<p>响应结果</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response：登录成功",
+          "content": "HTTP/1.1 200 OK\n{\n \"code\": 0,\n \"msg\": \"success\",\n \"result\": {\n\n   },\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "Error-Response: 登录失败",
+          "content": "HTTP/1.1 200\n{\n \"code\": 1,\n \"msg\": \"账号或密码错误\",\n \"result\": {\n\n   },\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "app/Http/Controllers/User/LoginController.php",
+    "groupTitle": "User"
+  },
+  {
+    "type": "get",
+    "url": "user/record/countList?countGrade&startDate&endDate",
     "title": "显示点赞币统计记录",
     "name": "countList",
     "group": "User",
@@ -300,7 +317,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "./app/Http/Controllers/User/RecordController.php",
+    "filename": "app/Http/Controllers/User/RecordController.php",
     "groupTitle": "User"
   },
   {
@@ -363,7 +380,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "./app/Http/Controllers/User/RecordController.php",
+    "filename": "app/Http/Controllers/User/RecordController.php",
     "groupTitle": "User"
   },
   {
@@ -419,7 +436,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "./app/Http/Controllers/User/PersonalCenter.php",
+    "filename": "app/Http/Controllers/User/PersonalCenter.php",
     "groupTitle": "User"
   },
   {
@@ -516,12 +533,12 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "./app/Http/Controllers/User/PersonalCenter.php",
+    "filename": "app/Http/Controllers/User/PersonalCenter.php",
     "groupTitle": "User"
   },
   {
     "type": "post",
-    "url": "user/getCoinList",
+    "url": "user/thumbsUp/getCoinList",
     "title": "得到自己未使用（空白的，未点出的）的点赞币",
     "name": "getCoinList",
     "group": "User",
@@ -530,10 +547,10 @@
         "Parameter": [
           {
             "group": "Parameter",
-            "type": "String",
+            "type": "Number",
             "optional": false,
-            "field": "userId",
-            "description": "<p>用户id</p>"
+            "field": "pageSize",
+            "description": "<p>一次加载多少</p>"
           }
         ]
       }
@@ -554,6 +571,13 @@
             "optional": false,
             "field": "msg",
             "description": "<p>响应信息</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "result",
+            "description": "<p>响应结果</p>"
           },
           {
             "group": "Success 200",
@@ -602,7 +626,7 @@
       "examples": [
         {
           "title": "Success-Response：请求成功",
-          "content": "HTTP/1.1 200 OK\n{\n \"code\": 0,\n \"msg\": \"success\",\n \"data\": {\n      coinList:[\n         {\"id\":\"xxx\",\"coin_id\":\"xxxxxxxx\",\"coin_name\":\"xxxxxxxxxxxx\",\"start_time\":888888,\"over_time\":888888888},\n         {\"id\":\"xxx\",\"coin_id\":\"xxxxxxxx\",\"coin_name\":\"xxxxxxxxxxxx\",\"start_time\":888888,\"over_time\":888888888}\n      ]\n   },\n}",
+          "content": "HTTP/1.1 200 OK\n{\n \"code\": 0,\n \"msg\": \"success\",\n \"result\": {\n      coinList:[\n         {\"id\":\"xxx\",\"coin_id\":\"xxxxxxxx\",\"coin_name\":\"xxxxxxxxxxxx\",\"start_time\":888888,\"over_time\":888888888},\n         {\"id\":\"xxx\",\"coin_id\":\"xxxxxxxx\",\"coin_name\":\"xxxxxxxxxxxx\",\"start_time\":888888,\"over_time\":888888888}\n      ]\n   },\n}",
           "type": "json"
         }
       ]
@@ -611,13 +635,13 @@
       "examples": [
         {
           "title": "Error-Response: 请求失败",
-          "content": "HTTP/1.1 200\n{\n \"code\": 1,\n \"msg\": \"failed\",\n \"data\": {\n\n   },\n}",
+          "content": "HTTP/1.1 200\n{\n \"code\": 1,\n \"msg\": \"failed\",\n \"result\": {\n\n   },\n}",
           "type": "json"
         }
       ]
     },
     "version": "0.0.0",
-    "filename": "./app/Http/Controllers/User/ThumbsUpController.php",
+    "filename": "app/Http/Controllers/User/ThumbsUpController.php",
     "groupTitle": "User"
   },
   {
@@ -700,12 +724,12 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "./app/Http/Controllers/User/PersonalCenter.php",
+    "filename": "app/Http/Controllers/User/PersonalCenter.php",
     "groupTitle": "User"
   },
   {
     "type": "post",
-    "url": "user/getOverdueCoinList",
+    "url": "user/thumbsUp/getOverdueCoinList",
     "title": "得到已过期的点赞币",
     "name": "getOverdueCoinList",
     "group": "User",
@@ -714,10 +738,10 @@
         "Parameter": [
           {
             "group": "Parameter",
-            "type": "String",
+            "type": "Number",
             "optional": false,
-            "field": "userId",
-            "description": "<p>用户id</p>"
+            "field": "pageSize",
+            "description": "<p>一次加载多少</p>"
           }
         ]
       }
@@ -738,6 +762,13 @@
             "optional": false,
             "field": "msg",
             "description": "<p>响应信息</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "result",
+            "description": "<p>响应结果</p>"
           },
           {
             "group": "Success 200",
@@ -786,7 +817,7 @@
       "examples": [
         {
           "title": "Success-Response：请求成功",
-          "content": "HTTP/1.1 200 OK\n{\n \"code\": 0,\n \"msg\": \"success\",\n \"data\": {\n      overdueCoinList:[\n         {\"id\":\"xxx\",\"coin_id\":\"xxx\",\"coin_name\":\"xxx\",\"start_time\":\"xxx\",\"over_time\":\"xxx\"},\n         {\"id\":\"xxx\",\"coin_id\":\"xxx\",\"coin_name\":\"xxx\",\"start_time\":\"xxx\",\"over_time\":\"xxx\"}\n      ]\n   },\n}",
+          "content": "HTTP/1.1 200 OK\n{\n \"code\": 0,\n \"msg\": \"success\",\n \"result\": {\n      overdueCoinList:[\n         {\"id\":\"xxx\",\"coin_id\":\"xxx\",\"coin_name\":\"xxx\",\"start_time\":\"xxx\",\"over_time\":\"xxx\"},\n         {\"id\":\"xxx\",\"coin_id\":\"xxx\",\"coin_name\":\"xxx\",\"start_time\":\"xxx\",\"over_time\":\"xxx\"}\n      ]\n   },\n}",
           "type": "json"
         }
       ]
@@ -795,13 +826,13 @@
       "examples": [
         {
           "title": "Error-Response: 请求失败",
-          "content": "HTTP/1.1 200\n{\n \"code\": 1,\n \"msg\": \"failed\",\n \"data\": {\n\n   },\n}",
+          "content": "HTTP/1.1 200\n{\n \"code\": 1,\n \"msg\": \"failed\",\n \"result\": {\n\n   },\n}",
           "type": "json"
         }
       ]
     },
     "version": "0.0.0",
-    "filename": "./app/Http/Controllers/User/ThumbsUpController.php",
+    "filename": "app/Http/Controllers/User/ThumbsUpController.php",
     "groupTitle": "User"
   },
   {
@@ -850,7 +881,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "./app/Http/Controllers/User/PersonalCenter.php",
+    "filename": "app/Http/Controllers/User/PersonalCenter.php",
     "groupTitle": "User"
   },
   {
@@ -919,12 +950,12 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "./app/Http/Controllers/User/PersonalCenter.php",
+    "filename": "app/Http/Controllers/User/PersonalCenter.php",
     "groupTitle": "User"
   },
   {
     "type": "post",
-    "url": "user/getUsedCoinList",
+    "url": "user/thumbsUp/getUsedCoinList",
     "title": "得到自己已使用的点赞币",
     "name": "getUsedCoinList",
     "group": "User",
@@ -933,10 +964,10 @@
         "Parameter": [
           {
             "group": "Parameter",
-            "type": "String",
+            "type": "Number",
             "optional": false,
-            "field": "userId",
-            "description": "<p>用户id</p>"
+            "field": "pageSize",
+            "description": "<p>一次加载多少</p>"
           }
         ]
       }
@@ -957,6 +988,13 @@
             "optional": false,
             "field": "msg",
             "description": "<p>响应信息</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "result",
+            "description": "<p>响应结果</p>"
           },
           {
             "group": "Success 200",
@@ -997,6 +1035,13 @@
             "group": "Success 200",
             "type": "String",
             "optional": false,
+            "field": "userImgLink",
+            "description": "<p>某人头像链接</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
             "field": "reason",
             "description": "<p>点赞原因</p>"
           },
@@ -1012,7 +1057,7 @@
       "examples": [
         {
           "title": "Success-Response：请求成功",
-          "content": "HTTP/1.1 200 OK\n{\n \"code\": 0,\n \"msg\": \"success\",\n \"data\": {\n      usedCoinList:[\n         {\"id\":\"xxx\",\"coin_id\":\"xxx\",\"to_user_id\":\"xxx\",\"to_user_name\":\"xxx\",\"reason\":\"xxx\",\"use_time\":\"xxx\"},\n         {\"id\":\"xxx\",\"coin_id\":\"xxx\",\"to_user_id\":\"xxx\",\"to_user_name\":\"xxx\",\"reason\":\"xxx\",\"use_time\":\"xxx\"}\n      ]\n   },\n}",
+          "content": "HTTP/1.1 200 OK\n{\n \"code\": 0,\n \"msg\": \"success\",\n \"result\": {\n      usedCoinList:[\n         {\"id\":\"xxx\",\"coin_id\":\"xxx\",\"to_user_id\":\"xxx\",\"to_user_name\":\"xxx\",\"qq_account\":727299708,\"userImgLink\":\"xxx\",\"reason\":\"xxx\",\"use_time\":\"xxx\"},\n         {\"id\":\"xxx\",\"coin_id\":\"xxx\",\"to_user_id\":\"xxx\",\"to_user_name\":\"xxx\",\"qq_account\":727299708,\"userImgLink\":\"xxx\",\"reason\":\"xxx\",\"use_time\":\"xxx\"}\n      ]\n   },\n}",
           "type": "json"
         }
       ]
@@ -1021,13 +1066,13 @@
       "examples": [
         {
           "title": "Error-Response: 请求失败",
-          "content": "HTTP/1.1 200\n{\n \"code\": 1,\n \"msg\": \"failed\",\n \"data\": {\n\n   },\n}",
+          "content": "HTTP/1.1 200\n{\n \"code\": 1,\n \"msg\": \"failed\",\n \"result\": {\n\n   },\n}",
           "type": "json"
         }
       ]
     },
     "version": "0.0.0",
-    "filename": "./app/Http/Controllers/User/ThumbsUpController.php",
+    "filename": "app/Http/Controllers/User/ThumbsUpController.php",
     "groupTitle": "User"
   },
   {
@@ -1051,7 +1096,7 @@
             "type": "Number",
             "optional": false,
             "field": "type",
-            "description": "<p>点赞币使用记录种类</p>"
+            "description": "<p>点赞币使用记录种类 $type == 0 未使用 $type == 1 已使用 $type == 2 已过期</p>"
           }
         ]
       }
@@ -1106,7 +1151,7 @@
       "examples": [
         {
           "title": "Success-Response:",
-          "content": " \nHTTP/1.1 200 OK\n$type == 0 || 1:\n {\n   \"code\": \"0\",\n   \"msg\": \"success\",\n   \"data\":{\n              [\n                   {name:'test',qq_account:'261231',img_url:'www.baidu.com',reason:'test',over_time:'1234567896',coin_id:1},\n                   {name:'test',qq_account:'261231',img_url:'www.baidu.com',reason:'test',over_time:'1234567896',coin_id:1}       \n              ],\n              [\n                   {name:'test',qq_account:'261231',img_url:'www.baidu.com',reason:'test',over_time:'1234567896',coin_id:2},\n                   {name:'test',qq_account:'261231',img_url:'www.baidu.com',reason:'test',over_time:'1234567896',coin_id:2}\n              ],\n              [\n                   {name:'test',qq_account:'261231',img_url:'www.baidu.com',reason:'test',over_time:'1234567896',coin_id:3},\n                   {name:'test',qq_account:'261231',img_url:'www.baidu.com',reason:'test',over_time:'1234567896',coin_id:3}\n              ]\n          }\n }\n$type == 3:\n {\n   \"code\": \"0\",\n   \"msg\": \"success\",\n   \"data\":{\n              {name:'test',qq_account:'261231',img_url:'www.baidu.com',reason:'test'}    \n          }\n }",
+          "content": " \nHTTP/1.1 200 OK\n$type == 0 || 1:\n {\n   \"code\": \"0\",\n   \"msg\": \"success\",\n   \"data\":[\n              0=>[\n                   {name:'test',qq_account:'261231',img_url:'www.baidu.com',reason:'test',over_time:'1234567896',coin_id:1},\n                   {name:'test',qq_account:'261231',img_url:'www.baidu.com',reason:'test',over_time:'1234567896',coin_id:1}       \n              ],\n              1=>[\n                   {name:'test',qq_account:'261231',img_url:'www.baidu.com',reason:'test',over_time:'1234567896',coin_id:2},\n                   {name:'test',qq_account:'261231',img_url:'www.baidu.com',reason:'test',over_time:'1234567896',coin_id:2}\n              ],\n              2=>[\n                   {name:'test',qq_account:'261231',img_url:'www.baidu.com',reason:'test',over_time:'1234567896',coin_id:3},\n                   {name:'test',qq_account:'261231',img_url:'www.baidu.com',reason:'test',over_time:'1234567896',coin_id:3}\n              ]\n          ]\n }\n$type == 2:\n {\n   \"code\": \"0\",\n   \"msg\": \"success\",\n   \"data\":[\n              0=>{name:'test',qq_account:'261231',img_url:'www.baidu.com',reason:'test'}\n              1=>{name:'test',qq_account:'261231',img_url:'www.baidu.com',reason:'test'}        \n          ]\n }",
           "type": "json"
         }
       ]
@@ -1131,14 +1176,14 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "./app/Http/Controllers/User/ConsumeController.php",
+    "filename": "app/Http/Controllers/User/ConsumeController.php",
     "groupTitle": "User"
   },
   {
     "type": "post",
-    "url": "user/getUserList",
-    "title": "得到用户列表",
-    "name": "getUserList",
+    "url": "user/thumbsUp/getUserListExceptSelf",
+    "title": "得到除自己外的用户列表",
+    "name": "getUserListExceptSelf",
     "group": "User",
     "success": {
       "fields": {
@@ -1156,6 +1201,13 @@
             "optional": false,
             "field": "msg",
             "description": "<p>响应信息</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "result",
+            "description": "<p>响应结果</p>"
           },
           {
             "group": "Success 200",
@@ -1183,7 +1235,7 @@
       "examples": [
         {
           "title": "Success-Response：请求成功",
-          "content": "HTTP/1.1 200 OK\n{\n \"code\": 0,\n \"msg\": \"success\",\n \"data\": {\n      userList:[\n         {\"id\":\"xxx\",\"name\":\"xxx\"},\n         {\"id\":\"xxx\",\"name\":\"xxx\"}\n      ]\n   },\n}",
+          "content": "HTTP/1.1 200 OK\n{\n \"code\": 0,\n \"msg\": \"success\",\n \"result\": {\n      userList:[\n         {\"id\":\"xxx\",\"name\":\"xxx\"},\n         {\"id\":\"xxx\",\"name\":\"xxx\"}\n      ]\n   },\n}",
           "type": "json"
         }
       ]
@@ -1192,13 +1244,13 @@
       "examples": [
         {
           "title": "Error-Response: 请求失败",
-          "content": "HTTP/1.1 200\n{\n \"code\": 1,\n \"msg\": \"failed\",\n \"data\": {\n\n   },\n}",
+          "content": "HTTP/1.1 200\n{\n \"code\": 1,\n \"msg\": \"failed\",\n \"result\": {\n\n   },\n}",
           "type": "json"
         }
       ]
     },
     "version": "0.0.0",
-    "filename": "./app/Http/Controllers/User/ThumbsUpController.php",
+    "filename": "app/Http/Controllers/User/ThumbsUpController.php",
     "groupTitle": "User"
   },
   {
@@ -1277,13 +1329,13 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "./app/Http/Controllers/User/ConsumeController.php",
+    "filename": "app/Http/Controllers/User/ConsumeController.php",
     "groupTitle": "User"
   },
   {
     "type": "post",
     "url": "user/login",
-    "title": "登录",
+    "title": "普通用户登录（老师学生）",
     "name": "login",
     "group": "User",
     "parameter": {
@@ -1302,13 +1354,6 @@
             "optional": false,
             "field": "password",
             "description": "<p>密码</p>"
-          },
-          {
-            "group": "Parameter",
-            "type": "Number",
-            "optional": false,
-            "field": "isManager",
-            "description": "<p>是否是管理员：0 是，1 不是</p>"
           }
         ]
       }
@@ -1335,7 +1380,7 @@
       "examples": [
         {
           "title": "Success-Response：登录成功",
-          "content": "HTTP/1.1 200 OK\n{\n \"code\": 0,\n \"msg\": \"success\",\n \"data\": {\n\n   },\n}",
+          "content": "HTTP/1.1 200 OK\n{\n \"code\": 0,\n \"msg\": \"success\",\n \"result\": {\n\n   },\n}",
           "type": "json"
         }
       ]
@@ -1344,13 +1389,13 @@
       "examples": [
         {
           "title": "Error-Response: 登录失败",
-          "content": "HTTP/1.1 200\n{\n \"code\": 1,\n \"msg\": \"账号或密码错误\",\n \"data\": {\n\n   },\n}",
+          "content": "HTTP/1.1 200\n{\n \"code\": 1,\n \"msg\": \"账号或密码错误\",\n \"result\": {\n\n   },\n}",
           "type": "json"
         }
       ]
     },
     "version": "0.0.0",
-    "filename": "./app/Http/Controllers/User/LoginController.php",
+    "filename": "app/Http/Controllers/User/LoginController.php",
     "groupTitle": "User"
   },
   {
@@ -1364,10 +1409,10 @@
         "Parameter": [
           {
             "group": "Parameter",
-            "type": "Number",
+            "type": "String",
             "optional": false,
-            "field": "id[]",
-            "description": "<p>点赞币id数组</p>"
+            "field": "ids",
+            "description": "<p>点赞币id 使用“,”给分开 例如：{1,2,3}</p>"
           },
           {
             "group": "Parameter",
@@ -1402,13 +1447,20 @@
             "optional": false,
             "field": "msg",
             "description": "<p>响应信息</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "result",
+            "description": "<p>响应结果</p>"
           }
         ]
       },
       "examples": [
         {
           "title": "Success-Response：点赞成功",
-          "content": "HTTP/1.1 200 OK\n{\n \"code\": 0,\n \"msg\": \"success\",\n \"data\": {\n\n   },\n}",
+          "content": "HTTP/1.1 200 OK\n{\n \"code\": 0,\n \"msg\": \"success\",\n \"result\": {\n\n   },\n}",
           "type": "json"
         }
       ]
@@ -1417,13 +1469,13 @@
       "examples": [
         {
           "title": "Error-Response: 点赞失败",
-          "content": "HTTP/1.1 200\n{\n \"code\": 1,\n \"msg\": \"failed\",\n \"data\": {\n\n   },\n}",
+          "content": "HTTP/1.1 200\n{\n \"code\": 1,\n \"msg\": \"failed\",\n \"result\": {\n\n   },\n}",
           "type": "json"
         }
       ]
     },
     "version": "0.0.0",
-    "filename": "./app/Http/Controllers/User/ThumbsUpController.php",
+    "filename": "app/Http/Controllers/User/ThumbsUpController.php",
     "groupTitle": "User"
   },
   {
@@ -1501,7 +1553,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "./app/Http/Controllers/User/RecordController.php",
+    "filename": "app/Http/Controllers/User/RecordController.php",
     "groupTitle": "User"
   },
   {
@@ -1591,7 +1643,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "./app/Http/Controllers/User/PersonalCenter.php",
+    "filename": "app/Http/Controllers/User/PersonalCenter.php",
     "groupTitle": "User"
   },
   {
@@ -1629,7 +1681,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "./app/Http/Controllers/User/Alipay/AlipayWapController.php",
+    "filename": "app/Http/Controllers/User/Alipay/AlipayWapController.php",
     "groupTitle": "alipay"
   },
   {
@@ -1701,7 +1753,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "./app/Http/Controllers/User/Alipay/AlipayWapController.php",
+    "filename": "app/Http/Controllers/User/Alipay/AlipayWapController.php",
     "groupTitle": "alipay"
   },
   {
@@ -1773,7 +1825,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "./app/Http/Controllers/User/Alipay/AlipayWapController.php",
+    "filename": "app/Http/Controllers/User/Alipay/AlipayWapController.php",
     "groupTitle": "alipay"
   }
 ]
