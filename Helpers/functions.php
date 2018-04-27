@@ -264,4 +264,14 @@ function getTradeNOString() {
     return 'ZAN'.strval(time(),rand(111,999));
 }
 
+/**
+ * 获得session中用户的id
+ * @return int|string
+ */
+function get_session_user_id()
+{
+    $user = session("user");
+
+    return $user ? $user->id : 0;
+}
 

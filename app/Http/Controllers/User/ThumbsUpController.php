@@ -10,18 +10,20 @@ namespace App\Http\Controllers\User;
 
 
 use App\Http\Controllers\Controller;
+use App\Models\StarCoin;
+use App\Models\User;
+use Illuminate\Support\Facades\Log;
 
 class ThumbsUpController extends Controller
 {
     /**
-     * @api {post} user/getCoinList 得到自己未使用（空白的，未点出的）的点赞币
+     * @api {post} user/thumbsUp/getCoinList 得到自己未使用（空白的，未点出的）的点赞币
      * @apiName getCoinList
      * @apiGroup User
      *
-     * @apiParam {String} userId 用户id
-     *
      * @apiSuccess {Number} code 状态码：0 请求成功，其他数值 请求失败
      * @apiSuccess {String} msg 响应信息
+     * @apiSuccess {String} result 响应结果
      * @apiSuccess {Object[]} coinList 未使用（空白的，未点出的）的点赞币数组
      * @apiSuccess {String} id 点赞币id
      * @apiSuccess {String} coin_id 币种id
@@ -33,7 +35,7 @@ class ThumbsUpController extends Controller
      * {
      *  "code": 0,
      *  "msg": "success",
-     *  "data": {
+     *  "result": {
      *       coinList:[
      *          {"id":"xxx","coin_id":"xxxxxxxx","coin_name":"xxxxxxxxxxxx","start_time":888888,"over_time":888888888},
      *          {"id":"xxx","coin_id":"xxxxxxxx","coin_name":"xxxxxxxxxxxx","start_time":888888,"over_time":888888888}
@@ -46,30 +48,38 @@ class ThumbsUpController extends Controller
      * {
      *  "code": 1,
      *  "msg": "failed",
-     *  "data": {
+     *  "result": {
      *
      *    },
      * }
      *
      */
     public function getCoinList(){
-
+        $userId = get_session_user_id();
+        if($userId){
+            $coins = StarCoin::getCoinList($userId);
+            if($coins){
+                return responseToJson(0,'success',$coins);
+            }else{
+                return responseToJson(1,'failed');
+            }
+        }
     }
 
     /**
-     * @api {post} user/getUsedCoinList 得到自己已使用的点赞币
+     * @api {post} user/thumbsUp/getUsedCoinList 得到自己已使用的点赞币
      * @apiName getUsedCoinList
      * @apiGroup User
      *
-     * @apiParam {String} userId 用户id
-     *
      * @apiSuccess {Number} code 状态码：0 请求成功，其他数值 请求失败
      * @apiSuccess {String} msg 响应信息
+     * @apiSuccess {String} result 响应结果
      * @apiSuccess {Object[]} usedCoinList 已使用（已点出的）的点赞币数组
      * @apiSuccess {String} id 点赞币id
      * @apiSuccess {String} coin_id 币种id
      * @apiSuccess {String} to_user_id 点给某人<某人的id>
      * @apiSuccess {String} to_user_name 点给某人<某人的name>
+     * @apiSuccess {String} userImgLink 某人头像链接
      * @apiSuccess {String} reason 点赞原因
      * @apiSuccess {String} use_time 点赞时间（时间戳）
      * @apiSuccessExample Success-Response：请求成功
@@ -77,10 +87,10 @@ class ThumbsUpController extends Controller
      * {
      *  "code": 0,
      *  "msg": "success",
-     *  "data": {
+     *  "result": {
      *       usedCoinList:[
-     *          {"id":"xxx","coin_id":"xxx","to_user_id":"xxx","to_user_name":"xxx","reason":"xxx","use_time":"xxx"},
-     *          {"id":"xxx","coin_id":"xxx","to_user_id":"xxx","to_user_name":"xxx","reason":"xxx","use_time":"xxx"}
+     *          {"id":"xxx","coin_id":"xxx","to_user_id":"xxx","to_user_name":"xxx","userImgLink":"xxx","reason":"xxx","use_time":"xxx"},
+     *          {"id":"xxx","coin_id":"xxx","to_user_id":"xxx","to_user_name":"xxx","userImgLink":"xxx","reason":"xxx","use_time":"xxx"}
      *       ]
      *    },
      * }
@@ -90,25 +100,37 @@ class ThumbsUpController extends Controller
      * {
      *  "code": 1,
      *  "msg": "failed",
-     *  "data": {
+     *  "result": {
      *
      *    },
      * }
      *
      */
     public function getUsedCoinList(){
-
+//        $userId = get_session_user_id();
+        return 1;
+        $userId = 3;
+        if($userId){
+            $coins = StarCoin::getUsedCoinList($userId);
+            if($coins){
+                $coins->map(function ($value){
+                    Log::info($value);
+                });
+                return responseToJson(0,'success',$coins);
+            }else{
+                return responseToJson(1,'failed');
+            }
+        }
     }
 
     /**
-     * @api {post} user/getOverdueCoinList 得到已过期的点赞币
+     * @api {post} user/thumbsUp/getOverdueCoinList 得到已过期的点赞币
      * @apiName getOverdueCoinList
      * @apiGroup User
      *
-     * @apiParam {String} userId 用户id
-     *
      * @apiSuccess {Number} code 状态码：0 请求成功，其他数值 请求失败
      * @apiSuccess {String} msg 响应信息
+     * @apiSuccess {String} result 响应结果
      * @apiSuccess {Object[]} overdueCoinList 未使用（空白的，未点出的）的已过期的点赞币数组
      * @apiSuccess {String} id 点赞币id
      * @apiSuccess {String} coin_id 币种id
@@ -120,7 +142,7 @@ class ThumbsUpController extends Controller
      * {
      *  "code": 0,
      *  "msg": "success",
-     *  "data": {
+     *  "result": {
      *       overdueCoinList:[
      *          {"id":"xxx","coin_id":"xxx","coin_name":"xxx","start_time":"xxx","over_time":"xxx"},
      *          {"id":"xxx","coin_id":"xxx","coin_name":"xxx","start_time":"xxx","over_time":"xxx"}
@@ -133,14 +155,22 @@ class ThumbsUpController extends Controller
      * {
      *  "code": 1,
      *  "msg": "failed",
-     *  "data": {
+     *  "result": {
      *
      *    },
      * }
      *
      */
     public function getOverdueCoinList(){
-
+        $userId = get_session_user_id();
+        if($userId){
+            $coins = StarCoin::getOverdueCoinList($userId);
+            if($coins){
+                return responseToJson(0,'success',$coins);
+            }else{
+                return responseToJson(1,'failed');
+            }
+        }
     }
 
     /**
@@ -148,18 +178,19 @@ class ThumbsUpController extends Controller
      * @apiName thumbsUp
      * @apiGroup User
      *
-     * @apiParam {Number} id[] 点赞币id数组
+     * @apiParam {String} ids 点赞币id 使用“,”给分开 例如：{1,2,3}
      * @apiParam {String} toUserId 点给某人<某人的id>
      * @apiParam {String} reason 点赞原因
      *
      * @apiSuccess {Number} code 状态码：0 点赞成功，其他数值 点赞失败
      * @apiSuccess {String} msg 响应信息
+     * @apiSuccess {String} result 响应结果
      * @apiSuccessExample Success-Response：点赞成功
      * HTTP/1.1 200 OK
      * {
      *  "code": 0,
      *  "msg": "success",
-     *  "data": {
+     *  "result": {
      *
      *    },
      * }
@@ -169,23 +200,31 @@ class ThumbsUpController extends Controller
      * {
      *  "code": 1,
      *  "msg": "failed",
-     *  "data": {
+     *  "result": {
      *
      *    },
      * }
      *
      */
-    public function thumbsUp(){
+    public function thumbsUp(Request $request){
+        $ids = explode(",", $request->ids);
+        $toUserId = $request->toUserId;
+        $reason = $request->reason;
 
+        $result = StarCoin::thumbsUp($ids,$toUserId,$reason);
+        if($result)
+            return responseToJson(0,'success');
+        return responseToJson(0,'failed');
     }
 
     /**
-     * @api {post} user/getUserList 得到用户列表
-     * @apiName getUserList
+     * @api {post} user/thumbsUp/getUserListExceptSelf 得到除自己外的用户列表
+     * @apiName getUserListExceptSelf
      * @apiGroup User
      *
      * @apiSuccess {Number} code 状态码：0 请求成功，其他数值 请求失败
      * @apiSuccess {String} msg 响应信息
+     * @apiSuccess {String} result 响应结果
      * @apiSuccess {Object[]} userList 用户列表数组
      * @apiSuccess {String} id 用户id
      * @apiSuccess {String} name 用户name
@@ -194,7 +233,7 @@ class ThumbsUpController extends Controller
      * {
      *  "code": 0,
      *  "msg": "success",
-     *  "data": {
+     *  "result": {
      *       userList:[
      *          {"id":"xxx","name":"xxx"},
      *          {"id":"xxx","name":"xxx"}
@@ -207,13 +246,18 @@ class ThumbsUpController extends Controller
      * {
      *  "code": 1,
      *  "msg": "failed",
-     *  "data": {
+     *  "result": {
      *
      *    },
      * }
      *
      */
-    public function getUserList(){
-
+    public function getUserListExceptSelf(){
+        $users = User::getUserListExceptSelf();
+        if($users){
+            return responseToJson(0,'success',$users);
+        }else{
+            return responseToJson(1,'failed');
+        }
     }
 }
