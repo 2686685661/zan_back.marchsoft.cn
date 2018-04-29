@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 class User
 {
 
+
     public static $sTable = 'user';
 
     public static function updatePassword(Request $request)
@@ -24,6 +25,19 @@ class User
 
     public static function getPassword(Request $request)
     {
-        return DB::table(self::$sTable)->where('code',session('code'))->first(['password']);
+        return DB::table(self::$sTable)->where('code', session('code'))->first(['password']);
+    }
+
+    /**
+     * 得到除自己外的用户集合
+     * @return mixed
+     */
+    public static function getUserListExceptSelf($userId)
+    {
+        $users = DB::table(self::$sTable)
+            ->where('id', '<>', $userId)
+            ->select('id', 'name')
+            ->get();
+        return $users;
     }
 }

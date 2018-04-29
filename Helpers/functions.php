@@ -224,9 +224,6 @@ function secsToStr($secs) {
         $secs=$secs%60;
         $r.=$minutes.' 分钟 ';
     }
-//    $r.=$secs.' second';
-//    if($secs<>1){$r.='s';
-//    }
     return $r;
 }
 
@@ -234,8 +231,64 @@ function secsToStr($secs) {
  * 获得用户qq头像
  * return string 用户qq头像链接
  */
-function get_qqimg_link($qq_num, $img_size='100') { 
+function getQqimgLink($qq_num, $img_size='100') { 
 
-    $link = 'https://qlogo4.store.qq.com/qzone/'.$qq_num.DIRECTORY_SEPARATOR.$qq_num.DIRECTORY_SEPARATOR.$img_size.'?1496376294';
+    $link = 'https://qlogo4.store.qq.com/qzone/'.$qq_num.'/'.$qq_num.'/'.$img_size.'?1496376294';
     return $link;
+}
+
+
+/**
+ * 字符串和数组的转换
+ * $val  需要转换的数组或者字符串
+ * $explStr  规定在哪里分割字符串或合并数组
+ */
+function strChangeArr($val,$explStr = '') {
+
+    $value = null;
+    is_string($val) ? $value = explode($explStr,trim($val)) : (is_array($val) ? $value = implode($explStr,$val) : $value = 0);
+    return $value;
+}
+
+/**
+ * 生成订单号
+ */
+function getTradeNOString() {
+    return 'ZAN'.strval(time(),rand(111,999));
+}
+
+/**
+ * 返回本周开始和结束的时间戳
+ *
+ * @return array
+ */
+function week()
+{
+    $timestamp = time();
+    return [
+        strtotime(date('Y-m-d', strtotime("this week Monday", $timestamp))),
+        strtotime(date('Y-m-d', strtotime("this week Sunday", $timestamp))) + 24 * 3600 - 1
+    ];
+}
+
+ /** 获得session中用户的id
+ * @return int|string
+ */
+function get_session_user_id()
+{
+    $user = session("user");
+
+    return $user ? $user->id : 0;
+}
+
+/**
+ * 二维数组排序 根据某一键值排序
+ *
+ */
+function funcCompare($a, $b)
+{
+    if (count($a) == count($b)) {
+        return 0;
+    }
+    return (count($a) > count($b)) ? -1 : 1;
 }

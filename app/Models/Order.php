@@ -53,4 +53,27 @@ class order
         return DB::table(self::$sTable)->where('id', $request->orderId)->update(['accept_id' => session('id'), 'status' => $request->status]);
     }
 
+    /**
+     * 取消费时新增订单记录
+     * @arrVal Array
+     * return Array
+     */
+    public static function createOrder($arrVal)
+    {
+        try {
+            DB::beginTransaction();
+            $createId = DB::table(self::$sTable)->insertGetId([
+                'user_id' => $arrVal['userId'],
+                'star_coin_id' => $arrVal['coinIdStr'],
+                'content' => $arrVal['content'],
+                'created_time' => $arrVal['createTime'],
+                'group_id' => $arrVal['groupId'],
+                'useful_id' => $arrVal['userfulId'],
+            ]);
+            return $createId;
+        } catch (\Exception $e) {
+            return false;
+        }
+    }
+
 }
