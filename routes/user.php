@@ -38,11 +38,16 @@ Route::group(['prefix' => 'user','namespace' => 'User'],function() {
         Route::post('getUserListExceptSelf','ThumbsUpController@getUserListExceptSelf');
     });
     Route::group(['prefix' => 'personalCenter'],function() {
-        Route::post('/','ThumbsUpController@thumbsUp');
-        Route::post('getCoinList','ThumbsUpController@getCoinList');
-        Route::post('getUsedCoinList','ThumbsUpController@getUsedCoinList');
-        Route::post('getOverdueCoinList','ThumbsUpController@getOverdueCoinList');
-        Route::post('getUserListExceptSelf','ThumbsUpController@getUserListExceptSelf');
+        Route::any('/getOrderList','PersonalCenter@getOrderList');
+        Route::any('/addApply','PersonalCenter@applicationStar');
+        Route::any('/getApplyType','PersonalCenter@getTypes');
+        Route::any('/getBuyOrder','PersonalCenter@getBuyOrder');
+        Route::any('/getProcessOrderr','PersonalCenter@getProcessOrderr');
+        Route::any('/updateOrder','PersonalCenter@processOrder');
+        Route::any('/getTalk','PersonalCenter@getTalk');
+        Route::any('/addTalk','PersonalCenter@addTalk');
+        Route::any('/updatePassword','PersonalCenter@updatePassword');
+        Route::any('/getRule','PersonalCenter@getRule');
     });
 
 });
