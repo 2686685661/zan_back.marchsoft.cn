@@ -16,6 +16,12 @@ class Apply
 
     public static function applyStar(Request $request){
 
-        return DB::table(self::$sTable)->insert(['apply_user_id'=>$request->user_id,'apply_user_name'=>$request->user_name,'content'=>$request->apply_content]);
+
+        return DB::table(self::$sTable)->insert(['apply_user_id'=>session('id'),
+            'apply_user_name'=>session('name'),
+            'content'=>$request->applyContent,
+            'apply_type'=>$request->applyType,
+            'created_time'=>time(),
+            'update_time'=>time()]);
     }
 }

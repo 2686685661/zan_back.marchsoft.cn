@@ -16,6 +16,7 @@
 // });
 
 Route::group(['middleware'=>['cors']], function() {
+    Route::get('test','User\PersonalCenter@getRule');
     Route::get('/','IndexController@index');
     include('user.php');
     include('admin.php');

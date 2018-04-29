@@ -10,20 +10,6 @@ define({ "api": [
         "Parameter": [
           {
             "group": "Parameter",
-            "type": "Number",
-            "optional": false,
-            "field": "applyUserId",
-            "description": "<p>申请人id.</p>"
-          },
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "applyUserName",
-            "description": "<p>申请人姓名.</p>"
-          },
-          {
-            "group": "Parameter",
             "type": "String",
             "optional": false,
             "field": "applyContent",
@@ -220,26 +206,6 @@ define({ "api": [
     "title": "查询需要处理的订单列表",
     "name": "getBuyOrder",
     "group": "User",
-    "parameter": {
-      "fields": {
-        "Parameter": [
-          {
-            "group": "Parameter",
-            "type": "Number",
-            "optional": false,
-            "field": "id",
-            "description": "<p>用户id.</p>"
-          },
-          {
-            "group": "Parameter",
-            "type": "Number",
-            "optional": false,
-            "field": "groupId",
-            "description": "<p>组别id.</p>"
-          }
-        ]
-      }
-    },
     "success": {
       "fields": {
         "Success 200": [
@@ -248,7 +214,14 @@ define({ "api": [
             "type": "Number",
             "optional": false,
             "field": "id",
-            "description": "<p>类型id</p>"
+            "description": "<p>对应订单id</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "user_id",
+            "description": "<p>对应用户id</p>"
           },
           {
             "group": "Success 200",
@@ -268,7 +241,90 @@ define({ "api": [
             "group": "Success 200",
             "type": "Number",
             "optional": false,
-            "field": "code",
+            "field": "qq_account",
+            "description": "<p>用户qq号</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "HTTP/1.1 200 OK\n{\n  \"code\": \"0\",\n  \"msg\": \"success\",\n  \"data\":{\n             id:,\n             user_id:,\n             content:,\n             name:,\n             qq_account:\n         }\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "Error 4xx": [
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "UserNotFound",
+            "description": "<p>The id of the User was not found.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Error-Response:",
+          "content": "HTTP/1.1 200\n{\n  \"code\": \"1\",\n   \"msg\": '响应的报错信息'\n}\n\n HTTP/1.1 200\n{\n  \"code\": \"2\",\n   \"msg\": '无数据'\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "app/Http/Controllers/User/PersonalCenter.php",
+    "groupTitle": "User"
+  },
+  {
+    "type": "get",
+    "url": "/getProcessOrderr",
+    "title": "查询用户已经处理的订单列表",
+    "name": "getBuyOrder",
+    "group": "User",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "page",
+            "description": "<p>页码</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "user_id",
+            "description": "<p>对应用户id</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "content",
+            "description": "<p>购买内容.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "name",
+            "description": "<p>用户名称.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "qq_account",
             "description": "<p>用户qq号</p>"
           },
           {
@@ -283,7 +339,7 @@ define({ "api": [
       "examples": [
         {
           "title": "Success-Response:",
-          "content": "HTTP/1.1 200 OK\n{\n  \"code\": \"0\",\n  \"msg\": \"success\",\n  \"data\":{\n             id:,\n             content:,\n             name:,\n             code,\n             status:\n         }\n}",
+          "content": "HTTP/1.1 200 OK\n{\n  \"code\": \"0\",\n  \"msg\": \"success\",\n  \"data\":{\n             user_id:,\n             content:,\n             name:,\n             qq_account,\n             status:\n         }\n}",
           "type": "json"
         }
       ]
@@ -314,7 +370,7 @@ define({ "api": [
   {
     "type": "get",
     "url": "/getOrderList",
-    "title": "订单列表",
+    "title": "用户订单列表",
     "name": "getOrderList",
     "group": "User",
     "parameter": {
@@ -546,6 +602,57 @@ define({ "api": [
   },
   {
     "type": "post",
+    "url": "/updateOrder",
+    "title": "处理订单",
+    "name": "updateOrder",
+    "group": "User",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "orderId",
+            "description": "<p>账单Id</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "HTTP/1.1 200 OK\n{\n  \"code\": \"0\",\n  \"msg\": \"success\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "Error 4xx": [
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "UserNotFound",
+            "description": "<p>The id of the User was not found.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Error-Response:",
+          "content": "HTTP/1.1 200\n{\n  \"code\": \"1\",\n   \"msg\": '响应的报错信息'\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "app/Http/Controllers/User/PersonalCenter.php",
+    "groupTitle": "User"
+  },
+  {
+    "type": "post",
     "url": "/updatePassword",
     "title": "修改密码",
     "name": "updatePassword",
@@ -553,13 +660,6 @@ define({ "api": [
     "parameter": {
       "fields": {
         "Parameter": [
-          {
-            "group": "Parameter",
-            "type": "Nubmer",
-            "optional": false,
-            "field": "id",
-            "description": "<p>用户id</p>"
-          },
           {
             "group": "Parameter",
             "type": "String",
@@ -573,13 +673,6 @@ define({ "api": [
             "optional": false,
             "field": "newPassword",
             "description": "<p>新密码</p>"
-          },
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "newPasswordAgain",
-            "description": "<p>再次输入的新密码</p>"
           }
         ]
       }
