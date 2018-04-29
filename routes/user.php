@@ -28,9 +28,9 @@ Route::group(['prefix' => 'user','namespace' => 'User'],function() {
      */
     Route::group(['prefix' => 'thumbsUp'],function() {
         Route::post('/','ThumbsUpController@thumbsUp');
-        Route::post('getCoinList','ThumbsUpController@getCoinList');
-        Route::post('getUsedCoinList','ThumbsUpController@getUsedCoinList');
-        Route::post('getOverdueCoinList','ThumbsUpController@getOverdueCoinList');
+        Route::get('getCoinList','ThumbsUpController@getCoinList');
+        Route::get('getUsedCoinList','ThumbsUpController@getUsedCoinList');
+        Route::get('getOverdueCoinList','ThumbsUpController@getOverdueCoinList');
         Route::post('getUserListExceptSelf','ThumbsUpController@getUserListExceptSelf');
     });
     Route::group(['prefix' => 'personalCenter'],function() {

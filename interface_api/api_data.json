@@ -496,7 +496,7 @@
     "groupTitle": "User"
   },
   {
-    "type": "post",
+    "type": "get",
     "url": "user/thumbsUp/getCoinList",
     "title": "得到自己未使用（空白的，未点出的）的点赞币",
     "name": "getCoinList",
@@ -694,7 +694,7 @@
     "groupTitle": "User"
   },
   {
-    "type": "post",
+    "type": "get",
     "url": "user/thumbsUp/getOverdueCoinList",
     "title": "得到已过期的点赞币",
     "name": "getOverdueCoinList",
@@ -1017,7 +1017,7 @@
     "groupTitle": "User"
   },
   {
-    "type": "post",
+    "type": "get",
     "url": "user/thumbsUp/getUsedCoinList",
     "title": "得到自己已使用的点赞币",
     "name": "getUsedCoinList",

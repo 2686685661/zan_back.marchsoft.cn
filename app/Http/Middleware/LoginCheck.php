@@ -16,7 +16,7 @@ class LoginCheck
      * @param  \Closure $next
      * @return mixed
      */
-    public function handle($request, Closure $next, $guard = null)
+    public function handle($request, Closure $next)
     {
         if (get_session_user_id()) {
             return $next($request);

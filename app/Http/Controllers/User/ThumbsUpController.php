@@ -17,7 +17,7 @@ use Illuminate\Http\Request;
 class ThumbsUpController extends Controller
 {
     /**
-     * @api {post} user/thumbsUp/getCoinList 得到自己未使用（空白的，未点出的）的点赞币
+     * @api {get} user/thumbsUp/getCoinList 得到自己未使用（空白的，未点出的）的点赞币
      * @apiName getCoinList
      * @apiGroup User
      *
@@ -71,7 +71,7 @@ class ThumbsUpController extends Controller
     }
 
     /**
-     * @api {post} user/thumbsUp/getUsedCoinList 得到自己已使用的点赞币
+     * @api {get} user/thumbsUp/getUsedCoinList 得到自己已使用的点赞币
      * @apiName getUsedCoinList
      * @apiGroup User
      *
@@ -130,7 +130,7 @@ class ThumbsUpController extends Controller
     }
 
     /**
-     * @api {post} user/thumbsUp/getOverdueCoinList 得到已过期的点赞币
+     * @api {get} user/thumbsUp/getOverdueCoinList 得到已过期的点赞币
      * @apiName getOverdueCoinList
      * @apiGroup User
      *
