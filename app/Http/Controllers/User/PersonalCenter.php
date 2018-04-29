@@ -225,7 +225,7 @@ class personalCenter extends Controller
 
     /**
      * @api {get} /getProcessOrderr  查询用户已经处理的订单列表
-     * @apiName getBuyOrder
+     * @apiName getProcessOrderr
      * @apiGroup User
      * @apiParam {Number} page 页码
      *
