@@ -22,6 +22,7 @@ class ThumbsUpController extends Controller
      * @apiGroup User
      *
      * @apiParam {Number} pageSize 一次加载多少
+     * @apiParam {Number} page 分页 第几页
      *
      * @apiSuccess {Number} code 状态码：0 请求成功，其他数值 请求失败
      * @apiSuccess {String} msg 响应信息
@@ -75,6 +76,7 @@ class ThumbsUpController extends Controller
      * @apiGroup User
      *
      * @apiParam {Number} pageSize 一次加载多少
+     * @apiParam {Number} page 分页 第几页
      *
      * @apiSuccess {Number} code 状态码：0 请求成功，其他数值 请求失败
      * @apiSuccess {String} msg 响应信息
@@ -132,7 +134,8 @@ class ThumbsUpController extends Controller
      * @apiName getOverdueCoinList
      * @apiGroup User
      *
-     * @apiParam {Number} pageSize 一次加载多少
+     * @apiParam {Number} pageSize 分页 一次加载多少
+     * @apiParam {Number} page 分页 第几页
      *
      * @apiSuccess {Number} code 状态码：0 请求成功，其他数值 请求失败
      * @apiSuccess {String} msg 响应信息
