@@ -510,6 +510,13 @@ define({ "api": [
             "optional": false,
             "field": "pageSize",
             "description": "<p>一次加载多少</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "page",
+            "description": "<p>分页 第几页</p>"
           }
         ]
       }
@@ -700,7 +707,14 @@ define({ "api": [
             "type": "Number",
             "optional": false,
             "field": "pageSize",
-            "description": "<p>一次加载多少</p>"
+            "description": "<p>分页 一次加载多少</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "page",
+            "description": "<p>分页 第几页</p>"
           }
         ]
       }
@@ -1017,6 +1031,13 @@ define({ "api": [
             "optional": false,
             "field": "pageSize",
             "description": "<p>一次加载多少</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "page",
+            "description": "<p>分页 第几页</p>"
           }
         ]
       }
