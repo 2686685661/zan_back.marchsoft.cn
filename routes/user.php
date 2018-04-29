@@ -22,10 +22,6 @@ Route::group(['prefix' => 'user','namespace' => 'User'],function() {
         Route::get('countnum','RecordController@getCountNumber');
         Route::get('countList','RecordController@getThumbupCount');
     });
-    /**
-     * 登录
-     */
-    Route::post('login','LoginController@login');
 
     /**
      * 我的赞
