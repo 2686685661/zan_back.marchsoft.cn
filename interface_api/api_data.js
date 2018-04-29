@@ -1,7 +1,7 @@
 define({ "api": [
   {
     "type": "post",
-    "url": "/addApply",
+    "url": "user/personalCenter/addApply",
     "title": "申请点赞币",
     "name": "addApply",
     "group": "User",
@@ -77,7 +77,7 @@ define({ "api": [
   },
   {
     "type": "post",
-    "url": "/addTalk",
+    "url": "user/personalCenter/addTalk",
     "title": "添加匿名聊天",
     "name": "addTalk",
     "group": "User",
@@ -364,7 +364,7 @@ define({ "api": [
   },
   {
     "type": "get",
-    "url": "/getApplyType",
+    "url": "user/personalCenter/getApplyType",
     "title": "返回类型列表",
     "name": "getApplyType",
     "group": "User",
@@ -420,7 +420,7 @@ define({ "api": [
   },
   {
     "type": "get",
-    "url": "/getBuyOrder",
+    "url": "user/personalCenter/getBuyOrder",
     "title": "查询需要处理的订单列表",
     "name": "getBuyOrder",
     "group": "User",
@@ -605,7 +605,7 @@ define({ "api": [
   },
   {
     "type": "get",
-    "url": "/getOrderList",
+    "url": "user/personalCenter/getOrderList",
     "title": "用户订单列表",
     "name": "getOrderList",
     "group": "User",
@@ -796,7 +796,7 @@ define({ "api": [
   },
   {
     "type": "get",
-    "url": "/getProcessOrderr",
+    "url": "user/personalCenter/getProcessOrderr",
     "title": "查询用户已经处理的订单列表",
     "name": "getProcessOrderr",
     "group": "User",
@@ -886,7 +886,7 @@ define({ "api": [
   },
   {
     "type": "get",
-    "url": "/getRule",
+    "url": "user/personalCenter/getRule",
     "title": "查看点赞币规则",
     "name": "getRule",
     "group": "User",
@@ -935,7 +935,7 @@ define({ "api": [
   },
   {
     "type": "get",
-    "url": "/getTalk",
+    "url": "user/personalCenter/getTalk",
     "title": "获取匿名聊天",
     "name": "getTalk",
     "group": "User",
@@ -1607,7 +1607,7 @@ define({ "api": [
   },
   {
     "type": "post",
-    "url": "/updateOrder",
+    "url": "user/personalCenter/updateOrder",
     "title": "处理订单",
     "name": "updateOrder",
     "group": "User",
@@ -1658,7 +1658,7 @@ define({ "api": [
   },
   {
     "type": "post",
-    "url": "/updatePassword",
+    "url": "user/personalCenter/updatePassword",
     "title": "修改密码",
     "name": "updatePassword",
     "group": "User",
