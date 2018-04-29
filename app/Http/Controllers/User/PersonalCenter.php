@@ -27,7 +27,7 @@ class personalCenter extends Controller
 
 
     /**
-     * @api {get} /getOrderList 用户订单列表
+     * @api {get} user/personalCenter/getOrderList 用户订单列表
      * @apiName getOrderList
      * @apiGroup User
      *
@@ -85,7 +85,7 @@ class personalCenter extends Controller
     }
 
     /**
-     * @api {post} /addApply  申请点赞币
+     * @api {post} user/personalCenter/addApply  申请点赞币
      * @apiName addApply
      * @apiGroup User
      *
@@ -125,7 +125,7 @@ class personalCenter extends Controller
     }
 
     /**
-     * @api {get} /getApplyType  返回类型列表
+     * @api {get} user/personalCenter/getApplyType  返回类型列表
      * @apiName getApplyType
      * @apiGroup User
      *
@@ -174,7 +174,7 @@ class personalCenter extends Controller
     }
 
     /**
-     * @api {get} /getBuyOrder  查询需要处理的订单列表
+     * @api {get} user/personalCenter/getBuyOrder  查询需要处理的订单列表
      * @apiName getBuyOrder
      * @apiGroup User
      *
@@ -215,6 +215,7 @@ class personalCenter extends Controller
     public function getBuyOrder(Request $request)
     {
 
+        session('group_id',1);
         if (!empty(session('group_id'))) {
             return responseToJson(0, 'success', Order::getOrder());
         } else {
@@ -224,8 +225,8 @@ class personalCenter extends Controller
     }
 
     /**
-     * @api {get} /getProcessOrderr  查询用户已经处理的订单列表
-     * @apiName getBuyOrder
+     * @api {get} user/personalCenter/getProcessOrderr  查询用户已经处理的订单列表
+     * @apiName getProcessOrderr
      * @apiGroup User
      * @apiParam {Number} page 页码
      *
@@ -275,7 +276,7 @@ class personalCenter extends Controller
     }
 
     /**
-     * @api {post} /updateOrder  处理订单
+     * @api {post} user/personalCenter/updateOrder  处理订单
      * @apiName updateOrder
      * @apiGroup User
      * @apiParam {Number} orderId 账单Id
@@ -315,7 +316,7 @@ class personalCenter extends Controller
 
 
     /**
-     * @api {get} /getTalk  获取匿名聊天
+     * @api {get} user/personalCenter/getTalk  获取匿名聊天
      * @apiName getTalk
      * @apiGroup User
      * @apiParam {Number} page 页码
@@ -364,7 +365,7 @@ class personalCenter extends Controller
     }
 
     /**
-     * @api {post} /addTalk  添加匿名聊天
+     * @api {post} user/personalCenter/addTalk  添加匿名聊天
      * @apiName addTalk
      * @apiGroup User
      *
@@ -405,7 +406,7 @@ class personalCenter extends Controller
     }
 
     /**
-     * @api {post} /updatePassword  修改密码
+     * @api {post} user/personalCenter/updatePassword  修改密码
      * @apiName updatePassword
      * @apiGroup User
      * @apiParam {String} oldPassword 旧密码
@@ -464,7 +465,7 @@ class personalCenter extends Controller
     }
 
     /**
-     * @api {get} /getRule  查看点赞币规则
+     * @api {get} user/personalCenter/getRule  查看点赞币规则
      * @apiName getRule
      * @apiGroup User
      *

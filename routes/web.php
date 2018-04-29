@@ -18,12 +18,8 @@
 
 
 Route::group(['middleware'=>['cors']], function() {
-<<<<<<< HEAD
-    Route::get('test','User\PersonalCenter@getRule');
-    Route::get('/','IndexController@index');
-=======
+
     // Route::get('/','IndexController@index');
->>>>>>> 4417476df7cf49550a0b9bdc91e284b1d523d522
     include('user.php');
     include('admin.php');
 

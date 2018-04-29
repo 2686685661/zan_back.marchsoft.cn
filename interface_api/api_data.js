@@ -1,7 +1,7 @@
 define({ "api": [
   {
     "type": "post",
-    "url": "/addApply",
+    "url": "user/personalCenter/addApply",
     "title": "申请点赞币",
     "name": "addApply",
     "group": "User",
@@ -77,7 +77,7 @@ define({ "api": [
   },
   {
     "type": "post",
-    "url": "/addTalk",
+    "url": "user/personalCenter/addTalk",
     "title": "添加匿名聊天",
     "name": "addTalk",
     "group": "User",
@@ -364,7 +364,7 @@ define({ "api": [
   },
   {
     "type": "get",
-    "url": "/getApplyType",
+    "url": "user/personalCenter/getApplyType",
     "title": "返回类型列表",
     "name": "getApplyType",
     "group": "User",
@@ -420,97 +420,7 @@ define({ "api": [
   },
   {
     "type": "get",
-    "url": "/getProcessOrderr",
-    "title": "查询用户已经处理的订单列表",
-    "name": "getBuyOrder",
-    "group": "User",
-    "parameter": {
-      "fields": {
-        "Parameter": [
-          {
-            "group": "Parameter",
-            "type": "Number",
-            "optional": false,
-            "field": "page",
-            "description": "<p>页码</p>"
-          }
-        ]
-      }
-    },
-    "success": {
-      "fields": {
-        "Success 200": [
-          {
-            "group": "Success 200",
-            "type": "Number",
-            "optional": false,
-            "field": "user_id",
-            "description": "<p>对应用户id</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "String",
-            "optional": false,
-            "field": "content",
-            "description": "<p>购买内容.</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "String",
-            "optional": false,
-            "field": "name",
-            "description": "<p>用户名称.</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "Number",
-            "optional": false,
-            "field": "qq_account",
-            "description": "<p>用户qq号</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "Number",
-            "optional": false,
-            "field": "status",
-            "description": "<p>订单状态 0未接受 1拒绝 2接受 3完成</p>"
-          }
-        ]
-      },
-      "examples": [
-        {
-          "title": "Success-Response:",
-          "content": "HTTP/1.1 200 OK\n{\n  \"code\": \"0\",\n  \"msg\": \"success\",\n  \"data\":{\n             user_id:,\n             content:,\n             name:,\n             qq_account,\n             status:\n         }\n}",
-          "type": "json"
-        }
-      ]
-    },
-    "error": {
-      "fields": {
-        "Error 4xx": [
-          {
-            "group": "Error 4xx",
-            "optional": false,
-            "field": "UserNotFound",
-            "description": "<p>The id of the User was not found.</p>"
-          }
-        ]
-      },
-      "examples": [
-        {
-          "title": "Error-Response:",
-          "content": "HTTP/1.1 200\n{\n  \"code\": \"1\",\n   \"msg\": '响应的报错信息'\n}\n\n HTTP/1.1 200\n{\n  \"code\": \"2\",\n   \"msg\": '无数据'\n}",
-          "type": "json"
-        }
-      ]
-    },
-    "version": "0.0.0",
-    "filename": "app/Http/Controllers/User/PersonalCenter.php",
-    "groupTitle": "User"
-  },
-  {
-    "type": "get",
-    "url": "/getBuyOrder",
+    "url": "user/personalCenter/getBuyOrder",
     "title": "查询需要处理的订单列表",
     "name": "getBuyOrder",
     "group": "User",
@@ -695,7 +605,7 @@ define({ "api": [
   },
   {
     "type": "get",
-    "url": "/getOrderList",
+    "url": "user/personalCenter/getOrderList",
     "title": "用户订单列表",
     "name": "getOrderList",
     "group": "User",
@@ -886,7 +796,97 @@ define({ "api": [
   },
   {
     "type": "get",
-    "url": "/getRule",
+    "url": "user/personalCenter/getProcessOrderr",
+    "title": "查询用户已经处理的订单列表",
+    "name": "getProcessOrderr",
+    "group": "User",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "page",
+            "description": "<p>页码</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "user_id",
+            "description": "<p>对应用户id</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "content",
+            "description": "<p>购买内容.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "name",
+            "description": "<p>用户名称.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "qq_account",
+            "description": "<p>用户qq号</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "status",
+            "description": "<p>订单状态 0未接受 1拒绝 2接受 3完成</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "HTTP/1.1 200 OK\n{\n  \"code\": \"0\",\n  \"msg\": \"success\",\n  \"data\":{\n             user_id:,\n             content:,\n             name:,\n             qq_account,\n             status:\n         }\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "Error 4xx": [
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "UserNotFound",
+            "description": "<p>The id of the User was not found.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Error-Response:",
+          "content": "HTTP/1.1 200\n{\n  \"code\": \"1\",\n   \"msg\": '响应的报错信息'\n}\n\n HTTP/1.1 200\n{\n  \"code\": \"2\",\n   \"msg\": '无数据'\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "app/Http/Controllers/User/PersonalCenter.php",
+    "groupTitle": "User"
+  },
+  {
+    "type": "get",
+    "url": "user/personalCenter/getRule",
     "title": "查看点赞币规则",
     "name": "getRule",
     "group": "User",
@@ -935,7 +935,7 @@ define({ "api": [
   },
   {
     "type": "get",
-    "url": "/getTalk",
+    "url": "user/personalCenter/getTalk",
     "title": "获取匿名聊天",
     "name": "getTalk",
     "group": "User",
@@ -1607,7 +1607,7 @@ define({ "api": [
   },
   {
     "type": "post",
-    "url": "/updateOrder",
+    "url": "user/personalCenter/updateOrder",
     "title": "处理订单",
     "name": "updateOrder",
     "group": "User",
@@ -1658,7 +1658,7 @@ define({ "api": [
   },
   {
     "type": "post",
-    "url": "/updatePassword",
+    "url": "user/personalCenter/updatePassword",
     "title": "修改密码",
     "name": "updatePassword",
     "group": "User",
