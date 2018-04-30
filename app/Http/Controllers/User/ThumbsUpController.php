@@ -233,14 +233,14 @@ class ThumbsUpController extends Controller
     }
 
     /**
-     * @api {post} user/thumbsUp/getUserListExceptSelf 得到除自己外的用户列表
+     * @api {get} user/thumbsUp/getUserListExceptSelf 得到除自己外的用户列表
      * @apiName getUserListExceptSelf
      * @apiGroup User
      *
      * @apiSuccess {Number} code 状态码：0 请求成功，其他数值 请求失败
      * @apiSuccess {String} msg 响应信息
      * @apiSuccess {String} result 响应结果
-     * @apiSuccess {Object[]} userList 用户列表数组
+     *
      * @apiSuccess {String} id 用户id
      * @apiSuccess {String} name 用户name
      * @apiSuccessExample Success-Response：请求成功
@@ -249,11 +249,14 @@ class ThumbsUpController extends Controller
      *  "code": 0,
      *  "msg": "success",
      *  "result": {
-     *       userList:[
-     *          {"id":"xxx","name":"xxx"},
-     *          {"id":"xxx","name":"xxx"}
-     *       ]
-     *    },
+     *      "2016":[
+     *          {"id":1,"name":"\u674e\u95ea\u78ca","grade":2016},
+     *          {"id":2,"name":"\u738b\u7231\u6c11","grade":2016}
+     *        ],
+     *      "2015":[
+     *          {"id":4,"name":"\u6851\u91d1\u8d85","grade":2015}
+     *        ]
+     *     },
      * }
      *
      * @apiErrorExample Error-Response: 请求失败

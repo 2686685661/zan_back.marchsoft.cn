@@ -1264,7 +1264,7 @@
     "groupTitle": "User"
   },
   {
-    "type": "post",
+    "type": "get",
     "url": "user/thumbsUp/getUserListExceptSelf",
     "title": "得到除自己外的用户列表",
     "name": "getUserListExceptSelf",
@@ -1295,13 +1295,6 @@
           },
           {
             "group": "Success 200",
-            "type": "Object[]",
-            "optional": false,
-            "field": "userList",
-            "description": "<p>用户列表数组</p>"
-          },
-          {
-            "group": "Success 200",
             "type": "String",
             "optional": false,
             "field": "id",
@@ -1319,7 +1312,7 @@
       "examples": [
         {
           "title": "Success-Response：请求成功",
-          "content": "HTTP/1.1 200 OK\n{\n \"code\": 0,\n \"msg\": \"success\",\n \"result\": {\n      userList:[\n         {\"id\":\"xxx\",\"name\":\"xxx\"},\n         {\"id\":\"xxx\",\"name\":\"xxx\"}\n      ]\n   },\n}",
+          "content": "HTTP/1.1 200 OK\n{\n \"code\": 0,\n \"msg\": \"success\",\n \"result\": {\n     \"2016\":[\n         {\"id\":1,\"name\":\"\\u674e\\u95ea\\u78ca\",\"grade\":2016},\n         {\"id\":2,\"name\":\"\\u738b\\u7231\\u6c11\",\"grade\":2016}\n       ],\n     \"2015\":[\n         {\"id\":4,\"name\":\"\\u6851\\u91d1\\u8d85\",\"grade\":2015}\n       ]\n    },\n}",
           "type": "json"
         }
       ]

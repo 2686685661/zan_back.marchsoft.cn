@@ -31,7 +31,7 @@ Route::group(['prefix' => 'user','namespace' => 'User'],function() {
         Route::get('getCoinList','ThumbsUpController@getCoinList');
         Route::get('getUsedCoinList','ThumbsUpController@getUsedCoinList');
         Route::get('getOverdueCoinList','ThumbsUpController@getOverdueCoinList');
-        Route::post('getUserListExceptSelf','ThumbsUpController@getUserListExceptSelf');
+        Route::get('getUserListExceptSelf','ThumbsUpController@getUserListExceptSelf');
     });
     Route::group(['prefix' => 'personalCenter'],function() {
         Route::any('/getOrderList','PersonalCenter@getOrderList');

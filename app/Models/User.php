@@ -34,10 +34,14 @@ class User
      */
     public static function getUserListExceptSelf($userId)
     {
+        //只获取大一~大三的
+        $year = date('y') - 3;
         $users = DB::table(self::$sTable)
             ->where('id', '<>', $userId)
-            ->select('id', 'name')
-            ->get();
+            ->where('grade','>=',$year)
+            ->select('id', 'name', 'grade')
+            ->get()
+            ->groupBy('grade');
         return $users;
     }
 }
