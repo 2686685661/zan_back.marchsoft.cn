@@ -17,7 +17,7 @@ use Illuminate\Http\Request;
 class ThumbsUpController extends Controller
 {
     /**
-     * @api {get} user/thumbsUp/getCoinList 得到自己未使用（空白的，未点出的）的点赞币
+     * @api {get} user/thumbsUp/getCoinList 得到自己未使用（未点出的）的点赞币
      * @apiName getCoinList
      * @apiGroup User
      *
@@ -89,6 +89,8 @@ class ThumbsUpController extends Controller
      * @apiSuccess {String} userImgLink 某人头像链接
      * @apiSuccess {String} reason 点赞原因
      * @apiSuccess {String} use_time 点赞时间（时间戳）
+     * @apiSuccess {String} start_time 点赞币开始生效时间（时间戳）
+     * @apiSuccess {String} over_time 点赞币结束生效时间（时间戳）
      * @apiSuccessExample Success-Response：请求成功
      * HTTP/1.1 200 OK
      * {
@@ -96,8 +98,8 @@ class ThumbsUpController extends Controller
      *  "msg": "success",
      *  "result": {
      *       usedCoinList:[
-     *          {"id":"xxx","coin_id":"xxx","to_user_id":"xxx","to_user_name":"xxx","qq_account":727299708,"userImgLink":"xxx","reason":"xxx","use_time":"xxx"},
-     *          {"id":"xxx","coin_id":"xxx","to_user_id":"xxx","to_user_name":"xxx","qq_account":727299708,"userImgLink":"xxx","reason":"xxx","use_time":"xxx"}
+     *          {"id":"xxx","coin_id":"xxx","to_user_id":"xxx","to_user_name":"xxx","qq_account":727299708,"userImgLink":"xxx","reason":"xxx","use_time":"xxx","start_time":888888,"over_time":888888888},
+     *          {"id":"xxx","coin_id":"xxx","to_user_id":"xxx","to_user_name":"xxx","qq_account":727299708,"userImgLink":"xxx","reason":"xxx","use_time":"xxx","start_time":888888,"over_time":888888888}
      *       ]
      *    },
      * }

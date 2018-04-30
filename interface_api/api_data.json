@@ -498,7 +498,7 @@
   {
     "type": "get",
     "url": "user/thumbsUp/getCoinList",
-    "title": "得到自己未使用（空白的，未点出的）的点赞币",
+    "title": "得到自己未使用（未点出的）的点赞币",
     "name": "getCoinList",
     "group": "User",
     "parameter": {
@@ -1121,13 +1121,27 @@
             "optional": false,
             "field": "use_time",
             "description": "<p>点赞时间（时间戳）</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "start_time",
+            "description": "<p>点赞币开始生效时间（时间戳）</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "over_time",
+            "description": "<p>点赞币结束生效时间（时间戳）</p>"
           }
         ]
       },
       "examples": [
         {
           "title": "Success-Response：请求成功",
-          "content": "HTTP/1.1 200 OK\n{\n \"code\": 0,\n \"msg\": \"success\",\n \"result\": {\n      usedCoinList:[\n         {\"id\":\"xxx\",\"coin_id\":\"xxx\",\"to_user_id\":\"xxx\",\"to_user_name\":\"xxx\",\"qq_account\":727299708,\"userImgLink\":\"xxx\",\"reason\":\"xxx\",\"use_time\":\"xxx\"},\n         {\"id\":\"xxx\",\"coin_id\":\"xxx\",\"to_user_id\":\"xxx\",\"to_user_name\":\"xxx\",\"qq_account\":727299708,\"userImgLink\":\"xxx\",\"reason\":\"xxx\",\"use_time\":\"xxx\"}\n      ]\n   },\n}",
+          "content": "HTTP/1.1 200 OK\n{\n \"code\": 0,\n \"msg\": \"success\",\n \"result\": {\n      usedCoinList:[\n         {\"id\":\"xxx\",\"coin_id\":\"xxx\",\"to_user_id\":\"xxx\",\"to_user_name\":\"xxx\",\"qq_account\":727299708,\"userImgLink\":\"xxx\",\"reason\":\"xxx\",\"use_time\":\"xxx\",\"start_time\":888888,\"over_time\":888888888},\n         {\"id\":\"xxx\",\"coin_id\":\"xxx\",\"to_user_id\":\"xxx\",\"to_user_name\":\"xxx\",\"qq_account\":727299708,\"userImgLink\":\"xxx\",\"reason\":\"xxx\",\"use_time\":\"xxx\",\"start_time\":888888,\"over_time\":888888888}\n      ]\n   },\n}",
           "type": "json"
         }
       ]
