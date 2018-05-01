@@ -15,9 +15,13 @@
 //     return view('welcome');
 // });
 
+/**
+ * 登录
+ */
+Route::post('user\login','User\LoginController@login');
 
+Route::group(['middleware'=>['cors','login.check']], function() {
 
-Route::group(['middleware'=>['cors']], function() {
     // Route::get('/','IndexController@index');
     include('user.php');
     include('admin.php');

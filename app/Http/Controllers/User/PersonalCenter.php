@@ -10,9 +10,15 @@ namespace App\Http\Controllers\User;
 
 
 use App\Http\Controllers\Controller;
+use App\Models\Apply;
 use App\Models\order;
 use App\Models\ApplyType;
+use App\Models\Rule;
+use App\Models\Talk;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 
 class personalCenter extends Controller
 {
@@ -20,14 +26,12 @@ class personalCenter extends Controller
     public $mOrder;
 
 
-
     /**
-     * @api {get} /getOrderList 订单列表
+     * @api {get} user/personalCenter/getOrderList 用户订单列表
      * @apiName getOrderList
      * @apiGroup User
      *
      * @apiParam {Number} page 页码.
-     *
      * @apiSuccess {String} content 订单内容
      * @apiSuccess {Number} created_time  创建时间.
      * @apiSuccess {Number} status  订单状态.
@@ -62,29 +66,29 @@ class personalCenter extends Controller
      */
     public function getOrderList(Request $request)
     {
-        if ($request->isMethod('options')) {
-            if (!empty($request->page)) {
-               $data = Order::getLists($request);
-                if (sizeof($data) > 0) {
-                    return responseToJson(0, 'success', $data);
-                } else {
-                    responseToJson(2, 'no data');
-                }
-            }else{
-                return responseToJson(1,'no page');
+//        if ($request->isMethod('options')) {
+        if (!empty($request->page)) {
+            $data = Order::getLists($request);
+            if (sizeof($data) > 0) {
+                return responseToJson(0, 'success', $data);
+            } else {
+                return responseToJson(2, 'no data');
             }
+
         } else {
-            return responseToJson(1, 'method error');
+            return responseToJson(1, 'no page');
         }
+//        } else {
+//            return responseToJson(1, 'method error');
+//        }
 
     }
+
     /**
-     * @api {post} /addApply  申请点赞币
+     * @api {post} user/personalCenter/addApply  申请点赞币
      * @apiName addApply
      * @apiGroup User
      *
-     * @apiParam {Number} applyUserId 申请人id.
-     * @apiParam {String} applyUserName 申请人姓名.
      * @apiParam {String} applyContent 申请点赞币具体内容，包括申请给哪些人，张数以及描述，要求为json数据.
      * @apiParam {Number} applyType 点赞币申请类型的id.
      *
@@ -111,17 +115,17 @@ class personalCenter extends Controller
 
         if ($request->isMethod('options')) {
 
-                if(!empty($request->applyUserId) && !empty($request->applyUserName) && !empty($request->applyContent) && !empty($request->applyType)){
-
-                }else{
-                    return responseToJson(1,'输入数据不完善');
-                }
-
+            if (!empty($request->applyContent) && !empty($request->applyType)) {
+                Apply::applyStar($request);
+            } else {
+                return responseToJson(1, '输入数据不完善');
+            }
         }
 
     }
+
     /**
-     * @api {get} /getApplyType  返回类型列表
+     * @api {get} user/personalCenter/getApplyType  返回类型列表
      * @apiName getApplyType
      * @apiGroup User
      *
@@ -154,32 +158,31 @@ class personalCenter extends Controller
      *     }
      */
 
-    public function getTypes(Request $request){
+    public function getTypes(Request $request)
+    {
 
-        if($request->isMethod('options')){
-            $data = ApplyType::getTypes();
-            if(sizeof($data)>0){
-                return responseToJson(0,'success',$data);
-            }else{
-                return responseToJson(2,'无数据');
-            }
-        }else{
-            return responseToJson(1,'request Error');
+//        if ($request->isMethod('options')) {
+        $data = ApplyType::getTypes();
+        if (sizeof($data) > 0) {
+            return responseToJson(0, 'success', $data);
+        } else {
+            return responseToJson(2, '无数据');
         }
+//        } else {
+//            return responseToJson(1, 'request Error');
+//        }
     }
 
     /**
-     * @api {get} /getBuyOrder  查询需要处理的订单列表
+     * @api {get} user/personalCenter/getBuyOrder  查询需要处理的订单列表
      * @apiName getBuyOrder
      * @apiGroup User
-     * @apiParam {Number} id 用户id.
-     * @apiParam {Number} groupId 组别id.
      *
-     * @apiSuccess {Number} id 类型id
+     * @apiSuccess {Number} id 对应订单id
+     * @apiSuccess {String} user_id 对应用户id
      * @apiSuccess {String} content  购买内容.
      * @apiSuccess {String} name  用户名称.
-     * @apiSuccess {Number} code  用户qq号
-     * @apiSuccess {Number} status 订单状态 0未接受 1拒绝 2接受 3完成
+     * @apiSuccess {Number} qq_account  用户qq号
      * @apiSuccessExample Success-Response:
      *     HTTP/1.1 200 OK
      *     {
@@ -187,9 +190,61 @@ class personalCenter extends Controller
      *       "msg": "success",
      *       "data":{
      *                  id:,
+     *                  user_id:,
      *                  content:,
      *                  name:,
-     *                  code,
+     *                  qq_account:
+     *              }
+     *     }
+     *
+     * @apiError UserNotFound The id of the User was not found.
+     *
+     * @apiErrorExample Error-Response:
+     *     HTTP/1.1 200
+     *     {
+     *       "code": "1",
+     *        "msg": '响应的报错信息'
+     *     }
+     *
+     *      HTTP/1.1 200
+     *     {
+     *       "code": "2",
+     *        "msg": '无数据'
+     *     }
+     */
+    public function getBuyOrder(Request $request)
+    {
+
+        session('group_id',1);
+        if (!empty(session('group_id'))) {
+            return responseToJson(0, 'success', Order::getOrder());
+        } else {
+            return responseToJson(1, 'no GroupId');
+        }
+
+    }
+
+    /**
+     * @api {get} user/personalCenter/getProcessOrderr  查询用户已经处理的订单列表
+     * @apiName getProcessOrderr
+     * @apiGroup User
+     * @apiParam {Number} page 页码
+     *
+     * @apiSuccess {Number} user_id 对应用户id
+     * @apiSuccess {String} content  购买内容.
+     * @apiSuccess {String} name  用户名称.
+     * @apiSuccess {Number} qq_account  用户qq号
+     * @apiSuccess {Number} status 订单状态 0未接受 1拒绝 2接受 3完成
+     * @apiSuccessExample Success-Response:
+     *     HTTP/1.1 200 OK
+     *     {
+     *       "code": "0",
+     *       "msg": "success",
+     *       "data":{
+     *                  user_id:,
+     *                  content:,
+     *                  name:,
+     *                  qq_account,
      *                  status:
      *              }
      *     }
@@ -209,13 +264,59 @@ class personalCenter extends Controller
      *        "msg": '无数据'
      *     }
      */
-    public function getBuyOrder(Request $request){
+    public function getProcessOrderr(Request $request)
+    {
 
+        if (!empty($request->page)) {
+            return responseToJson(0, 'success', Order::getPrecessOrder($request));
+        } else {
+            return responseToJson(1, 'no page');
+        }
 
     }
 
     /**
-     * @api {get} /getTalk  获取匿名聊天
+     * @api {post} user/personalCenter/updateOrder  处理订单
+     * @apiName updateOrder
+     * @apiGroup User
+     * @apiParam {Number} orderId 账单Id
+     *
+     * @apiSuccessExample Success-Response:
+     *     HTTP/1.1 200 OK
+     *     {
+     *       "code": "0",
+     *       "msg": "success"
+     *     }
+     *
+     * @apiError UserNotFound The id of the User was not found.
+     *
+     * @apiErrorExample Error-Response:
+     *     HTTP/1.1 200
+     *     {
+     *       "code": "1",
+     *        "msg": '响应的报错信息'
+     *     }
+     */
+
+    public function processOrder(Request $request)
+    {
+
+        if (!empty($request->orderId)) {
+
+            $data = Order::processOrder($request);
+            if ($data == 1) {
+                return responseToJson(0, 'success');
+            } else {
+                return responseToJson(1, '出错了,请重试');
+            }
+        } else {
+            return responseToJson(1, '请求数据不完整，请刷新一下重试');
+        }
+    }
+
+
+    /**
+     * @api {get} user/personalCenter/getTalk  获取匿名聊天
      * @apiName getTalk
      * @apiGroup User
      * @apiParam {Number} page 页码
@@ -247,12 +348,24 @@ class personalCenter extends Controller
      *        "msg": '无数据'
      *     }
      */
-    public function getTalk(Request $request){
+    public function getTalk(Request $request)
+    {
 
+        if (!empty($request->page)) {
+
+            $data = Talk::getTalk($request);
+            if (sizeof($data) > 0) {
+                return responseToJson(0, 'success', $data);
+            } else {
+                return responseToJson(2, 'no data');
+            }
+        } else {
+            return responseToJson(1, 'no page');
+        }
     }
 
     /**
-     * @api {post} /addTalk  添加匿名聊天
+     * @api {post} user/personalCenter/addTalk  添加匿名聊天
      * @apiName addTalk
      * @apiGroup User
      *
@@ -276,19 +389,28 @@ class personalCenter extends Controller
      *        "msg": '响应的报错信息'
      *     }
      */
-    public function addTalk(Request $request){
+    public function addTalk(Request $request)
+    {
 
+        if (!empty($request->input('content'))) {
+
+            $result = Talk::addTalk($request);
+            if ($request == 1) {
+                return responseToJson(0, 'success');
+            } else {
+                return responseToJson(1, '出错了,请刷新一下啊');
+            }
+        } else {
+            return responseToJson(1, 'no content');
+        }
     }
 
     /**
-     * @api {post} /updatePassword  修改密码
+     * @api {post} user/personalCenter/updatePassword  修改密码
      * @apiName updatePassword
      * @apiGroup User
-     *
-     * @apiParam {Nubmer} id 用户id
      * @apiParam {String} oldPassword 旧密码
      * @apiParam {String} newPassword 新密码
-     * @apiParam {String} newPasswordAgain 再次输入的新密码
      *
      * @apiSuccess {Number} code 状态码 0正常
      * @apiSuccess {String} msg  响应信息.
@@ -308,12 +430,42 @@ class personalCenter extends Controller
      *        "msg": '响应的报错信息'
      *     }
      */
-    public function updatePassword(Request $request){
+    public function updatePassword(Request $request)
+    {
 
+        if (!empty($request->id)) {
+            if (!empty($request->oldPassword)) {
+                if (!empty($request->newPassword)) {
+
+                    if (!empty($request->newPasswordAgain)) {
+
+                        if (md5(md5(oldPassword)) === User::getPassword($request)->password) {
+
+                                $result = User::updatePassword($request);
+                                if ($result == 1)
+                                    return responseToJson(0, 'success');
+                                else
+                                    return responseToJson(1, '出错了,请重试一下');
+
+                        } else {
+                            return responseToJson(1, '密码验证错误，请重新输入旧密码');
+                        }
+                    } else {
+                        return responseToJson(1, '请确认密码');
+                    }
+                } else {
+                    return responseToJson(1, '请输入新密码');
+                }
+            } else {
+                return responseToJson(1, '请输入旧密码');
+            }
+        } else {
+            return responseToJson(1, '请输入账号');
+        }
     }
 
     /**
-     * @api {get} /getRule  查看点赞币规则
+     * @api {get} user/personalCenter/getRule  查看点赞币规则
      * @apiName getRule
      * @apiGroup User
      *
@@ -343,7 +495,16 @@ class personalCenter extends Controller
      *        "msg": '无数据'
      *     }
      */
-    public function getRule(Request $request){
+    public function getRule(Request $request)
+    {
+
+        $data = Rule::getRule();
+        if (sizeof($data) == 1) {
+            return responseToJson(0, 'success', $data);
+        } else {
+            return responseToJson(2, 'no data');
+        }
 
     }
+
 }

@@ -7,22 +7,41 @@
  */
 
 namespace App\Models;
+
 use DB;
 use Illuminate\Http\Request;
 
 class User
 {
-    public static $mTable = 'user';
+
+
+    public static $sTable = 'user';
+
+    public static function updatePassword(Request $request)
+    {
+
+        return DB::table(self::$sTable)->where('code', session('code'))->update(['password' => md5(md5($request->newPassword))]);
+    }
+
+    public static function getPassword(Request $request)
+    {
+        return DB::table(self::$sTable)->where('code', session('code'))->first(['password']);
+    }
 
     /**
      * 得到除自己外的用户集合
      * @return mixed
      */
-    public static function getUserListExceptSelf($userId) {
-        $users = DB::table(self::$mTable)
-            ->where('id','<>',$userId)
-            ->select('id','name')
-            ->get();
+    public static function getUserListExceptSelf($userId)
+    {
+        //只获取大一~大三的
+        $year = date('y') - 3;
+        $users = DB::table(self::$sTable)
+            ->where('id', '<>', $userId)
+            ->where('grade','>=',$year)
+            ->select('id', 'name', 'grade')
+            ->get()
+            ->groupBy('grade');
         return $users;
     }
 }

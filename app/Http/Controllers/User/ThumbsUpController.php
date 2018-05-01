@@ -17,11 +17,12 @@ use Illuminate\Http\Request;
 class ThumbsUpController extends Controller
 {
     /**
-     * @api {post} user/thumbsUp/getCoinList 得到自己未使用（空白的，未点出的）的点赞币
+     * @api {get} user/thumbsUp/getCoinList 得到自己未使用（未点出的）的点赞币
      * @apiName getCoinList
      * @apiGroup User
      *
      * @apiParam {Number} pageSize 一次加载多少
+     * @apiParam {Number} page 分页 第几页
      *
      * @apiSuccess {Number} code 状态码：0 请求成功，其他数值 请求失败
      * @apiSuccess {String} msg 响应信息
@@ -70,11 +71,12 @@ class ThumbsUpController extends Controller
     }
 
     /**
-     * @api {post} user/thumbsUp/getUsedCoinList 得到自己已使用的点赞币
+     * @api {get} user/thumbsUp/getUsedCoinList 得到自己已使用的点赞币
      * @apiName getUsedCoinList
      * @apiGroup User
      *
      * @apiParam {Number} pageSize 一次加载多少
+     * @apiParam {Number} page 分页 第几页
      *
      * @apiSuccess {Number} code 状态码：0 请求成功，其他数值 请求失败
      * @apiSuccess {String} msg 响应信息
@@ -87,6 +89,8 @@ class ThumbsUpController extends Controller
      * @apiSuccess {String} userImgLink 某人头像链接
      * @apiSuccess {String} reason 点赞原因
      * @apiSuccess {String} use_time 点赞时间（时间戳）
+     * @apiSuccess {String} start_time 点赞币开始生效时间（时间戳）
+     * @apiSuccess {String} over_time 点赞币结束生效时间（时间戳）
      * @apiSuccessExample Success-Response：请求成功
      * HTTP/1.1 200 OK
      * {
@@ -94,8 +98,8 @@ class ThumbsUpController extends Controller
      *  "msg": "success",
      *  "result": {
      *       usedCoinList:[
-     *          {"id":"xxx","coin_id":"xxx","to_user_id":"xxx","to_user_name":"xxx","qq_account":727299708,"userImgLink":"xxx","reason":"xxx","use_time":"xxx"},
-     *          {"id":"xxx","coin_id":"xxx","to_user_id":"xxx","to_user_name":"xxx","qq_account":727299708,"userImgLink":"xxx","reason":"xxx","use_time":"xxx"}
+     *          {"id":"xxx","coin_id":"xxx","to_user_id":"xxx","to_user_name":"xxx","qq_account":727299708,"userImgLink":"xxx","reason":"xxx","use_time":"xxx","start_time":888888,"over_time":888888888},
+     *          {"id":"xxx","coin_id":"xxx","to_user_id":"xxx","to_user_name":"xxx","qq_account":727299708,"userImgLink":"xxx","reason":"xxx","use_time":"xxx","start_time":888888,"over_time":888888888}
      *       ]
      *    },
      * }
@@ -128,11 +132,12 @@ class ThumbsUpController extends Controller
     }
 
     /**
-     * @api {post} user/thumbsUp/getOverdueCoinList 得到已过期的点赞币
+     * @api {get} user/thumbsUp/getOverdueCoinList 得到已过期的点赞币
      * @apiName getOverdueCoinList
      * @apiGroup User
      *
-     * @apiParam {Number} pageSize 一次加载多少
+     * @apiParam {Number} pageSize 分页 一次加载多少
+     * @apiParam {Number} page 分页 第几页
      *
      * @apiSuccess {Number} code 状态码：0 请求成功，其他数值 请求失败
      * @apiSuccess {String} msg 响应信息
@@ -228,14 +233,14 @@ class ThumbsUpController extends Controller
     }
 
     /**
-     * @api {post} user/thumbsUp/getUserListExceptSelf 得到除自己外的用户列表
+     * @api {get} user/thumbsUp/getUserListExceptSelf 得到除自己外的用户列表
      * @apiName getUserListExceptSelf
      * @apiGroup User
      *
      * @apiSuccess {Number} code 状态码：0 请求成功，其他数值 请求失败
      * @apiSuccess {String} msg 响应信息
      * @apiSuccess {String} result 响应结果
-     * @apiSuccess {Object[]} userList 用户列表数组
+     *
      * @apiSuccess {String} id 用户id
      * @apiSuccess {String} name 用户name
      * @apiSuccessExample Success-Response：请求成功
@@ -244,11 +249,14 @@ class ThumbsUpController extends Controller
      *  "code": 0,
      *  "msg": "success",
      *  "result": {
-     *       userList:[
-     *          {"id":"xxx","name":"xxx"},
-     *          {"id":"xxx","name":"xxx"}
-     *       ]
-     *    },
+     *      "2016":[
+     *          {"id":1,"name":"\u674e\u95ea\u78ca","grade":2016},
+     *          {"id":2,"name":"\u738b\u7231\u6c11","grade":2016}
+     *        ],
+     *      "2015":[
+     *          {"id":4,"name":"\u6851\u91d1\u8d85","grade":2015}
+     *        ]
+     *     },
      * }
      *
      * @apiErrorExample Error-Response: 请求失败

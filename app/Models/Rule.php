@@ -14,4 +14,8 @@ class Rule
 {
 
     public static $sTable = 'rule';
+
+    public static function getRule(){
+        return DB::table(self::$sTable)->orderBy('created_time','desc')->first(['content']);
+    }
 }

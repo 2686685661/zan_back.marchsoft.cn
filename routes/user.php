@@ -22,19 +22,28 @@ Route::group(['prefix' => 'user','namespace' => 'User'],function() {
         Route::get('countnum','RecordController@getCountNumber');
         Route::get('countList','RecordController@getThumbupCount');
     });
-    /**
-     * 登录
-     */
-    Route::post('login','LoginController@login');
 
     /**
      * 我的赞
      */
     Route::group(['prefix' => 'thumbsUp'],function() {
         Route::post('/','ThumbsUpController@thumbsUp');
-        Route::post('getCoinList','ThumbsUpController@getCoinList');
-        Route::post('getUsedCoinList','ThumbsUpController@getUsedCoinList');
-        Route::post('getOverdueCoinList','ThumbsUpController@getOverdueCoinList');
-        Route::post('getUserListExceptSelf','ThumbsUpController@getUserListExceptSelf');
+        Route::get('getCoinList','ThumbsUpController@getCoinList');
+        Route::get('getUsedCoinList','ThumbsUpController@getUsedCoinList');
+        Route::get('getOverdueCoinList','ThumbsUpController@getOverdueCoinList');
+        Route::get('getUserListExceptSelf','ThumbsUpController@getUserListExceptSelf');
     });
+    Route::group(['prefix' => 'personalCenter'],function() {
+        Route::any('/getOrderList','PersonalCenter@getOrderList');
+        Route::any('/addApply','PersonalCenter@applicationStar');
+        Route::any('/getApplyType','PersonalCenter@getTypes');
+        Route::any('/getBuyOrder','PersonalCenter@getBuyOrder');
+        Route::any('/getProcessOrderr','PersonalCenter@getProcessOrderr');
+        Route::any('/updateOrder','PersonalCenter@processOrder');
+        Route::any('/getTalk','PersonalCenter@getTalk');
+        Route::any('/addTalk','PersonalCenter@addTalk');
+        Route::any('/updatePassword','PersonalCenter@updatePassword');
+        Route::any('/getRule','PersonalCenter@getRule');
+    });
+
 });
