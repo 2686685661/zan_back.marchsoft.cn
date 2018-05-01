@@ -1,4 +1,11 @@
 <?php
+/**
+ * Created by Visual Studio Code.
+ * User: shanlei
+ * Date: 2018/4/6
+ * Time: 15:28
+ */
+
 
 namespace App\Http\Controllers\User;
 
@@ -16,13 +23,11 @@ class ConsumeController extends Controller
      * @apiName getUserConsumeCoin
      * @apiGroup User
      *
-     * @apiParam {Number} userid 查看人的id.
      * @apiParam {Number} type 点赞币使用记录种类
      *    $type == 0 未使用
      *    $type == 1 已使用
      *    $type == 2 已过期
      * @apiSuccess {String} name 点赞人的姓名
-     * @apiSuccess {String} qq_account  点赞人的qq号.
      * @apiSuccess {String} img_url  赞点人的头像网址.
      * @apiSuccess {String} reason  点赞原因.
      * @apiSuccess {Int} over_time  点赞币过期时间.
@@ -79,15 +84,22 @@ class ConsumeController extends Controller
         if(!$request->isMethod('get')) 
             return responseToJson(1,'error in server');
 
-        if(!(is_numeric($request->userid) && is_numeric($request->type)))
+        if(!is_numeric($request->type))
             return responseToJson(1,'error in server');
-       
+        
+
+        // $valArr = array(
+        //     'userId' => $request->userid,
+        //     'useType' => $request->type,
+        //     'createTime' =>time()
+        // );
+
         $valArr = array(
-            'userId' => $request->userid,
+            'usereId' => get_session_user_id(),
             'useType' => $request->type,
-            'createTime' =>time()
+            'createTime' => time()
         );
-            
+
         $select_coins = StarCoin::getNotUserConsumeCoin($valArr);
 
         if(!$select_coins) return responseToJson(1,'error in server');
@@ -96,9 +108,12 @@ class ConsumeController extends Controller
 
         $select_coins = $this->setUserCoinImgUrl($select_coins, $request->type);
 
+
+        dd($select_coins);
         return responseToJson(0,'success',$select_coins);
         
     }
+
 
 
 
@@ -109,9 +124,7 @@ class ConsumeController extends Controller
      *
      * @apiParam {Number} coin_useful 点赞币用途id.
      * @apiParam {Array} coin_id_arr 点赞币id.
-     * @apiParam {Number} use_id 使用人id.
      * @apiParam {String} content 点赞币用途.
-     * @apiParam {NUmber} group_id 组别id.
      *
      * @apiSuccessExample Success-Response:
      *     HTTP/1.1 200 OK
@@ -138,12 +151,13 @@ class ConsumeController extends Controller
      *     }
      */
     public function insertUserConsume(Request $request) {
-        $formUserId = is_numeric($request->use_id)?$request->use_id :'';
         $coinUsefulId = is_numeric($request->coin_useful)?$request->coin_useful:'';
         $coinIdArr = is_array($request->coin_id_arr)?$request->coin_id_arr:[];
         // $coinIdArr = [5,6,7,8];
-        $groupId = is_numeric($request->group_id)?$request->group_id:'';
+        // $groupId = is_numeric($request->group_id)?$request->group_id:'';
         $content = is_string($request->content)?trim($request->content):'';
+
+        $formUserId = get_session_user_id();
         $arr = array(
             'userId' => $formUserId,
             'userfulId' => $coinUsefulId,
@@ -200,14 +214,19 @@ class ConsumeController extends Controller
      */
     private function setUserCoinImgUrl($arr,$useType) {
         if($useType == 2)
-            for($i = 0; $i < count($arr); $i++)
+            for($i = 0; $i < count($arr); $i++) {
                 $arr[$i]->img_url = getQqimgLink($arr[$i]->qq_account);
+                unset($arr[$i]->qq_account);
+            }
         else
             for($i = 0; $i < count($arr); $i++)
-                for($j = 0; $j < count($arr[$i]); $j++)
+                for($j = 0; $j < count($arr[$i]); $j++) {
                     $arr[$i][$j]->img_url = getQqimgLink($arr[$i][$j]->qq_account);
+                    unset($arr[$i][$j]->qq_account);
+                }
         
         return $arr;
     }
+
 }
 

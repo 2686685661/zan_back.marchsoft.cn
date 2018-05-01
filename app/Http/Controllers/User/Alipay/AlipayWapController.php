@@ -1,4 +1,11 @@
 <?php
+/**
+ * Created by Visual Studio Code.
+ * User: shanlei
+ * Date: 2018/4/26
+ * Time: 15:39
+ */
+
 
 namespace App\Http\Controllers\User\Alipay;
 

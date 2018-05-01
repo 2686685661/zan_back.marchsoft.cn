@@ -22,7 +22,7 @@ class StarCoin
      * @valArr Array
      * return Array
      */
-    public static function getNotUserConsumeCoin($valArr,$userId,$now_time) {
+    public static function getNotUserConsumeCoin($valArr,$page = 5) {
        
         $select_coins = null;
         try{
@@ -36,7 +36,7 @@ class StarCoin
                     self::$sTable.'.reason',
                     self::$sTable.'.over_time'
                 )
-                ->get();
+                ->simplePaginate($page);
             else if($valArr['useType'] == 1)
                 $select_coins = self::getUserConsumeCoinHandle($valArr)
                 ->where('is_buy','=',0)
@@ -46,20 +46,20 @@ class StarCoin
                     self::$sTable.'.reason',
                     self::$sTable.'.coin_id'
                 )
-                ->get();
+                ->simplePaginate($page);
             else if($valArr['useType'] == 2)
                 $select_coins = DB::table(self::$sTable)
                 ->leftJoin(self::$sTableUser,self::$sTable.'.from_user_id','=',self::$sTableUser.'.id')
                 ->where([
-                    ['to_user_id','=',$userId],
-                    ['over_time','<',$now_time]
+                    ['to_user_id','=',$valArr['userId']],
+                    ['over_time','<',$valArr['createTime']]
                 ])
                 ->select(
                     self::$sTableUser.'.name',
                     self::$sTableUser.'.qq_account',
                     self::$sTable.'.reason'
                 )
-                ->get()
+                ->simplePaginate($page)
                 ->toArray();
             
                     
@@ -83,8 +83,8 @@ class StarCoin
             ->leftJoin(self::$sTableUser,self::$sTable.'.from_user_id','=',self::$sTableUser.'.id')
             ->where([
                 ['to_user_id','=',$valArr['userId']],
-                ['start_time','<=',$valArr['createTime']],
-                ['over_time','>=',$valArr['createTime']]
+                // ['start_time','<=',$valArr['createTime']],
+                // ['over_time','>=',$valArr['createTime']]
             ]);
         }catch(\Exception $e) {
             return false;
@@ -237,5 +237,16 @@ class StarCoin
             Log::info($e);
             return false;
         }
+    }
+
+
+    /**
+     * @param $page
+     * @return $pageArr
+     */
+    public static function setPaging($page = 5) {
+        $pageArr = DB::table(self::$sTable)->simplePaginate($page);
+
+        return $pageArr;
     }
 }
