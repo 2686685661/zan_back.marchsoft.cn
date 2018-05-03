@@ -11,6 +11,7 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use DB;
 
 class LoginController extends Controller
 {
@@ -49,10 +50,9 @@ class LoginController extends Controller
         $name = $request->username;
         $password = $request->password;
         if($isManager !== 3)
-            $user = User::where('name',$name)->first();
+            $user = DB::table('user')->where('name',$name)->first();
         else
-            $user = User::where('name',$name)->where('type',$isManager)->first();
-
+            $user = DB::table('user')->where('name',$name)->where('type',$isManager)->first();
         if ($user) {
             if (md5(md5($password)) == $user->password) {
                 $this->login_success($request,$user);

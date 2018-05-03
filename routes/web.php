@@ -18,9 +18,9 @@
 /**
  * 登录
  */
-Route::post('user\login','User\LoginController@login');
+Route::post('user/login','User\LoginController@login');
 
-Route::group(['middleware'=>['cors','login.check']], function() {
+Route::group(['middleware'=>['login.check']], function() {
 
     // Route::get('/','IndexController@index');
     include('user.php');

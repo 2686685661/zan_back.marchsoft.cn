@@ -29,17 +29,17 @@ class User
     }
 
     /**
-     * 得到除自己外的用户集合
+     * 得到除自己外的(大一~大四、老师)用户集合
      * @return mixed
      */
     public static function getUserListExceptSelf($userId)
     {
-        //只获取大一~大三的
-        $year = date('y') - 3;
+        $year = date('Y') - 4;
         $users = DB::table(self::$sTable)
             ->where('id', '<>', $userId)
             ->where('grade','>=',$year)
-            ->select('id', 'name', 'grade')
+            ->orWhere('type',1)
+            ->select('id', 'name', 'grade','type')
             ->get()
             ->groupBy('grade');
         return $users;
