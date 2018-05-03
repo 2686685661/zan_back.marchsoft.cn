@@ -141,7 +141,8 @@ class StarCoin
             self::$sTable.'.start_time',
             self::$sTable.'.over_time',
             'coin.name as coin_name'
-        )->paginate($pageSize);
+        )->get();
+        // ->paginate($pageSize);
         return $coins;
     }
 
@@ -164,7 +165,8 @@ class StarCoin
             self::$sTable.'.use_time',
             'user.name as to_user_name',
             'user.qq_account'
-        )->paginate($pageSize);
+        )->get();
+        // ->paginate($pageSize);
         return $coins;
     }
 
