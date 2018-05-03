@@ -25,10 +25,13 @@ class StarCoin
     public static function getNotUserConsumeCoin($valArr,$page = 5) {
        
         $select_coins = null;
-        try{
+        // try{
             if($valArr['useType'] == 0) 
-                $select_coins = self::getUserConsumeCoinHandle($valArr)
-                ->where('is_buy','=',1)
+                $select_coins =  DB::table(self::$sTable)
+                ->leftJoin(self::$sTableUser,self::$sTable.'.from_user_id','=',self::$sTableUser.'.id')
+                ->where([
+                    ['to_user_id','=',$valArr['userId']],
+                ])->where('is_buy','=',1)
                 ->select(
                     self::$sTableUser.'.name',
                     self::$sTableUser.'.qq_account',
@@ -36,9 +39,14 @@ class StarCoin
                     self::$sTable.'.reason',
                     self::$sTable.'.over_time'
                 )
-                ->simplePaginate($page);
+                // ->simplePaginate($page);
+                ->get();
             else if($valArr['useType'] == 1)
-                $select_coins = self::getUserConsumeCoinHandle($valArr)
+                $select_coins =  DB::table(self::$sTable)
+                ->leftJoin(self::$sTableUser,self::$sTable.'.from_user_id','=',self::$sTableUser.'.id')
+                ->where([
+                    ['to_user_id','=',$valArr['userId']],
+                ])
                 ->where('is_buy','=',0)
                 ->select(
                     'user.name',
@@ -46,7 +54,8 @@ class StarCoin
                     self::$sTable.'.reason',
                     self::$sTable.'.coin_id'
                 )
-                ->simplePaginate($page);
+                // ->simplePaginate($page);
+                ->get();
             else if($valArr['useType'] == 2)
                 $select_coins = DB::table(self::$sTable)
                 ->leftJoin(self::$sTableUser,self::$sTable.'.from_user_id','=',self::$sTableUser.'.id')
@@ -59,15 +68,15 @@ class StarCoin
                     self::$sTableUser.'.qq_account',
                     self::$sTable.'.reason'
                 )
-                ->simplePaginate($page)
-                ->toArray();
+                // ->simplePaginate($page);
+                ->get();
             
                     
 
             return $select_coins; 
-        }catch(\Exception $e) {
-            return false;
-        }
+        // }catch(\Exception $e) {
+        //     return null;
+        // }
         
     }
 
@@ -78,7 +87,7 @@ class StarCoin
      * return Handle
      */
     private static function getUserConsumeCoinHandle($valArr) {
-        try{
+        // try{
             return DB::table(self::$sTable)
             ->leftJoin(self::$sTableUser,self::$sTable.'.from_user_id','=',self::$sTableUser.'.id')
             ->where([
@@ -86,9 +95,9 @@ class StarCoin
                 // ['start_time','<=',$valArr['createTime']],
                 // ['over_time','>=',$valArr['createTime']]
             ]);
-        }catch(\Exception $e) {
-            return false;
-        }
+        // }catch(\Exception $e) {
+        //     return false;
+        // }
     }
 
 

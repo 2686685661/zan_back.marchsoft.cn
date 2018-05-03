@@ -95,21 +95,21 @@ class ConsumeController extends Controller
         // );
 
         $valArr = array(
-            'usereId' => get_session_user_id(),
+            'userId' => get_session_user_id(),
             'useType' => $request->type,
             'createTime' => time()
         );
-
+        // var_dump($valArr);
         $select_coins = StarCoin::getNotUserConsumeCoin($valArr);
-
-        if(!$select_coins) return responseToJson(1,'error in server');
+// var_dump($select_coins);
+        // if(!$select_coins) return responseToJson(1,'error in server');
 
         $select_coins = ($request->type != 2) ? $this->coinArrayGroup($select_coins) : $select_coins;
 
         $select_coins = $this->setUserCoinImgUrl($select_coins, $request->type);
 
 
-        dd($select_coins);
+        // dd($select_coins);
         return responseToJson(0,'success',$select_coins);
         
     }

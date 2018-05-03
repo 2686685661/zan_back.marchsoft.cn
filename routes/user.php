@@ -7,7 +7,7 @@ Route::group(['prefix' => 'user','namespace' => 'User'],function() {
      * 去消费
      */
     Route::group(['prefix' => 'consume'],function() {
-        Route::get('seeCon/{type}','ConsumeController@getUserConsumeCoin');
+        Route::get('seeCon','ConsumeController@getUserConsumeCoin');
         Route::post('insertCoinOrder','ConsumeController@insertUserConsume');
         // Route::post('insertCoinOrder/{use_id}/{coin_useful}/{coin_id_arr}/{group_id}/{content}','User\ConsumeController@insertUserConsume');
     });
