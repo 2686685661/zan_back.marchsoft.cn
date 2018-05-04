@@ -20,12 +20,12 @@ class User
     public static function updatePassword(Request $request)
     {
 
-        return DB::table(self::$sTable)->where('code', session('code'))->update(['password' => md5(md5($request->newPassword))]);
+        return DB::table(self::$sTable)->where('code', session('user')->code)->update(['password' => md5(md5($request->newPassword))]);
     }
 
-    public static function getPassword(Request $request)
+    public static function getPassword()
     {
-        return DB::table(self::$sTable)->where('code', session('code'))->first(['password']);
+        return DB::table(self::$sTable)->where('code', session('user')->code)->first();
     }
 
     /**

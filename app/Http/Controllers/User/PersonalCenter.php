@@ -433,14 +433,12 @@ class personalCenter extends Controller
     public function updatePassword(Request $request)
     {
 
-        if (!empty($request->id)) {
+        if (!empty(get_session_user_id())) {
             if (!empty($request->oldPassword)) {
                 if (!empty($request->newPassword)) {
 
-                    if (!empty($request->newPasswordAgain)) {
-
-                        if (md5(md5(oldPassword)) === User::getPassword($request)->password) {
-
+                    // if (!empty($request->newPasswordAgain)) {
+                        if (md5(md5($request->oldPassword)) === User::getPassword()->password) {
                                 $result = User::updatePassword($request);
                                 if ($result == 1)
                                     return responseToJson(0, 'success');
@@ -450,9 +448,9 @@ class personalCenter extends Controller
                         } else {
                             return responseToJson(1, '密码验证错误，请重新输入旧密码');
                         }
-                    } else {
-                        return responseToJson(1, '请确认密码');
-                    }
+                    // } else {
+                        // return responseToJson(1, '请确认密码');
+                    // }
                 } else {
                     return responseToJson(1, '请输入新密码');
                 }
