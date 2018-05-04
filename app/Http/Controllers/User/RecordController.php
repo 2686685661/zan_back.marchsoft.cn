@@ -122,9 +122,17 @@ class RecordController extends Controller
                     'rankWeek'=>$perArr['rank']
                 ]);
             }
-            return responseToJson(1,"no query result");
+            return responseToJson(1,"no query result",[
+                'countTotal'=>0,
+                'totalWeek'=>0,
+                'rankWeek'=>0
+            ]);
         }
-        return responseToJson(1,"request error");
+        return responseToJson(1,"request error",[
+            'countTotal'=>0,
+            'totalWeek'=>0,
+            'rankWeek'=>0
+        ]);
     }
 
 
