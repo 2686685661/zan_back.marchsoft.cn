@@ -214,7 +214,10 @@ class RecordController extends Controller
         }
 
         foreach ($listArr as $value){
-            if ($value['id'] == $userID) $perArr = $value;
+            if ($value['id'] == $userID) {
+                $perArr = $value;
+                break;
+            }
         }
         return [$listArr,$perArr];
     }
