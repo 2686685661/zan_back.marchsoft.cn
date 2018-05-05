@@ -112,15 +112,17 @@ class personalCenter extends Controller
      */
     public function applicationStar(Request $request)
     {
-
-        if ($request->isMethod('options')) {
-
+        
+        // if ($request->isMethod('options')) {
+            // echo "123";
             if (!empty($request->applyContent) && !empty($request->applyType)) {
-                Apply::applyStar($request);
+                $result = Apply::applyStar($request);
+                echo $result;
+                return responseToJson(0, 'success');
             } else {
                 return responseToJson(1, '输入数据不完善');
             }
-        }
+        // }
 
     }
 
@@ -395,7 +397,7 @@ class personalCenter extends Controller
         if (!empty($request->input('content'))) {
 
             $result = Talk::addTalk($request);
-            if ($request == 1) {
+            if ($result == 1) {
                 return responseToJson(0, 'success');
             } else {
                 return responseToJson(1, '出错了,请刷新一下啊');

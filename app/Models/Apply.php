@@ -17,8 +17,8 @@ class Apply
     public static function applyStar(Request $request){
 
 
-        return DB::table(self::$sTable)->insert(['apply_user_id'=>session('id'),
-            'apply_user_name'=>session('name'),
+        return DB::table(self::$sTable)->insert(['apply_user_id'=>session('user')->id,
+            'apply_user_name'=>session('user')->name,
             'content'=>$request->applyContent,
             'apply_type'=>$request->applyType,
             'created_time'=>time(),

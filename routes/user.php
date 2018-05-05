@@ -3,6 +3,8 @@
 
 Route::group(['prefix' => 'user','namespace' => 'User'],function() {
 
+    Route::get('getInfo','LoginController@getInfo');
+
     /**
      * 去消费
      */
@@ -26,6 +28,7 @@ Route::group(['prefix' => 'user','namespace' => 'User'],function() {
     /**
      * 我的赞
      */
+
     Route::group(['prefix' => 'thumbsUp'],function() {
         Route::post('/','ThumbsUpController@thumbsUp');
         Route::get('getCoinList','ThumbsUpController@getCoinList');

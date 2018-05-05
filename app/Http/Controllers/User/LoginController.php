@@ -111,4 +111,10 @@ class LoginController extends Controller
         $session->forget('user');
         return responseToJson(0,'退出成功');
     }
+
+    /* 得到用户信息 */
+    function getInfo(){
+        $result = DB::table('user')->where('id',session('user')->id)->where('is_delete',0)->first();
+        return responseToJson(0,'success',$result);
+    }
 }

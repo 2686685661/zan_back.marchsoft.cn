@@ -59,7 +59,7 @@ class RecordController extends Controller
             $page = $request->page;
             $isTumbUp = $request->isthumbup;
             if(preg_match("/^\d*$/",$page)&&preg_match("/^[1-2]*$/",$isTumbUp)){
-                $result = json_decode(json_encode(StarCoin::getThumupedCoin($this->userID,$isTumbUp,10)))->data;
+                $result = json_decode(json_encode(StarCoin::getThumupedCoin(session('user')->id,$isTumbUp,10)))->data;
                 foreach ($result as $item){
                     $item->img_url = getQqimgLink($item->qq_account);
                     unset($item->qq_account);
@@ -111,10 +111,10 @@ class RecordController extends Controller
     public function getCountNumber(Request $request){
         if ($request->isMethod('get')){
             $weekDate = week();
-            $countTotal = CoinStatus::getThumupTotal($this->userID);
+            $countTotal = CoinStatus::getThumupTotal(session('user')->id);
             $weekTotal = StarCoin::getThumupRank(0,$weekDate[0],$weekDate[1]);
             if ($countTotal!=null&&$weekTotal!=null){
-                $listArr = $this->getGroupCount($weekTotal,$this->userID);
+                $listArr = $this->getGroupCount($weekTotal,session('user')->id);
                 $perArr = $listArr[1];
                 return responseToJson(0,"success", [
                     'countTotal'=>$countTotal[0]->receive_count,
@@ -192,7 +192,7 @@ class RecordController extends Controller
                 &&preg_match("/^[0-9]*$/",$startDate)
                 &&preg_match("/^[0-9]*$/",$endDate)){
                 $result = StarCoin::getThumupRank($countGrade,$startDate,$endDate);
-                $lists = $this->getGroupCount($result,$this->userID);
+                $lists = $this->getGroupCount($result,session('user')->id);
                 $listArr = $lists[0];
                 if ($listArr ==null) return responseToJson(1,"no query result");
                 $perArr = $lists[1];
