@@ -21,8 +21,8 @@ class Talk
         return DB::table(self::$sTable)->where('is_delete',0)->offset(($request->page-1)*5)->limit(5)->orderBy('create_time','desc')->get(['content','create_time']);
     }
 
-    public static function addTalk(Request $request){
+    public static function addTalk($content=''){
 
-        return DB::table(self::$sTable)->insert(['content'=>$request->input('content'),'create_time'=>time()]);
+        return DB::table(self::$sTable)->insert(['content'=>$content,'create_time'=>time()]);
     }
 }

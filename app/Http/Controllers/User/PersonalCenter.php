@@ -17,8 +17,9 @@ use App\Models\Rule;
 use App\Models\Talk;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+// use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
+use DB;
 
 class personalCenter extends Controller
 {
@@ -164,13 +165,14 @@ class personalCenter extends Controller
     {
 
 //        if ($request->isMethod('options')) {
-        $data = ApplyType::getTypes();
-        if (sizeof($data) > 0) {
-            return responseToJson(0, 'success', $data);
-        } else {
-            return responseToJson(2, '无数据');
-        }
-//        } else {
+        // $data = ApplyType::getTypes();
+        $data = DB::table('coin')->where('is_delete',0)->select('id','name')->get();
+        // if (sizeof($data) > 0) {
+        return responseToJson(0, 'success', $data);
+//         } else {
+//             return responseToJson(2, '无数据');
+//         }
+// //        } else {
 //            return responseToJson(1, 'request Error');
 //        }
     }
@@ -394,14 +396,10 @@ class personalCenter extends Controller
     public function addTalk(Request $request)
     {
 
-        if (!empty($request->input('content'))) {
-
-            $result = Talk::addTalk($request);
-            if ($result == 1) {
-                return responseToJson(0, 'success');
-            } else {
-                return responseToJson(1, '出错了,请刷新一下啊');
-            }
+        $content = $request->content;
+        if ($content!=null&&$content!='') {
+            $result = Talk::addTalk($content);
+            return responseToJson(0, 'success');
         } else {
             return responseToJson(1, 'no content');
         }
