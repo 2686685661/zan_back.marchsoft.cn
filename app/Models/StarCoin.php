@@ -234,6 +234,7 @@ class StarCoin
     }
 
     public static function thumbsUp($userId,$ids,$toUserId,$reason) {
+        $name = DB::table('user')->where('id',$toUserId)->first();
         DB::beginTransaction();
         try{
             foreach ($ids as $value){
@@ -242,6 +243,7 @@ class StarCoin
                     ->where('from_user_id',$userId)
                     ->update([
                         'to_user_id' => $toUserId,
+                        'to_user_name' => $name->name,
                         'reason'     => $reason,
                         'use_time'   => millisecond()
                     ]);
