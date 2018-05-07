@@ -132,7 +132,7 @@ class RecordController extends Controller
             // $weekTotal = DB::table('star_coin')->where('use_time','<=',$weekDate[1])
             //             ->where('use_time','>=',$weekDate[0])->where('to_user_id',get_session_user_id())->count();
             $weekTotal = 0;
-            $wd = DB::table('star_coin')->where('use_time','<=',$weekDate[1])->where('use_time','>=',$weekDate[0])->get();
+            $wd = DB::table('star_coin')->where('to_user_id','!=',0)->where('use_time','<=',$weekDate[1])->where('use_time','>=',$weekDate[0])->get();
             $cWeight = DB::table('coin')->where('is_delete',0)->select('id','weight')->get();
             $w = [];
             foreach($cWeight as $k => $v){
@@ -236,18 +236,62 @@ class RecordController extends Controller
             $countGrade = $request->countGrade;
             $startDate = $request->startDate;
             $endDate = $request->endDate;
-            if (preg_match("/^[0-3]*$/",$countGrade)
-                &&preg_match("/^[0-9]*$/",$startDate)
-                &&preg_match("/^[0-9]*$/",$endDate)){
-                $result = StarCoin::getThumupRank($countGrade,$startDate,$endDate);
-                $lists = $this->getGroupCount($result,session('user')->id);
-                $listArr = $lists[0];
-                if ($listArr ==null) return responseToJson(1,"no query result");
-                $perArr = $lists[1];
-                return responseToJson(1,'success',[$perArr,$listArr]);
-            }
+            
+            
 
-            return responseToJson(1,"request parameter error");
+            $u = DB::table('user')->where('is_delete',0);
+
+            if($countGrade!=0){
+                if(date('m')<6) $u->where('grade',date('Y')-$countGrade);
+                else $u->where('grade',date('Y')-$countGrade+1);
+            }
+            $user = $u->get();
+            $ids = [];
+            // var_dump($user);
+            foreach($user as $k => $v) {
+                $ids[] = $v->id;
+            }
+            $endDate = strtotime($endDate);
+            $startDate = strtotime($startDate);
+            $coin = DB::table('star_coin')->whereIn('to_user_id',$ids)->where('use_time','<=',$endDate)->where('use_time','>=',$startDate)->get();
+            // var_dump($coin,$endDate,$startDate,strtotime($endDate),strtotime($startDate));
+            $cWeight = DB::table('coin')->where('is_delete',0)->select('id','weight')->get();
+            $w = [];
+            foreach($cWeight as $k => $v){
+                $w[$v->id] = $v->weight;
+            }
+            $all = [];
+            foreach($coin as $key=>$val){
+                foreach($user as $k=>$v){
+                    if($val->to_user_id==$v->id){
+                        if(!isset($all[$v->id]))  {
+                            $all[$v->id] = [];
+                            $all[$v->id]['id'] = $v->id;
+                            $all[$v->id]['name'] = $v->name;
+                            $all[$v->id]['qq_account'] = $v->qq_account;
+                            $all[$v->id]['zan'] = 0;
+                            $all[$v->id]['renqi'] = 0;
+                        }
+                        $all[$v->id]['renqi'] += $w[$val->coin_id];
+                        $all[$v->id]['zan']++;
+                        break;
+                    }
+                }
+            }
+            return responseToJson(0,"success",$all);
+            // var_dump($all);
+            // if (preg_match("/^[0-3]*$/",$countGrade)
+            //     &&preg_match("/^[0-9]*$/",$startDate)
+            //     &&preg_match("/^[0-9]*$/",$endDate)){
+            //     $result = StarCoin::getThumupRank($countGrade,$startDate,$endDate);
+            //     $lists = $this->getGroupCount($result,session('user')->id);
+            //     $listArr = $lists[0];
+            //     if ($listArr ==null) return responseToJson(1,"no query result");
+            //     $perArr = $lists[1];
+            //     return responseToJson(1,'success',[$perArr,$listArr]);
+            // }
+
+            // return responseToJson(1,"request parameter error");
 
         }
         return responseToJson(1,"request error");
