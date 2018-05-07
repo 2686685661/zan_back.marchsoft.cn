@@ -186,7 +186,7 @@ class StarCoin
      * @param int $sizeCount 查询条数
      * @return JSON
      */
-    public static function getThumupedCoin($userID,$typeCoin,$sizeCount = 1){
+    public static function getThumupedCoin($userID,$typeCoin,$sizeCount = 10){
         // $selectCoins = null;
         // $selectTarget = null;
         // $selectCoinsBase = DB::table(self::$sTable)
