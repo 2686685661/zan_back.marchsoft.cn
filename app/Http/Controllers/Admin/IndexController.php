@@ -109,7 +109,7 @@ class IndexController extends Controller
                                     'coin_id'=>$d->coin_id,
                                     'start_time'=>time(),
                                     'over_time'=> $d->coin_id==1?(time()+3600*24*7):(time()+3600*24*100*365),
-                                    'use_time'=>0,
+                                    'use_time'=>time(),
                                     'reason'=>$d->content,
                                     'buy_time'=>0,
                                 ];
