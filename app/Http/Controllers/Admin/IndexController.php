@@ -37,7 +37,7 @@ class IndexController extends Controller
                             'over_time'=>$request->coin_id==1?(time()+3600*24*7):(time()+3600*24*100*365),
                             'use_time'=>0,
                             'reason'=>'',
-                            'is_buy'=>0,
+                            'buy_time'=>0,
                         ];
                         break;
                     }
@@ -111,13 +111,14 @@ class IndexController extends Controller
                                     'over_time'=> $d->coin_id==1?(time()+3600*24*7):(time()+3600*24*100*365),
                                     'use_time'=>0,
                                     'reason'=>'',
-                                    'is_buy'=>0,
+                                    'buy_time'=>0,
                                 ];
                                 // break;
                             }
                         }
                         
                     }
+                    $res = DB::table('star_coin')->insert($data);
                 }
             }
             DB::commit();
