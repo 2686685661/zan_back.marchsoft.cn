@@ -26,7 +26,7 @@ Route::group(['middleware'=>['login.check']], function() {
 
     // Route::get('/','IndexController@index');
     include('user.php');
-    include('admin.php');
+    // include('admin.php');
 
     Route::group(['prefix' => 'alipay'],function() {
         Route::get('wappay','User\Alipay\AlipayWapController@alipayWapPay');
@@ -34,4 +34,8 @@ Route::group(['middleware'=>['login.check']], function() {
         Route::get('notify','User\Alipay\AlipayWapController@alipayNotify');
     });
 });
+
+// Route::group(['middleware'=>['admin.check']], function() {
+include('admin.php');
+// });
 
