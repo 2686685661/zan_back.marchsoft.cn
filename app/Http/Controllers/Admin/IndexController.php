@@ -48,7 +48,7 @@ class IndexController extends Controller
         $year = date('Y') - 3;
         $users = DB::table('user')
             ->where('grade','>=',$year)
-            ->where('type',0)
+            ->where('type',0)->orderBy('grade','desc')
             ->select('id', 'name', 'grade','name_quanpin','qq_account','name_jianpin','code','group_id')
             ->get()
             ->groupBy('grade');
