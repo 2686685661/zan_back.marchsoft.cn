@@ -113,16 +113,30 @@ class personalCenter extends Controller
      */
     public function applicationStar(Request $request)
     {
-        
+        $data = $request->applyContent;
+        $coin_id = $request->applyType;
+        $content = $request->resaon;
+        $user = session('user');
+        $r = DB::table('apply')->insert([
+            'apply_user_id' => $user->id,
+            'apply_user_name' => $user->name,
+            'content' => $content,
+            'data' => $data,
+            'created_time' => time(),
+            'coin_id' => $coin_id
+        ]);
+        if($r) return responseToJson(0, 'success');
+        return responseToJson(1, '输入数据有误');
         // if ($request->isMethod('options')) {
             // echo "123";
-            if (!empty($request->applyContent) && !empty($request->applyType)) {
-                $result = Apply::applyStar($request);
-                echo $result;
-                return responseToJson(0, 'success');
-            } else {
-                return responseToJson(1, '输入数据不完善');
-            }
+
+            // if (!empty($request->applyContent) && !empty($request->applyType)) {
+            //     $result = Apply::applyStar($request);
+            //     // echo $result;
+            //     return responseToJson(0, 'success');
+            // } else {
+            //     return responseToJson(1, '输入数据不完善');
+            // }
         // }
 
     }
