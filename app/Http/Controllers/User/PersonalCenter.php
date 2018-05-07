@@ -67,18 +67,21 @@ class personalCenter extends Controller
      */
     public function getOrderList(Request $request)
     {
+        $page = $request->page;
+        $list =  DB::table('order')->where(['user_id'=>get_session_user_id(),'is_delete'=>0])->orderBy('created_time','desc')->paginate(10);
+        return responseToJson(0,'success',$list);
 //        if ($request->isMethod('options')) {
-        if (!empty($request->page)) {
-            $data = Order::getLists($request);
-            if (sizeof($data) > 0) {
-                return responseToJson(0, 'success', $data);
-            } else {
-                return responseToJson(2, 'no data');
-            }
+        // if (!empty($request->page)) {
+        //     $data = Order::getLists($request);
+        //     if (sizeof($data) > 0) {
+        //         return responseToJson(0, 'success', $data);
+        //     } else {
+        //         return responseToJson(2, 'no data');
+        //     }
 
-        } else {
-            return responseToJson(1, 'no page');
-        }
+        // } else {
+        //     return responseToJson(1, 'no page');
+        // }
 //        } else {
 //            return responseToJson(1, 'method error');
 //        }
