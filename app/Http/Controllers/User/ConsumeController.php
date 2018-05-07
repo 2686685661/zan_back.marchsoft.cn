@@ -104,9 +104,9 @@ class ConsumeController extends Controller
 // var_dump($select_coins);
         // if(!$select_coins) return responseToJson(1,'error in server');
 
-        $select_coins = ($request->type != 2) ? $this->coinArrayGroup($select_coins) : $select_coins;
+        // $select_coins = ($request->type != 2) ? $this->coinArrayGroup($select_coins) : $select_coins;
 
-        $select_coins = $this->setUserCoinImgUrl($select_coins, $request->type);
+        // $select_coins = $this->setUserCoinImgUrl($select_coins, $request->type);
 
 
         // dd($select_coins);

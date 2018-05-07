@@ -126,22 +126,55 @@ class RecordController extends Controller
     public function getCountNumber(Request $request){
         if ($request->isMethod('get')){
             $weekDate = week();
-            $countTotal = CoinStatus::getThumupTotal(session('user')->id);
-            $weekTotal = StarCoin::getThumupRank(0,$weekDate[0],$weekDate[1]);
-            if ($countTotal!=null&&$weekTotal!=null){
-                $listArr = $this->getGroupCount($weekTotal,session('user')->id);
-                $perArr = $listArr[1];
-                return responseToJson(0,"success", [
-                    'countTotal'=>$countTotal[0]->receive_count,
-                    'totalWeek'=>$perArr['week'],
-                    'rankWeek'=>$perArr['rank']
-                ]);
+            // $countTotal = CoinStatus::getThumupTotal(session('user')->id);
+            // $weekTotal = StarCoin::getThumupRank(0,$weekDate[0],$weekDate[1]);
+            $countTotal = DB::table('star_coin')->where('to_user_id',get_session_user_id())->count();
+            // $weekTotal = DB::table('star_coin')->where('use_time','<=',$weekDate[1])
+            //             ->where('use_time','>=',$weekDate[0])->where('to_user_id',get_session_user_id())->count();
+            $weekTotal = 0;
+            $wd = DB::table('star_coin')->where('use_time','<=',$weekDate[1])->where('use_time','>=',$weekDate[0])->get();
+            $cWeight = DB::table('coin')->where('is_delete',0)->select('id','weight')->get();
+            $w = [];
+            foreach($cWeight as $k => $v){
+                $w[$v->id] = $v->weight;
             }
-            return responseToJson(1,"no query result",[
-                'countTotal'=>0,
-                'totalWeek'=>0,
-                'rankWeek'=>0
+            // var_dump($w);
+            $all = [];
+            $userD = 0;
+            foreach($wd as $key => $val){
+                if($val->to_user_id==get_session_user_id()){
+                    $weekTotal++;
+                    $userD += $w[$val->coin_id];
+                }else {
+                    if(!isset($all[$val->to_user_id]))  $all[$val->to_user_id] = 0;
+                    $all[$val->to_user_id] += $w[$val->coin_id];
+                }
+            }
+            $rank = 1;
+            foreach($all as $key => $val){
+                if($val>$userD) $rank++;
+            }
+            return responseToJson(1,"request error",[
+                'countTotal'=>$countTotal,
+                'totalWeek'=>$weekTotal,
+                'rankWeek'=>$rank
             ]);
+            // var_dump($all,$rank);
+            // if ($countTotal!=null&&$weekTotal!=null){
+                // $listArr = $this->getGroupCount($weekTotal,session('user')->id);
+                // $perArr = $listArr[1];
+
+                // return responseToJson(0,"success", [
+                //     'countTotal'=>$countTotal[0]->receive_count,
+                //     'totalWeek'=>$perArr['week'],
+                //     'rankWeek'=>$perArr['rank']
+                // ]);
+            // }
+            // return responseToJson(1,"no query result",[
+            //     'countTotal'=>0,
+            //     'totalWeek'=>0,
+            //     'rankWeek'=>0
+            // ]);
         }
         return responseToJson(1,"request error",[
             'countTotal'=>0,
