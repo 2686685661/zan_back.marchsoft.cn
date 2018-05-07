@@ -103,14 +103,14 @@ class IndexController extends Controller
                             for($j=0;$j<intval($arr[$i]['num']);$j++){
                                 $data[] = [
                                     'from_user_id'=>0,
-                                    'from_user_name' =>'',
+                                    'from_user_name' =>'三月',
                                     'to_user_name' => $name,
                                     'to_user_id'=>$id,
                                     'coin_id'=>$d->coin_id,
                                     'start_time'=>time(),
                                     'over_time'=> $d->coin_id==1?(time()+3600*24*7):(time()+3600*24*100*365),
                                     'use_time'=>0,
-                                    'reason'=>'',
+                                    'reason'=>$d->content,
                                     'buy_time'=>0,
                                 ];
                                 // break;
