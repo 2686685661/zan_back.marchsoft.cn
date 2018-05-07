@@ -151,26 +151,49 @@ class ConsumeController extends Controller
      *     }
      */
     public function insertUserConsume(Request $request) {
-        $coinUsefulId = is_numeric($request->coin_useful)?$request->coin_useful:'';
-        $coinIdArr = is_array($request->coin_id_arr)?$request->coin_id_arr:[];
-        // $coinIdArr = [5,6,7,8];
-        // $groupId = is_numeric($request->group_id)?$request->group_id:'';
-        $content = is_string($request->content)?trim($request->content):'';
+        // $coinUsefulId = is_numeric($request->coin_useful)?$request->coin_useful:'';
+        // $coinIdArr = is_array($request->coin_id_arr)?$request->coin_id_arr:[];
+        // // $coinIdArr = [5,6,7,8];
+        // // $groupId = is_numeric($request->group_id)?$request->group_id:'';
+        // $content = is_string($request->content)?trim($request->content):'';
 
-        $formUserId = get_session_user_id();
-        $arr = array(
-            'userId' => $formUserId,
-            'userfulId' => $coinUsefulId,
-            'groupId' => $groupId,
-            'coinIdStr' => strChangeArr($coinIdArr,','),
-            'content' => $content,
-            'createTime' => time()
-        );
+        // $formUserId = get_session_user_id();
+        // $arr = array(
+        //     'userId' => $formUserId,
+        //     'userfulId' => $coinUsefulId,
+        //     'groupId' => $groupId,
+        //     'coinIdStr' => strChangeArr($coinIdArr,','),
+        //     'content' => $content,
+        //     'createTime' => time()
+        // );
 
 
-        $createId = order::createOrder($arr);
-        $createBoo = ($createId ? $this->updateUserCoinUseState($formUserId,$coinIdArr) : false);
-        return $createBoo ? responseToJson(0,'消费成功') : responseToJson(1,'消费失败');
+        // $createId = order::createOrder($arr);
+        // $createBoo = ($createId ? $this->updateUserCoinUseState($formUserId,$coinIdArr) : false);
+        DB::beginTransaction();
+        try{
+            $ids = json_decode($request->ids,true);
+            $count = DB::table('star_coin')->whereIn('id',$ids)->where('over_time','>=',time())
+                    ->where(['buy_time'=>0,'to_user_id'=>get_session_user_id()])->count();
+            if($count!=count($ids)) return responseToJson(2,'请选择合适的币');
+            $str = '';
+            for($i=0;$i<count($ids);$i++){
+                $str .= $ids[$i]+',';
+            }
+            $content = $request->content;
+            $res = DB::table('order')->insert([
+                'user_id'=>get_session_user_id(),
+                'star_coin_id'=>$str,
+                'content'=>$content,
+                'created_time'=>time()
+            ]);
+            DB::table('star_coin')->whereIn('id',$ids)->update(['buy_time'=>time()]);
+            DB::commit();
+            return responseToJson(0,'下单成功');
+        } catch (\Exception $e){
+            DB::rollBack();
+        }
+        return responseToJson(1,'下单失败');
         
     }
 
