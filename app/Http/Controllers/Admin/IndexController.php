@@ -49,7 +49,7 @@ class IndexController extends Controller
         $users = DB::table('user')
             ->where('grade','>=',$year)
             ->where('type',0)
-            ->select('id', 'name', 'grade','type')
+            ->select('id', 'name', 'grade','name_quanpin','qq_account','name_jianpin','code','group_id')
             ->get()
             ->groupBy('grade');
         foreach($users as $key => $val){
