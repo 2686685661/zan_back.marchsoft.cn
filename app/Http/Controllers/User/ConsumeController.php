@@ -179,9 +179,10 @@ class ConsumeController extends Controller
                     ->where(['buy_time'=>0,'to_user_id'=>get_session_user_id()])->count();
             if($count!=count($ids)) return responseToJson(2,'请选择合适的币');
             $str = '';
-            for($i=0;$i<count($ids);$i++){
-                $str .= $ids[$i]+',';
+            for($i=0;$i<count($ids)-1;$i++){
+                $str .= $ids[$i].',';
             }
+            $str .= $ids[count($ids)-1];
             $content = $request->content;
             $res = DB::table('order')->insert([
                 'user_id'=>get_session_user_id(),
