@@ -59,12 +59,13 @@ class RecordController extends Controller
             $page = $request->page;
             $isTumbUp = $request->isthumbup;
             if(preg_match("/^\d*$/",$page)&&preg_match("/^[1-2]*$/",$isTumbUp)){
-                $result = json_decode(json_encode(StarCoin::getThumupedCoin(session('user')->id,$isTumbUp,10)))->data;
+                $result = json_decode(json_encode(StarCoin::getThumupedCoin(get_session_user_id(),$isTumbUp,10)))->data;
                 foreach ($result as $item){
                     $item->img_url = getQqimgLink($item->qq_account);
                     unset($item->qq_account);
                 }
-                return $result!=null?responseToJson(0,'success',$result):responseToJson(1,"no query result");
+                // return $result!=null?responseToJson(0,'success',$result):responseToJson(1,"no query result");
+                return responseToJson(0,'success',$result);
             }
             return responseToJson(1,"request parameter error");
         }

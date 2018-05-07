@@ -18,23 +18,31 @@ class IndexController extends Controller
    
     public function giveCoin(Request $request){
         $ids = json_decode($request->ids,true);
-        $len = DB::table('user')->whereIn('id',$ids)->where('is_delete',0)->count();
-        if($len!=count($ids)) return responseToJson(2,'error','有外星人');
+        $len = DB::table('user')->whereIn('id',$ids)->where('is_delete',0)->get();
+        if(count($len)!=count($ids)) return responseToJson(2,'error','有外星人');
         $num = json_decode($request->num,true);
         if(!is_numeric($num)) return responseToJson(1,'error','数量应为数字');
         $data = [];
         for($i=0;$i<count($ids);$i++){
             for($j=0;$j<$num;$j++){
-                $data[] = [
-                    'from_user_id'=>$ids[$i],
-                    'to_user_id'=>0,
-                    'coin_id'=>$request->coin_id,
-                    'start_time'=>time(),
-                    'over_time'=>time()+3600*24*7,
-                    'use_time'=>0,
-                    'reason'=>'',
-                    'is_buy'=>0,
-                ];
+                foreach($len as $key => $val) {
+                    if($val->id==$ids[$i]){
+                        $data[] = [
+                            'from_user_id'=>$ids[$i],
+                            'from_user_name' => $val->name,
+                            'to_user_name' => '',
+                            'to_user_id'=>0,
+                            'coin_id'=>$request->coin_id,
+                            'start_time'=>time(),
+                            'over_time'=>time()+3600*24*7,
+                            'use_time'=>0,
+                            'reason'=>'',
+                            'is_buy'=>0,
+                        ];
+                        break;
+                    }
+                }
+                
             }
         }
         $res = DB::table('star_coin')->insert($data);

@@ -186,18 +186,23 @@ class StarCoin
      * @param int $sizeCount 查询条数
      * @return JSON
      */
-    public static function getThumupedCoin($userID,$typeCoin,$sizeCount = 10){
-        $selectCoins = null;
-        $selectTarget = null;
-        $selectCoinsBase = DB::table(self::$sTable)
-            ->leftJoin('user',self::$sTable.'.to_user_id','=','user.id')->orderBy('use_time','desc');
-        $typeCoin == 1? $selectTarget = 'to_user_id':$selectTarget = 'from_user_id';
-        $selectCoins = $selectCoinsBase->where([
-            [self::$sTable.'.'.$selectTarget,'=',$userID],
-            [self::$sTable.'.over_time','>=',self::$sTable.'.use_time']
-        ])->select('user.name','user.qq_account',self::$sTable.'.reason',self::$sTable.'.start_time',self::$sTable.'.over_time',self::$sTable.'.use_time')
-            ->simplePaginate($sizeCount);
-        return $selectCoins;
+    public static function getThumupedCoin($userID,$typeCoin,$sizeCount = 1){
+        // $selectCoins = null;
+        // $selectTarget = null;
+        // $selectCoinsBase = DB::table(self::$sTable)
+        //     ->leftJoin('user',self::$sTable.'.to_user_id','=','user.id')->orderBy('use_time','desc');
+        // if($typeCoin == 1) $selectTarget = 'to_user_id';
+        // else $selectTarget = 'from_user_id';
+        // $selectCoins = $selectCoinsBase->where([
+        //     [self::$sTable.'.'.$selectTarget,'=',$userID],
+        //     [self::$sTable.'.over_time','>=',self::$sTable.'.use_time']
+        // ])->select('user.name','user.qq_account',self::$sTable.'.reason',self::$sTable.'.start_time',self::$sTable.'.over_time',self::$sTable.'.use_time')
+        //     ->simplePaginate($sizeCount);
+        // return $selectCoins;
+        $selectCoinsBase = DB::table(self::$sTable)->orderBy('use_time','desc');
+        if($typeCoin==1) $selectCoins = $selectCoinsBase->where('to_user_id',get_session_user_id())->paginate($sizeCount);
+        else $selectCoins = $selectCoinsBase->where('from_user_id',get_session_user_id())->where('to_user_id','!=',0)->paginate($sizeCount);
+        return  $selectCoins;
     }
 
     /**
