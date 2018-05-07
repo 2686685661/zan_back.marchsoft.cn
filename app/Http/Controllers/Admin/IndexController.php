@@ -100,7 +100,7 @@ class IndexController extends Controller
                             }
                         }
                         if($id!=0){
-                            for($j=0;$j<$arr[$i]['num'];$j++){
+                            for($j=0;$j<intval($arr[$i]['num']);$j++){
                                 $data[] = [
                                     'from_user_id'=>0,
                                     'from_user_name' =>'',
