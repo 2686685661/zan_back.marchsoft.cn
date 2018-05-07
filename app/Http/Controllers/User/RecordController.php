@@ -11,6 +11,7 @@ use App\Models\CoinStatus;
 use App\Models\StarCoin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use DB;
 
 class RecordController extends Controller
 {
@@ -58,11 +59,24 @@ class RecordController extends Controller
         if ($request->isMethod("get")) {
             $page = $request->page;
             $isTumbUp = $request->isthumbup;
+            $ids = [];
             if(preg_match("/^\d*$/",$page)&&preg_match("/^[1-2]*$/",$isTumbUp)){
-                $result = json_decode(json_encode(StarCoin::getThumupedCoin(get_session_user_id(),$isTumbUp,10)))->data;
+                $result = json_decode(json_encode(StarCoin::getThumupedCoin(get_session_user_id(),$isTumbUp)))->data;
                 foreach ($result as $item){
-                    $item->img_url = getQqimgLink($item->qq_account);
-                    unset($item->qq_account);
+                    // $item->img_url = getQqimgLink($item->qq_account);
+                    // unset($item->qq_account);
+                    if($isTumbUp==1)
+                        $ids[] = $item->from_user_id;
+                    else $ids[] = $item->to_user_id;
+                }
+                $qq = DB::table('user')->whereIn('id',$ids)->select('qq_account','id')->get();
+                foreach ($result as $item){
+                    foreach($qq as $key => $val){
+                        if($item->from_user_id==$val->id||$item->to_user_id==$val->id){
+                            $item->img_url = $val->qq_account;
+                            break;
+                        }
+                    }
                 }
                 // return $result!=null?responseToJson(0,'success',$result):responseToJson(1,"no query result");
                 return responseToJson(0,'success',$result);
