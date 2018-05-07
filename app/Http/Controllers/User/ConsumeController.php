@@ -15,6 +15,8 @@ use App\Http\Controllers\Controller;
 use App\Models\StarCoin;
 use App\Models\order;
 
+use DB;
+
 class ConsumeController extends Controller
 {
     
