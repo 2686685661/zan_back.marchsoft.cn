@@ -43,4 +43,19 @@ class IndexController extends Controller
         return responseToJson(3,'error','发币失败');
 
     }
+    //得到大一~大三的学生
+    public function getUser(Request $request){
+        $year = date('Y') - 3;
+        $users = DB::table('user')
+            ->where('grade','>=',$year)
+            ->where('type',0)
+            ->select('id', 'name', 'grade','type')
+            ->get()
+            ->groupBy('grade');
+        foreach($users as $key => $val){
+            $res[] = $val;
+        }
+        return responseToJson(0,'success',$res);
+    }
+    
 }
