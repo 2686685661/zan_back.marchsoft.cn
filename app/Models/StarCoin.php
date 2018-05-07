@@ -37,7 +37,8 @@ class StarCoin
                     self::$sTableUser.'.qq_account',
                     self::$sTable.'.coin_id',
                     self::$sTable.'.reason',
-                    self::$sTable.'.over_time'
+                    self::$sTable.'.over_time',
+                    self::$sTable.'.id'
                 )
                 // ->simplePaginate($page);
                 ->get();

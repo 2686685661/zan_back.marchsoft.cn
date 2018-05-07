@@ -166,7 +166,7 @@ class personalCenter extends Controller
 
 //        if ($request->isMethod('options')) {
         // $data = ApplyType::getTypes();
-        $data = DB::table('coin')->where('is_delete',0)->select('id','name')->get();
+        $data = DB::table('coin')->where('is_delete',0)->select('id as value','name as label')->get();
         // if (sizeof($data) > 0) {
         return responseToJson(0, 'success', $data);
 //         } else {
