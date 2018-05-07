@@ -31,7 +31,7 @@ class StarCoin
                 ->leftJoin(self::$sTableUser,self::$sTable.'.from_user_id','=',self::$sTableUser.'.id')
                 ->where([
                     ['to_user_id','=',$valArr['userId']],
-                ])->where('is_buy','=',1)
+                ])->where('buy_time','=',0)
                 ->select(
                     self::$sTableUser.'.name',
                     self::$sTableUser.'.qq_account',
@@ -47,7 +47,7 @@ class StarCoin
                 ->where([
                     ['to_user_id','=',$valArr['userId']],
                 ])
-                ->where('is_buy','=',0)
+                ->where('buy_time','!=',0)
                 ->select(
                     'user.name',
                     'user.qq_account',
@@ -102,7 +102,7 @@ class StarCoin
 
 
     /**
-     * 回调更新用户点赞币记录的is_buy
+     * 回调更新用户点赞币记录的buy_time
      * @formUserId Number
      * @coinId Arr Array
      */
@@ -111,7 +111,7 @@ class StarCoin
             $updateRowsNUm = DB::table(self::$sTable)
             ->where('to_user_id','=',$formUserId)
             ->whereIn('id',$coinIdArr)
-            ->update(['is_buy' => 0]);
+            ->update(['buy_time' => time()]);
             $updateRowsNUm ?  DB::commit() : DB::rollback(); 
             return true;
         }catch(\Exception $e) {
@@ -245,7 +245,7 @@ class StarCoin
                         'to_user_id' => $toUserId,
                         'to_user_name' => $name->name,
                         'reason'     => $reason,
-                        'use_time'   => millisecond()
+                        'use_time'   => time()
                     ]);
             }
             DB::commit();
