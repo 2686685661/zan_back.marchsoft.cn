@@ -133,7 +133,24 @@ class IndexController extends Controller
     //获取订单列表
     public function getOrderList(Request $request){
         $page = $request->page;
-        $list =  DB::table('order')->orderBy('created_time')->orderBy('status','desc')->paginate(10);
+        $list =  DB::table('order')->orderBy('status','desc')->orderBy('created_time')->orderBy('status','desc')->paginate(10);
+        $ids = [];
+        // var_dump($list);
+        foreach($list as $key => $val){
+            $ids[] = $val->user_id;
+            // var_dump($key,$val);
+        }
+        $user = DB::table('user')->whereIn('id',$ids)->get();
+        foreach($list as $key => $val){
+            foreach($user as $k => $v){
+                if($v->id == $val->user_id){
+                    $val->qq_account = $v->qq_account;
+                    $val->name = $v->name;
+                    break;
+                }
+            }
+            
+        }
         return responseToJson(0,'success',$list);
     }
     //申请审批
