@@ -50,9 +50,9 @@ class LoginController extends Controller
         $name = $request->username;
         $password = $request->password;
         if($isManager !== 3)
-            $user = DB::table('user')->where('name',$name)->first();
+            $user = DB::table('user')->where('code',$name)->first();
         else
-            $user = DB::table('user')->where('name',$name)->where('type',$isManager)->first();
+            $user = DB::table('user')->where('code',$name)->where('type',$isManager)->first();
         if ($user) {
             if (md5(md5($password)) == $user->password) {
                 $this->login_success($request,$user);
