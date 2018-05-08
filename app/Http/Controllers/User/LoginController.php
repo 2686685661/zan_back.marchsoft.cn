@@ -56,7 +56,7 @@ class LoginController extends Controller
         if ($user) {
             if (md5(md5($password)) == $user->password) {
                 $this->login_success($request,$user);
-                return responseToJson(0,'登录成功');
+                return responseToJson(0,'登录成功',$user);
             }else{
                 return responseToJson(1,'用户名或密码错误,请重新输入');
             }

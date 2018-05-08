@@ -3,7 +3,7 @@
 
 Route::group(['prefix' => 'user','namespace' => 'User'],function() {
 
-    Route::get('getInfo','LoginController@getInfo');
+    Route::get('getInfo','LoginController@get_info');
 
     /**
      * 去消费

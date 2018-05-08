@@ -278,7 +278,7 @@ class RecordController extends Controller
                     }
                 }
             }
-            return responseToJson(0,"success",$all);
+            return responseToJson(get_session_user_id(),"success",$all);
             // var_dump($all);
             // if (preg_match("/^[0-3]*$/",$countGrade)
             //     &&preg_match("/^[0-9]*$/",$startDate)

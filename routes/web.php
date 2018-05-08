@@ -19,7 +19,7 @@
  * 登录
  */
 Route::post('user/login','User\LoginController@login');
-Route::get('user/login_out','User\LoginController@login_out');
+Route::any('user/login_out','User\LoginController@login_out');
 
 
 Route::group(['middleware'=>['login.check']], function() {
