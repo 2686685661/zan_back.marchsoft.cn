@@ -166,7 +166,7 @@ class AlipayWapController extends Controller {
      */
     public function alipayReturn() {
         $data = Pay::alipay(config('alipay'))->verify();
-        if($data->trade_status=='TRADE_SUCCESS'||$data->trade_status=='TRADE_FINISHED'){
+        // if($data->trade_status=='TRADE_SUCCESS'||$data->trade_status=='TRADE_FINISHED'){
             $order = DB::table('buy_order')->where(['out_trade_no'=>$data->out_trade_no,'is_pay'=>0])->first();
             if($order){
                 $r = DB::table('buy_order')->where('out_trade_no',$data->out_trade_no)->update([
@@ -191,7 +191,7 @@ class AlipayWapController extends Controller {
                 $res = DB::table('star_coin')->insert($data);
                 return '<h1 style="text-align:center;">已购买成功，欢迎下次再来~</h1>';
             }
-        }
+        // }
     }
 
     /**
