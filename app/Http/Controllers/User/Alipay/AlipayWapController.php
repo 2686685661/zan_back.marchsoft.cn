@@ -12,8 +12,10 @@ namespace App\Http\Controllers\User\Alipay;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-use App\libs\alipay\wappay\buildermodel\AlipayTradeWapPayContentBuilder;
-use App\libs\alipay\wappay\service\AlipayTradeService;
+// use App\libs\alipay\wappay\buildermodel\AlipayTradeWapPayContentBuilder;
+// use App\libs\alipay\wappay\service\AlipayTradeService;
+use Yansongda\Pay\Pay;
+use DB;
 
 class AlipayWapController extends Controller {
 
@@ -47,25 +49,89 @@ class AlipayWapController extends Controller {
      *     }
      */
     public function alipayWapPay(Request $request) {
+        $num = $request->count;
+        $code = $request->code;
+        if(!is_numeric($num)||$num==0||$code=='') return responseToJson(1,'error','数据有误');
+        $user = DB::table('user')->where(['code'=>$code,'is_delete'=>0])->first();
+        if(!$user) return responseToJson(2,'error','该工号不存在');
+        $count = $num/2;
+        if($count>200) return responseToJson(1,'error','数量不能超过200');
         $out_trade_no = getTradeNOString();
-        $subject = 'test';
-        $total_amount = 0.01;
-        $body = 'test test!';
-        $timeout_express="1m";
+        if($user->type==1) {
+            $r = DB::table('buy_order')->insert([
+                'out_trade_no' => $out_trade_no,
+                'user_id' => $user->id,
+                'user_name' => $user->name,
+                'count' => $count,
+                'money' => 0,
+                'is_pay' => 1,
+                'is_delete' => 0,
+                'create_time' => time(),
+                'update_time' => time()
+            ]);
+            if($r){
+                $data = [];
+                for($j=0;$j<$num;$j++){
+                    $data[] = [
+                        'from_user_id'=>$user->id,
+                        'from_user_name' => $user->name,
+                        'to_user_name' => '',
+                        'to_user_id'=> 0,
+                        'coin_id'=> 1,
+                        'start_time' => time(),
+                        'over_time'=>(time()+3600*24*7),
+                        'use_time'=>0,
+                        'reason'=>'',
+                        'buy_time'=>0,
+                    ];
+                }
+                $res = DB::table('star_coin')->insert($data);
+                if($res) return '<h1 style="text-align:center;">老师免单，已购买成功，可不要贪杯哦~</h1>';
+            }
+            return '<h1 style="text-align:center;">购买失败</h1>';
+        }
+        $r = DB::table('buy_order')->insert([
+            'out_trade_no' => $out_trade_no,
+            'user_id' => $user->id,
+            'user_name' => $user->name,
+            'count' => $count,
+            'money' => $num,
+            'is_pay' => 0,
+            'is_delete' => 0,
+            'create_time' => time(),
+            'update_time' => 0
+        ]);
+        if($r){
+            $order = [
+                'out_trade_no' => $out_trade_no,
+                'total_amount' => $num,
+                'subject' => '点赞币购买',
+            ];
 
-        $payRequestBuilder = new AlipayTradeWapPayContentBuilder();
-        $payRequestBuilder->setBody($body);
+            $alipay = Pay::alipay(config('alipay'))->web($order);
+
+            return $alipay;// laravel 框架中请直接 `return $alipay`
+        }
+        return '<h1 style="text-align:center;">购买失败</h1>';
+        // $out_trade_no = getTradeNOString();
+        // $subject = 'test';
+        // $total_amount = 0.01;
+        // $body = 'test test!';
+        // $timeout_express="1m";
+
+        // $payRequestBuilder = new AlipayTradeWapPayContentBuilder();
+        // $payRequestBuilder->setBody($body);
         
-        $payRequestBuilder->setSubject($subject);
-        $payRequestBuilder->setOutTradeNo($out_trade_no);
-        $payRequestBuilder->setTotalAmount($total_amount);
+        // $payRequestBuilder->setSubject($subject);
+        // $payRequestBuilder->setOutTradeNo($out_trade_no);
+        // $payRequestBuilder->setTotalAmount($total_amount);
        
-        $payRequestBuilder->setTimeExpress($timeout_express);
+        // $payRequestBuilder->setTimeExpress($timeout_express);
         
 
-        $payResponse = new AlipayTradeService();
+        // $payResponse = new AlipayTradeService();
 
-        $result=$payResponse->wapPay($payRequestBuilder,config('alipay.return_url'),config('alipay.notify_url'));
+        // $result=$payResponse->wapPay($payRequestBuilder,config('alipay.return_url'),config('alipay.notify_url'));
 
 
     }
@@ -99,7 +165,33 @@ class AlipayWapController extends Controller {
      *     }
      */
     public function alipayReturn() {
-        
+        $data = Pay::alipay(config('alipay'))->verify();
+        if($data->trade_status=='TRADE_SUCCESS'||$data->trade_status=='TRADE_FINISHED'){
+            $order = DB::table('buy_order')->where(['out_trade_no'=>$data->out_trade_no,'is_pay'=>0])->first();
+            if($order){
+                $r = DB::table('buy_order')->where('out_trade_no',$data->out_trade_no)->update([
+                    'is_pay' => 1,
+                    'update_time' => time()
+                ]);
+                $data = [];
+                for($j=0;$j< $order->count ;$j++){
+                    $data[] = [
+                        'from_user_id'=>$order->user_id,
+                        'from_user_name' => $order->user_name,
+                        'to_user_name' => '',
+                        'to_user_id'=> 0,
+                        'coin_id'=> 1,
+                        'start_time' => time(),
+                        'over_time'=>(time()+3600*24*7),
+                        'use_time'=>0,
+                        'reason'=>'',
+                        'buy_time'=>0,
+                    ];
+                }
+                $res = DB::table('star_coin')->insert($data);
+                return '<h1 style="text-align:center;">已购买成功，欢迎下次再来~</h1>';
+            }
+        }
     }
 
     /**
@@ -127,6 +219,46 @@ class AlipayWapController extends Controller {
      *     }
      */
     public function alipayNotify() {
+        $alipay = Pay::alipay(config('alipay'));
+    
+        try{
+            $data = $alipay->verify(); // 是的，验签就这么简单！
 
+            // 请自行对 trade_status 进行判断及其它逻辑进行判断，在支付宝的业务通知中，只有交易通知状态为 TRADE_SUCCESS 或 TRADE_FINISHED 时，支付宝才会认定为买家付款成功。
+            // 1、商户需要验证该通知数据中的out_trade_no是否为商户系统中创建的订单号；
+            // 2、判断total_amount是否确实为该订单的实际金额（即商户订单创建时的金额）；
+            // 3、校验通知中的seller_id（或者seller_email) 是否为out_trade_no这笔单据的对应的操作方（有的时候，一个商户可能有多个seller_id/seller_email）；
+            // 4、验证app_id是否为该商户本身。
+            // 5、其它业务逻辑情况
+            if($data->trade_status=='TRADE_SUCCESS'||$data->trade_status=='TRADE_FINISHED'){
+                $order = DB::table('buy_order')->where(['out_trade_no'=>$data->out_trade_no,'is_pay'=>0])->first();
+                if($order){
+                    $r = DB::table('buy_order')->where('out_trade_no',$data->out_trade_no)->update([
+                        'is_pay' => 1,
+                        'update_time' => time()
+                    ]);
+                    $data = [];
+                    for($j=0;$j< $order->count ;$j++){
+                        $data[] = [
+                            'from_user_id'=>$order->user_id,
+                            'from_user_name' => $order->user_name,
+                            'to_user_name' => '',
+                            'to_user_id'=> 0,
+                            'coin_id'=> 1,
+                            'start_time' => time(),
+                            'over_time'=>(time()+3600*24*7),
+                            'use_time'=>0,
+                            'reason'=>'',
+                            'buy_time'=>0,
+                        ];
+                    }
+                    $res = DB::table('star_coin')->insert($data);
+                }
+            }
+        } catch (Exception $e) {
+            // $e->getMessage();
+        }
+
+        return $alipay->success();// laravel 框架中请直接 `return $alipay->success()`
     }
 }

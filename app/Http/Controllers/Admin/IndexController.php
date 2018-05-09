@@ -22,6 +22,7 @@ class IndexController extends Controller
         if(count($len)!=count($ids)) return responseToJson(2,'error','有外星人');
         $num = json_decode($request->num,true);
         if(!is_numeric($num)) return responseToJson(1,'error','数量应为数字');
+        if($num*count($ids)>200) return responseToJson(1,'error','数量不能超过200');
         $data = [];
         for($i=0;$i<count($ids);$i++){
             for($j=0;$j<$num;$j++){
