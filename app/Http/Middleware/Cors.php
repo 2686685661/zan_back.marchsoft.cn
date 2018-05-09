@@ -28,7 +28,7 @@ class Cors
         $response = $next($request);
 
         // $response->header('Access-Control-Allow-Origin', 'http://172.16.0.152:90');
-        $response->header('Access-Control-Allow-Origin', 'http://localhost:8080');
+        $response->header('Access-Control-Allow-Origin', 'http://123.206.63.63');
         $response->header('Access-Control-Allow-Headers', 'Origin, Content-Type, Cookie, Accept');
         $response->header('Access-Control-Allow-Methods', 'GET, POST, PATCH, PUT, OPTIONS');
         $response->header('Access-Control-Allow-Credentials', 'true');

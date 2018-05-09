@@ -7,7 +7,7 @@
  * 以下代码只是为了方便商户测试而提供的样例代码，商户可以根据自己网站的需要，按照技术文档编写,并非一定要使用该代码。
  */
 
-namespace App\libs\alipay\wappay\buildermodel;
+namespace App\libs\alipay\wappay\service;
 
 use App\libs\alipay\aop\request\AlipayTradeWapPayRequest;
 use App\libs\alipay\aop\AopClient;

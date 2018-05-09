@@ -254,7 +254,7 @@ function strChangeArr($val,$explStr = '') {
  * 生成订单号
  */
 function getTradeNOString() {
-    return 'ZAN'.strval(time(),rand(111,999));
+    return 'zan' . uniqid();
 }
 
 /**

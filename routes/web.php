@@ -28,11 +28,11 @@ Route::group(['middleware'=>['login.check']], function() {
     include('user.php');
     // include('admin.php');
 
-    Route::group(['prefix' => 'alipay'],function() {
-        Route::get('wappay','User\Alipay\AlipayWapController@alipayWapPay');
-        Route::get('return','User\Alipay\AlipayWapController@alipayReturn');
-        Route::get('notify','User\Alipay\AlipayWapController@alipayNotify');
-    });
+});
+Route::group(['prefix' => 'alipay'],function() {
+    Route::get('wappay','User\Alipay\AlipayWapController@alipayWapPay');
+    Route::get('return','User\Alipay\AlipayWapController@alipayReturn');
+    Route::get('notify','User\Alipay\AlipayWapController@alipayNotify');
 });
 
 // Route::group(['middleware'=>['admin.check']], function() {
