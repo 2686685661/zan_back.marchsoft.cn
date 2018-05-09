@@ -31,7 +31,7 @@ class StarCoin
                 ->leftJoin(self::$sTableUser,self::$sTable.'.from_user_id','=',self::$sTableUser.'.id')
                 ->where([
                     ['to_user_id','=',$valArr['userId']],
-                ])->where('buy_time','=',0)
+                ])->where('buy_time','=',0)->orderBy('use_time','desc')
                 ->select(
                     self::$sTableUser.'.name',
                     self::$sTableUser.'.qq_account',
@@ -48,7 +48,7 @@ class StarCoin
                 ->where([
                     ['to_user_id','=',$valArr['userId']],
                 ])
-                ->where('buy_time','!=',0)
+                ->where('buy_time','!=',0)->orderBy('buy_time','desc')
                 ->select(
                     'user.name',
                     'user.qq_account',
@@ -63,7 +63,7 @@ class StarCoin
                 ->where([
                     ['to_user_id','=',$valArr['userId']],
                     ['over_time','<',$valArr['createTime']]
-                ])
+                ])->orderBy('star_time','desc')
                 ->select(
                     self::$sTableUser.'.name',
                     self::$sTableUser.'.qq_account',
@@ -131,11 +131,11 @@ class StarCoin
         $coins_handle = DB::table(self::$sTable)->leftJoin('coin',self::$sTable.'.coin_id','=','coin.id')->where([
             ['from_user_id','=',$userId],
             ['to_user_id','=',0]
-        ])->orderBy(self::$sTable.'.start_time','desc');
+        ]);
         if($isOverdue)
-            $coins_handle->where('over_time','<',$now_time);
+            $coins_handle->where('over_time','<',$now_time)->orderBy(self::$sTable.'.start_time','desc');
         else
-            $coins_handle->where('over_time','>=',$now_time);
+            $coins_handle->where('over_time','>=',$now_time)->orderBy(self::$sTable.'.start_time');
         $coins = $coins_handle->select(
             self::$sTable.'.id',
             self::$sTable.'.coin_id',
@@ -156,7 +156,7 @@ class StarCoin
         $coins = DB::table(self::$sTable)->leftJoin('user',self::$sTable.'.to_user_id','=','user.id')->where([
             ['from_user_id','=',$userId],
             ['to_user_id','<>',0],
-        ])->orderBy(self::$sTable.'.start_time','desc')->select(
+        ])->orderBy(self::$sTable.'.use_time','desc')->select(
             self::$sTable.'.id',
             self::$sTable.'.coin_id',
             self::$sTable.'.to_user_id',

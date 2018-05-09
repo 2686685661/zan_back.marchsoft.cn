@@ -19,16 +19,16 @@ return [
 		// jk.mrwangqi.com
 
 		// //编码格式
-		// 'charset' => "UTF-8",
+		'charset' => "UTF-8",
 
 		// //签名方式
-		// 'sign_type'=>"RSA2",
+		'sign_type'=>"RSA2",
 
 		// //支付宝网关
-		// 'gatewayUrl' => "https://openapi.alipay.com/gateway.do",
+		'gatewayUrl' => "https://openapi.alipay.com/gateway.do",
 
 		// //支付宝公钥,查看地址：https://openhome.alipay.com/platform/keyManage.htm 对应APPID下的支付宝公钥。
 		'ali_public_key' => "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArMGmVy+fmG2g2NJGMKKdF0Zpq/sdbTTcAL/PETVljeAaKFEqkfABGL4i9HEa9ErpAWiBUbIEezMwaNLng+chByFz7wcAdBLdG+Lp3os3HGaaGVmJF2Z5x6j0KWNxHjiLFRgKaPXCoZDDTGZrSw98XscG8ptiN1hMt6z7kEIEBVBWdTOLR49haIQmsRC2IXOtAOkJOyasP2129J8TORFlTwRRhqT97uTb/UUytwmCiekpSxRHEchJBGK5DkuCERW075O/qPKP4ldLu9GZG/zyHXsGacl9ujckqh5C83s0zdZCYy8rVHSZAMc52syFrl/jOpN41KLVPt+OhMcisfGEHQIDAQAB",
-		'public_key' => "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArMGmVy+fmG2g2NJGMKKdF0Zpq/sdbTTcAL/PETVljeAaKFEqkfABGL4i9HEa9ErpAWiBUbIEezMwaNLng+chByFz7wcAdBLdG+Lp3os3HGaaGVmJF2Z5x6j0KWNxHjiLFRgKaPXCoZDDTGZrSw98XscG8ptiN1hMt6z7kEIEBVBWdTOLR49haIQmsRC2IXOtAOkJOyasP2129J8TORFlTwRRhqT97uTb/UUytwmCiekpSxRHEchJBGK5DkuCERW075O/qPKP4ldLu9GZG/zyHXsGacl9ujckqh5C83s0zdZCYy8rVHSZAMc52syFrl/jOpN41KLVPt+OhMcisfGEHQIDAQAB",
+		// 'public_key' => "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArMGmVy+fmG2g2NJGMKKdF0Zpq/sdbTTcAL/PETVljeAaKFEqkfABGL4i9HEa9ErpAWiBUbIEezMwaNLng+chByFz7wcAdBLdG+Lp3os3HGaaGVmJF2Z5x6j0KWNxHjiLFRgKaPXCoZDDTGZrSw98XscG8ptiN1hMt6z7kEIEBVBWdTOLR49haIQmsRC2IXOtAOkJOyasP2129J8TORFlTwRRhqT97uTb/UUytwmCiekpSxRHEchJBGK5DkuCERW075O/qPKP4ldLu9GZG/zyHXsGacl9ujckqh5C83s0zdZCYy8rVHSZAMc52syFrl/jOpN41KLVPt+OhMcisfGEHQIDAQAB",
 
 ];
