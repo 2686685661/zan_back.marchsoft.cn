@@ -63,7 +63,7 @@ class StarCoin
                 ->where([
                     ['to_user_id','=',$valArr['userId']],
                     ['over_time','<',$valArr['createTime']]
-                ])->orderBy('star_time','desc')
+                ])->orderBy('start_time','desc')
                 ->select(
                     self::$sTableUser.'.name',
                     self::$sTableUser.'.qq_account',
