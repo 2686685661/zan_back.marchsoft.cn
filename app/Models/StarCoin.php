@@ -131,7 +131,7 @@ class StarCoin
         $coins_handle = DB::table(self::$sTable)->leftJoin('coin',self::$sTable.'.coin_id','=','coin.id')->where([
             ['from_user_id','=',$userId],
             ['to_user_id','=',0]
-        ]);
+        ])->orderBy(self::$sTable.'.start_time','desc');
         if($isOverdue)
             $coins_handle->where('over_time','<',$now_time);
         else
@@ -156,7 +156,7 @@ class StarCoin
         $coins = DB::table(self::$sTable)->leftJoin('user',self::$sTable.'.to_user_id','=','user.id')->where([
             ['from_user_id','=',$userId],
             ['to_user_id','<>',0],
-        ])->select(
+        ])->orderBy(self::$sTable.'.start_time','desc')->select(
             self::$sTable.'.id',
             self::$sTable.'.coin_id',
             self::$sTable.'.to_user_id',
