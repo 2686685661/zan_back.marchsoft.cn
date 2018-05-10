@@ -220,12 +220,12 @@ class AlipayTradeService {
 	 * @param $arr 验签支付宝返回的信息，使用支付宝公钥。
 	 * @return boolean
 	 */
-	// function check($arr){
-	// 	$aop = new AopClient();
-	// 	$aop->alipayrsaPublicKey = $this->alipay_public_key;
-	// 	$result = $aop->rsaCheckV1($arr, $this->alipay_public_key, $this->signtype);
-	// 	return $result;
-	// }
+	function check($arr){
+		$aop = new AopClient();
+		$aop->alipayrsaPublicKey = $this->alipay_public_key;
+		$result = $aop->rsaCheckV1($arr, $this->alipay_public_key, $this->signtype);
+		return $result;
+	}
 	
 	//请确保项目文件有可写权限，不然打印不了日志。
 	function writeLog($text) {
