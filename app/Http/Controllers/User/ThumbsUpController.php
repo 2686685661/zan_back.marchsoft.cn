@@ -219,17 +219,19 @@ class ThumbsUpController extends Controller
      *
      */
     public function thumbsUp(Request $request){
-        $ids = explode(",", $request->ids);
+        // $ids = explode(",", $request->ids);
+        $ids = $request->ids;
         $toUserId = $request->toUserId;
         $reason = $request->reason;
 
         $userId = get_session_user_id();
-        if($userId){
-            $result = StarCoin::thumbsUp($userId,$ids,$toUserId,$reason);
-            if($result)
-                return responseToJson(0,'success');
-            return responseToJson(0,'failed');
-        }
+        // if($userId){
+        $result = StarCoin::thumbsUp($userId,$ids,$toUserId,$reason);
+        if($result)
+            return responseToJson(0,'success');
+        return responseToJson(1,'点赞失败');
+        // }
+
     }
 
     /**

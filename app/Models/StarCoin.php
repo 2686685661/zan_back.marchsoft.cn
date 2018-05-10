@@ -236,26 +236,28 @@ class StarCoin
 
     public static function thumbsUp($userId,$ids,$toUserId,$reason) {
         $name = DB::table('user')->where('id',$toUserId)->first();
-        DB::beginTransaction();
-        try{
-            foreach ($ids as $value){
-                DB::table(self::$sTable)
-                    ->where('id',$value)
-                    ->where('from_user_id',$userId)
-                    ->update([
-                        'to_user_id' => $toUserId,
-                        'to_user_name' => $name->name,
-                        'reason'     => $reason,
-                        'use_time'   => time()
-                    ]);
-            }
-            DB::commit();
-            return true;
-        }catch (Exception $e){
-            DB::rollback();
-            Log::info($e);
-            return false;
-        }
+        // DB::beginTransaction();
+        // try{
+            // foreach ($ids as $value){
+        $r = DB::table(self::$sTable)
+            ->where('id',$ids)
+            ->where(['from_user_id'=>$userId,'use_time'=>0])
+            ->update([
+                'to_user_id' => $toUserId,
+                'to_user_name' => $name->name,
+                'reason'     => $reason,
+                'use_time'   => time()
+            ]);
+        if($r) return true;
+        return false;  
+            // }
+        //     DB::commit();
+        //     return true;
+        // }catch (Exception $e){
+        //     DB::rollback();
+        //     Log::info($e);
+        //     return false;
+        // }
     }
 
 
