@@ -61,5 +61,6 @@ class Kernel extends HttpKernel
         'cors' => \App\Http\Middleware\Cors::class,
         //判断是否登录中间件
         'login.check' => \App\Http\Middleware\LoginCheck::class,
+        'admin.check' => \App\Http\Middleware\AdminCheck::class,
     ];
 }

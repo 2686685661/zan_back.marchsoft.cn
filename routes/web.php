@@ -29,11 +29,12 @@ Route::group(['middleware'=>['cors']], function() {
         include('user.php');
         // include('admin.php');
 
-    });
+    
 
-    // Route::group(['middleware'=>['admin.check']], function() {
-        include('admin.php');
-        // });
+        Route::group(['middleware'=>['admin.check']], function() {
+            include('admin.php');
+        });
+    });
 });
 Route::group(['prefix' => 'alipay'],function() {
     Route::get('wappay','User\Alipay\AlipayWapController@alipayWapPay');
