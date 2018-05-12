@@ -261,16 +261,16 @@ class RecordController extends Controller
                 $w[$v->id] = $v->weight;
             }
             $all = [];
-            foreach($coin as $key=>$val){
-                foreach($user as $k=>$v){
-                    if(!isset($all[$v->id]))  {
-                        $all[$v->id] = [];
-                        $all[$v->id]['id'] = $v->id;
-                        $all[$v->id]['name'] = $v->name;
-                        $all[$v->id]['qq_account'] = $v->qq_account;
-                        $all[$v->id]['zan'] = 0;
-                        $all[$v->id]['renqi'] = 0;
-                    }
+            foreach($user as $k=>$v){
+                if(!isset($all[$v->id]))  {
+                    $all[$v->id] = [];
+                    $all[$v->id]['id'] = $v->id;
+                    $all[$v->id]['name'] = $v->name;
+                    $all[$v->id]['qq_account'] = $v->qq_account;
+                    $all[$v->id]['zan'] = 0;
+                    $all[$v->id]['renqi'] = 0;
+                }
+                foreach($coin as $key=>$val){
                     if($val->to_user_id==$v->id){
                         $all[$v->id]['renqi'] += $w[$val->coin_id];
                         $all[$v->id]['zan']++;

@@ -57,7 +57,7 @@ class IndexController extends Controller
         $year = date('Y') - 3;
         $users = DB::table('user')
             ->where('grade','>=',$year)
-            ->where('type',0)->orderBy('grade','desc')
+            ->where('type','!=',1)->orderBy('grade','desc')
             ->select('id', 'name', 'grade','name_quanpin','qq_account','name_jianpin','code','group_id')
             ->get()
             ->groupBy('grade');
@@ -134,7 +134,7 @@ class IndexController extends Controller
     //获取订单列表
     public function getOrderList(Request $request){
         $page = $request->page;
-        $list =  DB::table('order')->orderBy('status','desc')->orderBy('created_time')->orderBy('status','desc')->paginate(10);
+        $list =  DB::table('order')->orderBy('status')->orderBy('created_time')->paginate(10);
         $ids = [];
         // var_dump($list);
         foreach($list as $key => $val){
