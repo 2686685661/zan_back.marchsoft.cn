@@ -190,6 +190,10 @@ class IndexController extends Controller
         $coin = DB::table('star_coin');
         $order = DB::table('buy_order')->where(['is_pay'=>1,'is_delete'=>0]);
         $apply = DB::table('star_coin')->where('from_user_id',0);
+        $gouwu = DB::table('order')->where(['status'=>1,'is_delete'=>0])->where('content','like','[购物]:%');
+        $qingjia = DB::table('order')->where(['status'=>1,'is_delete'=>0])->where('content','like','[请假]%');
+        $xiaojia = DB::table('order')->where(['status'=>1,'is_delete'=>0])->where('content','like','[销假]%');
+        $duihuan = DB::table('order')->where(['status'=>1,'is_delete'=>0])->where('content','like','[兑换现金]:%');
         
         if($countGrade!=0){
             $u = DB::table('user')->where('is_delete',0);
@@ -204,6 +208,10 @@ class IndexController extends Controller
             $coin->whereIn('from_user_id',$ids);
             $apply->whereIn('to_user_id',$ids);
             $order->whereIn('user_id',$ids);
+            $gouwu->whereIn('user_id',$ids);
+            $qingjia->whereIn('user_id',$ids);
+            $xiaojia->whereIn('user_id',$ids);
+            $duihuan->whereIn('user_id',$ids);
         }
 
         $buyAll = $order->get();
@@ -212,6 +220,13 @@ class IndexController extends Controller
         }
 
         $applycount =  $apply->count();
+
+        $gouwuCount = $gouwu->count();
+        $qingjiaCount = $qingjia->count();
+        $xiaojiaCount = $xiaojia->count();
+        $duihuanCount = $duihuan->count();
+
+        // var_dump($gouwuCount,$qingjiaCount, $xiaojiaCount,$duihuanCount);
 
         $endDate = strtotime($endDate);
         $startDate = strtotime($startDate);
@@ -223,7 +238,15 @@ class IndexController extends Controller
         } else {
             $givecount = $all-$buycount-$applycount;
         }
-        //申请
-        return responseToJson(0,'success',['givecount'=>$givecount,'applycount'=>$applycount,'buycount'=>$buycount]);
+
+        return responseToJson(0,'success',[
+            'givecount'=>$givecount,
+            'applycount'=>$applycount,
+            'buycount'=>$buycount,
+            'gouwuCount'=>$gouwuCount,
+            'qingjiaCount'=>$qingjiaCount,
+            'xiaojiaCount'=>$xiaojiaCount,
+            'duihuanCount'=>$duihuanCount,
+        ]);
     }
 }
