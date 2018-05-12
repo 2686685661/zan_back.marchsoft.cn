@@ -19,10 +19,10 @@ class IndexController extends Controller
     public function giveCoin(Request $request){
         $ids = json_decode($request->ids,true);
         $len = DB::table('user')->whereIn('id',$ids)->where('is_delete',0)->get();
-        if(count($len)!=count($ids)) return responseToJson(2,'error','有外星人');
+        if(count($len)!=count($ids)) return responseToJson(2,'有外星人','有外星人');
         $num = json_decode($request->num,true);
-        if(!is_numeric($num)) return responseToJson(1,'error','数量应为数字');
-        if($num*count($ids)>200) return responseToJson(1,'error','数量不能超过200');
+        if(!is_numeric($num)) return responseToJson(1,'数量应为数字','数量应为数字');
+        if($num*count($ids)>200) return responseToJson(1,'数量不能超过200','数量不能超过200');
         $data = [];
         for($i=0;$i<count($ids);$i++){
             for($j=0;$j<$num;$j++){
