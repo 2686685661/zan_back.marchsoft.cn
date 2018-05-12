@@ -9,5 +9,6 @@ Route::group(['prefix' => 'admin'],function() {
 
     Route::get('order/get','Admin\IndexController@getOrderList');
     Route::post('order/update','Admin\IndexController@updateOrder');
+    Route::get('coin/stat','Admin\IndexController@stat');
 });
 

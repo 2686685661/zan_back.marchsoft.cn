@@ -176,4 +176,54 @@ class IndexController extends Controller
         return responseToJson(1,'error','操作失败');
     }
     
+
+    //统计页面  累计发放  累计申请  累计购买
+    public function stat(Request $request){
+        $countGrade = $request->countGrade;
+        $startDate = $request->startDate;
+        $endDate = $request->endDate;
+
+        $givecount = 0;
+        $applycount = 0;
+        $buycount = 0;
+        
+        $coin = DB::table('star_coin');
+        $order = DB::table('buy_order')->where(['is_pay'=>1,'is_delete'=>0]);
+        $apply = DB::table('star_coin')->where('from_user_id',0);
+        
+        if($countGrade!=0){
+            $u = DB::table('user')->where('is_delete',0);
+            if(date('m')<6) $u->where('grade',date('Y')-$countGrade);
+            else $u->where('grade',date('Y')-$countGrade+1);
+            $user = $u->get();
+            $ids = [];
+            // var_dump($user);
+            foreach($user as $k => $v) {
+                $ids[] = $v->id;
+            }
+            $coin->whereIn('from_user_id',$ids);
+            $apply->whereIn('to_user_id',$ids);
+            $order->whereIn('user_id',$ids);
+        }
+
+        $buyAll = $order->get();
+        foreach($buyAll as $key=>$val){
+            $buycount += $val->count;
+        }
+
+        $applycount =  $apply->count();
+
+        $endDate = strtotime($endDate);
+        $startDate = strtotime($startDate);
+        $all = $coin->where('start_time','<=',$endDate)->where('start_time','>=',$startDate)->count();
+
+        if($countGrade!=0){
+            $givecount = $all-$buycount;
+            // $applycount = DB::table('star_coin')->whereIn('to_user_id',$ids);
+        } else {
+            $givecount = $all-$buycount-$applycount;
+        }
+        //申请
+        return responseToJson(0,'success',['givecount'=>$givecount,'applycount'=>$applycount,'buycount'=>$buycount]);
+    }
 }

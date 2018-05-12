@@ -71,7 +71,7 @@ class AlipayWapController extends Controller {
             ]);
             if($r){
                 $data = [];
-                for($j=0;$j<$num;$j++){
+                for($j=0;$j<$count;$j++){
                     $data[] = [
                         'from_user_id'=>$user->id,
                         'from_user_name' => $user->name,
