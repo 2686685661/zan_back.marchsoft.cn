@@ -7,6 +7,7 @@ use Closure;
 use Log;
 use Redirect;
 use DB;
+use Cookie;
 
 class LoginCheck
 {
@@ -21,7 +22,12 @@ class LoginCheck
     {
         if (get_session_user_id()) {
             return $next($request);
-        } else {
+        }
+        else if(!empty(Cookie::get('user'))){
+            session(['user'=>Cookie::get('user')]);
+            return $next($request);
+        } 
+        else {
             // $user = DB::table('user')->where('id',1)->first();
             // session(['user'=>$user]);
             // return $next($request);
