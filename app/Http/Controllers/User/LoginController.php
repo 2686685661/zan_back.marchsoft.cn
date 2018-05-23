@@ -12,6 +12,7 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use DB;
+use Cookie;
 
 class LoginController extends Controller
 {
@@ -104,6 +105,9 @@ class LoginController extends Controller
     function login_success($request, $user){
         $session = $request->session();
         $session->put('user', $user);
+        Cookie::queue('user',$user,time()+60*60*60*24);
+        // var_dump(Cookie::get('user'));
+        // setcookie('user',$user,time()+60*60*60*24);
     }
 
     function login_out(Request $request){

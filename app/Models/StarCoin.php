@@ -246,7 +246,8 @@ class StarCoin
                 'to_user_id' => $toUserId,
                 'to_user_name' => $name->name,
                 'reason'     => $reason,
-                'use_time'   => time()
+                'use_time'   => time(),
+                'over_time'  => time()+100*365*24*60*60,
             ]);
         if($r) return true;
         return false;  

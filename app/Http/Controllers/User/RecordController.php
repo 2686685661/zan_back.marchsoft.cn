@@ -274,7 +274,7 @@ class RecordController extends Controller
                     if($val->to_user_id==$v->id){
                         $all[$v->id]['renqi'] += $w[$val->coin_id];
                         $all[$v->id]['zan']++;
-                        break;
+                        // break;
                     }
                 }
             }
