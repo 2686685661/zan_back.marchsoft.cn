@@ -85,7 +85,7 @@ class order
 
     public static function dealOrderlist($startTime = null,$endTime = null)
     {
-        $orderList = DB::table(self::$sTable)->where('order.is_delete', 0)->where('order.is_view', 0)->where('order.status', '!=', 0);
+        $orderList = DB::table(self::$sTable)->where('order.is_delete', 0)->where('order.is_view', 0)->where('order.status', '=', 1);
         if ($startTime != null)
             $orderList = $orderList->where('order.created_time', '>',$startTime);
         if ($endTime)

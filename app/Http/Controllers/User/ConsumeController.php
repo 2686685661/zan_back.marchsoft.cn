@@ -9,6 +9,7 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Models\Apply;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -282,31 +283,61 @@ class ConsumeController extends Controller
     public function exportRecord(Request $request){
         if (!$request->isMethod("get"))
             return responseToJson(1,"request error");
-        $type = $request->type;
-
+        $type = $request->type?$request->type:0;
         $startime = $request->startime?strtotime($request->startime):null;
         $endtime = $request->endtime?strtotime($request->endtime):null;
-        $datas = order::dealOrderlist($startime,$endtime)->toArray();
+        if($type==0){
+            $datas = order::dealOrderlist($startime,$endtime)->toArray();
+            $this->export(['用户账号','姓名','QQ','内容','数量','时间','拒接原因'],
+                $datas,['code', 'name', 'qq_account', 'content', 'star_coin_id','created_time', 'resaon'],
+                'OrderRecordTable','消费点赞币总数',function($item){
+                    return count(explode(',',$item));
+                },'star_coin_id');
+        }elseif ($type==1){
+            $datas = Apply::dealExapvlist($startime,$endtime)->toArray();
+            $this->export(['申请人账号','申请人姓名','原因','数量','时间','点赞币类型'],
+                $datas,['code', 'apply_user_name', 'content', 'data', 'created_time','name'],
+                'ExaminationRecordTable','审批点赞币总数',function($item){
+                    $count = 0;
+                    foreach (json_decode($item) as $arrs){
+                        $arr = (array)$arrs;
+                        $count+=end($arr);
+                    }
+                    return $count;
+                },'data');
+        }
+
+    }
+
+    /**
+     * 导出方法
+     * @param $header表格头部
+     * @param $data表格数字
+     * @param $relation关联字段
+     * @param $filename文件名
+     * @param $countname统计字段
+     * @param $fun处理方法
+     * @param $delvalue处理属性
+     */
+    private function export($header,$data,$relation,$filename,$countname,$fun,$delvalue){
         $cellData = [];
-        $cellData[] = ['用户账号','姓名','QQ','内容','数量','时间','拒接原因'];
-        $relationArr = ['code', 'name', 'qq_account', 'content', 'star_coin_id','created_time', 'resaon'];
+        $cellData[] = $header;
         $count = 0;
-        foreach ($datas as $cell) {
+        foreach ($data as $cell) {
             $arr = [];
-            $cell->star_coin_id = count(explode(',',$cell->star_coin_id));
+            $cell->$delvalue = call_user_func($fun,$cell->$delvalue);
+            $count += $cell->$delvalue;
             $cell->created_time = date('Y-m-d', $cell->created_time);
-            $count += $cell->star_coin_id;
-            foreach($relationArr as $item){
+            foreach($relation as $item){
                 $arr[] = $cell->$item;
             }
             $cellData[] = $arr;
         }
-        $cellData[] = ['点赞币总数',$count];
-//        dd($cellData);
-        Excel::create('OrderRecordTable',function($excel) use ($cellData){
-           $excel->sheet('order', function($sheet) use ($cellData){
-               $sheet->rows($cellData);
-           });
+        $cellData[] = [$countname,$count];
+        Excel::create($filename,function($excel) use ($cellData){
+            $excel->sheet('Sheet0',function($sheet) use ($cellData){
+                $sheet->rows($cellData);
+            });
         })->export('xlsx');
     }
 }
