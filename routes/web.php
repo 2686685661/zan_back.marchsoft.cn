@@ -23,7 +23,7 @@ Route::group(['middleware'=>['cors']], function() {
     Route::any('user/login_out','User\LoginController@login_out');
 
 
-    Route::group(['middleware'=>['login.check']], function() {
+//    Route::group(['middleware'=>['login.check']], function() {
 
         // Route::get('/','IndexController@index');
         include('user.php');
@@ -34,7 +34,7 @@ Route::group(['middleware'=>['cors']], function() {
         Route::group(['middleware'=>['admin.check']], function() {
             include('admin.php');
         });
-    });
+//    });
 });
 Route::group(['prefix' => 'alipay'],function() {
     Route::get('wappay','User\Alipay\AlipayWapController@alipayWapPay');

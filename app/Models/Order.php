@@ -76,4 +76,21 @@ class order
         }
     }
 
+    /**
+     * 已处理订单列表
+     * @arrVal int $startTime 查询起始时间
+     * @arrVal int $endTime  查询结束时间
+     * return Array
+     */
+
+    public static function dealOrderlist($startTime = null,$endTime = null)
+    {
+        $orderList = DB::table(self::$sTable)->where('order.is_delete', 0)->where('order.is_view', 0)->where('order.status', '!=', 0);
+        if ($startTime != null)
+            $orderList = $orderList->where('order.created_time', '>',$startTime);
+        if ($endTime)
+            $orderList = $orderList->where('order.created_time', '<',$endTime);
+        return $orderList->leftjoin('user', 'user.id', '=', 'order.user_id')->get(['code', 'name', 'qq_account', 'content', 'star_coin_id','created_time', 'resaon']);
+    }
+
 }

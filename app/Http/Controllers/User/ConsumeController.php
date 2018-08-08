@@ -16,6 +16,7 @@ use App\Models\StarCoin;
 use App\Models\order;
 
 use DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ConsumeController extends Controller
 {
@@ -254,5 +255,59 @@ class ConsumeController extends Controller
         return $arr;
     }
 
+    /**
+     * @api {get} user/consume/export?type&startime&endtime 导出记录表
+     * @apiName export
+     * @apiGroup User
+     *
+     * @apiParam {Number=0，1} type 类型(消费记录，审批记录)
+     * @apiParam {String} startime 起始时间( yy-mm-dd)
+     * @apiParam {String} endtime 结束时间( yy-mm-dd)
+     * @apiSuccessExample Success-Response: 导出记录表
+     * HTTP/1.1 200 OK
+     * {
+     * "code": 0,
+     * "msg": "success",
+     *
+     * @apiError ExportFailure  export failure.
+     *
+     * @apiErrorExample Error-Response:
+     *     HTTP/1.1 200
+     *     {
+     *       "code": "1",
+     *        "msg": '导出失败'
+     *     }
+     *
+     */
+    public function exportRecord(Request $request){
+        if (!$request->isMethod("get"))
+            return responseToJson(1,"request error");
+        $type = $request->type;
+
+        $startime = $request->startime?strtotime($request->startime):null;
+        $endtime = $request->endtime?strtotime($request->endtime):null;
+        $datas = order::dealOrderlist($startime,$endtime)->toArray();
+        $cellData = [];
+        $cellData[] = ['用户账号','姓名','QQ','内容','数量','时间','拒接原因'];
+        $relationArr = ['code', 'name', 'qq_account', 'content', 'star_coin_id','created_time', 'resaon'];
+        $count = 0;
+        foreach ($datas as $cell) {
+            $arr = [];
+            $cell->star_coin_id = count(explode(',',$cell->star_coin_id));
+            $cell->created_time = date('Y-m-d', $cell->created_time);
+            $count += $cell->star_coin_id;
+            foreach($relationArr as $item){
+                $arr[] = $cell->$item;
+            }
+            $cellData[] = $arr;
+        }
+        $cellData[] = ['点赞币总数',$count];
+//        dd($cellData);
+        Excel::create('OrderRecordTable',function($excel) use ($cellData){
+           $excel->sheet('order', function($sheet) use ($cellData){
+               $sheet->rows($cellData);
+           });
+        })->export('xlsx');
+    }
 }
 

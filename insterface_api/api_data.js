@@ -364,6 +364,74 @@ define({ "api": [
   },
   {
     "type": "get",
+    "url": "user/consume/export?type&startime&endtime",
+    "title": "导出记录表",
+    "name": "export",
+    "group": "User",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "allowedValues": [
+              "0，1"
+            ],
+            "optional": false,
+            "field": "type",
+            "description": "<p>类型(消费记录，审批记录)</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "startime",
+            "description": "<p>起始时间( yy-mm-dd)</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "endtime",
+            "description": "<p>结束时间( yy-mm-dd)</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "examples": [
+        {
+          "title": "Success-Response: 导出记录表",
+          "content": "HTTP/1.1 200 OK\n{\n\"code\": 0,\n\"msg\": \"success\",",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "Error 4xx": [
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "ExportFailure",
+            "description": "<p>export failure.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Error-Response:",
+          "content": "HTTP/1.1 200\n{\n  \"code\": \"1\",\n   \"msg\": '导出失败'\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "app/Http/Controllers/User/ConsumeController.php",
+    "groupTitle": "User"
+  },
+  {
+    "type": "get",
     "url": "user/personalCenter/getApplyType",
     "title": "返回类型列表",
     "name": "getApplyType",
@@ -1172,13 +1240,6 @@ define({ "api": [
             "group": "Parameter",
             "type": "Number",
             "optional": false,
-            "field": "userid",
-            "description": "<p>查看人的id.</p>"
-          },
-          {
-            "group": "Parameter",
-            "type": "Number",
-            "optional": false,
             "field": "type",
             "description": "<p>点赞币使用记录种类 $type == 0 未使用 $type == 1 已使用 $type == 2 已过期</p>"
           }
@@ -1194,13 +1255,6 @@ define({ "api": [
             "optional": false,
             "field": "name",
             "description": "<p>点赞人的姓名</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "String",
-            "optional": false,
-            "field": "qq_account",
-            "description": "<p>点赞人的qq号.</p>"
           },
           {
             "group": "Success 200",
@@ -1355,24 +1409,10 @@ define({ "api": [
           },
           {
             "group": "Parameter",
-            "type": "Number",
-            "optional": false,
-            "field": "use_id",
-            "description": "<p>使用人id.</p>"
-          },
-          {
-            "group": "Parameter",
             "type": "String",
             "optional": false,
             "field": "content",
             "description": "<p>点赞币用途.</p>"
-          },
-          {
-            "group": "Parameter",
-            "type": "NUmber",
-            "optional": false,
-            "field": "group_id",
-            "description": "<p>组别id.</p>"
           }
         ]
       }
