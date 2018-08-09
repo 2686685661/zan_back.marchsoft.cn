@@ -10,6 +10,7 @@ namespace App\Http\Controllers\User;
 
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
 use DB;
 use Cookie;
@@ -120,5 +121,94 @@ class LoginController extends Controller
     function getInfo(){
         $result = DB::table('user')->where('id',session('user')->id)->where('is_delete',0)->first();
         return responseToJson(0,'success',$result);
+    }
+
+    /**
+     * @api {post} user/getCode 获得验证码
+     * @apiName getCode
+     * @apiGroup User
+     *
+     * @apiParam {String} userName 账号
+     * @apiParam {String} phone 预留的手机号码
+     *
+     * @apiSuccess {Number} code 状态码：0 成功，其他数值 失败
+     * @apiSuccess {String} msg 响应信息
+     * @apiSuccessExample Success-Response：获得验证码成功
+     * HTTP/1.1 200 OK
+     * {
+     *  "code": 0,
+     *  "msg": "success"
+     * }
+     *
+     * @apiErrorExample Error-Response: 获得验证码失败
+     * HTTP/1.1 200
+     * {
+     *  "code": 1,
+     *  "msg": "该账号预留电话号码不符"
+     * }
+     *
+     */
+    function getCode(Request $request){
+        $name  = trim($request->userName);
+        $phone = trim($request->phone);
+        $count = DB::table('user')->where('code',$name)->where('phone',$phone)->count();
+
+        if($count){
+            //TODO::调用短信验证码接口
+
+            return responseToJson(0,'success');
+        }else{
+            return responseToJson(1,'该账号预留电话号码不符');
+        }
+    }
+
+
+    /**
+     * @api {post} user/resetPassword 登录界面重置密码
+     * @apiName resetPassword
+     * @apiGroup User
+     *
+     * @apiParam {String} userName 账号
+     * @apiParam {String} code 验证码
+     * @apiParam {String} password 密码
+     * @apiParam {String} affirmPassword 确认密码
+     *
+     * @apiSuccess {Number} code 状态码：0 成功，其他数值 失败
+     * @apiSuccess {String} msg 响应信息
+     * @apiSuccessExample Success-Response：重置密码成功
+     * HTTP/1.1 200 OK
+     * {
+     *  "code": 0,
+     *  "msg": "success"
+     * }
+     *
+     * @apiErrorExample Error-Response: 重置密码失败
+     * HTTP/1.1 200
+     * {
+     *  "code": 1,
+     *  "msg": "验证码错误 / 两次密码不一致 / 更新失败"
+     * }
+     *
+     */
+    function resetPassword(Request $request){
+        $name           = trim($request->userName);
+        $code           = trim($request->code);
+        $password       = trim($request->password);
+        $affirmPassword = trim($request->affirmPassword);
+
+        //TODO::判断验证码是否正确
+        if($code != '???'){
+            return responseToJson(0,'验证码错误');
+        }
+
+        if($password != $affirmPassword){
+            return responseToJson(0,'两次密码不一致');
+        }
+
+        if(User::resetPassword($name,$password)){
+            return responseToJson(0,'success');
+        }else{
+            return responseToJson(0,'更新失败');
+        }
     }
 }

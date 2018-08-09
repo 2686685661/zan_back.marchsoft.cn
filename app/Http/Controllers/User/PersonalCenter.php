@@ -522,4 +522,55 @@ class personalCenter extends Controller
 
     }
 
+    /**
+     * @api {post} user/updateUserInfo 更新用户信息
+     * @apiName updateUserInfo
+     * @apiGroup User
+     *
+     * @apiParam {String} name 姓名
+     * @apiParam {String} qq
+     * @apiParam {String} phone 手机号码
+     * @apiParam {String} group_id 组别id
+     *
+     * @apiSuccess {Number} code 状态码：0 更新成功，其他数值 更新失败
+     * @apiSuccess {String} msg 响应信息
+     * @apiSuccessExample Success-Response：更新成功
+     * HTTP/1.1 200 OK
+     * {
+     *  "code": 0,
+     *  "msg": "success"
+     * }
+     *
+     * @apiErrorExample Error-Response: 更新失败
+     * HTTP/1.1 200
+     * {
+     *  "code": 1,
+     *  "msg": "信息不完整 / failed"
+     * }
+     *
+     */
+    public function updateUserInfo(Request $request){
+        $name = trim($request->name);
+        $qq = trim($request->qq);
+        $phone = trim($request->phone);
+        $group_id = trim($request->group_id);
+
+        if($name && $qq && $phone && $group_id){
+            $user = [
+                'name' => $name,
+                'qq' => $qq,
+                'phone' => $phone,
+                'group_id' => $group_id
+            ];
+
+            if(User::update($user)){
+                return responseToJson(0,'success');
+            }else{
+                return responseToJson(1,'failed');
+            }
+        }else{
+            return responseToJson(1,'信息不完整');
+        }
+    }
+
 }
