@@ -264,13 +264,6 @@ class ConsumeController extends Controller
      * @apiParam {Number=0，1} type 类型(消费记录，审批记录)
      * @apiParam {String} startime 起始时间( yy-mm-dd)
      * @apiParam {String} endtime 结束时间( yy-mm-dd)
-     * @apiSuccessExample Success-Response: 导出记录表
-     * HTTP/1.1 200 OK
-     * {
-     * "code": 0,
-     * "msg": "success",
-     *
-     * @apiError ExportFailure  export failure.
      *
      * @apiErrorExample Error-Response:
      *     HTTP/1.1 200
