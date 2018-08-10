@@ -269,7 +269,7 @@ class ConsumeController extends Controller
      *     HTTP/1.1 200
      *     {
      *       "code": "1",
-     *        "msg": '导出失败'
+     *        "msg": '时间段不合理'
      *     }
      *
      */
@@ -279,6 +279,8 @@ class ConsumeController extends Controller
         $type = $request->type?$request->type:0;
         $startime = $request->startime?strtotime($request->startime):null;
         $endtime = $request->endtime?strtotime($request->endtime):null;
+        if($startime > $endtime)
+            return responseToJson(1,'时间段不合理');
         if($type==0){
             $datas = order::dealOrderlist($startime,$endtime)->toArray();
             $this->export(['用户账号','姓名','QQ','内容','数量','时间','拒接原因'],

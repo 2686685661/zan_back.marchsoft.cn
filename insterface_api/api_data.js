@@ -398,30 +398,11 @@ define({ "api": [
         ]
       }
     },
-    "success": {
-      "examples": [
-        {
-          "title": "Success-Response: 导出记录表",
-          "content": "HTTP/1.1 200 OK\n{\n\"code\": 0,\n\"msg\": \"success\",",
-          "type": "json"
-        }
-      ]
-    },
     "error": {
-      "fields": {
-        "Error 4xx": [
-          {
-            "group": "Error 4xx",
-            "optional": false,
-            "field": "ExportFailure",
-            "description": "<p>export failure.</p>"
-          }
-        ]
-      },
       "examples": [
         {
           "title": "Error-Response:",
-          "content": "HTTP/1.1 200\n{\n  \"code\": \"1\",\n   \"msg\": '导出失败'\n}",
+          "content": "HTTP/1.1 200\n{\n  \"code\": \"1\",\n   \"msg\": '时间段不合理'\n}",
           "type": "json"
         }
       ]

@@ -118,7 +118,8 @@ class LoginController extends Controller
 
     /* 得到用户信息 */
     function getInfo(){
-        $result = DB::table('user')->where('id',session('user')->id)->where('is_delete',0)->first();
+        // session('user')->id
+        $result = DB::table('user')->where('id','11010')->where('is_delete',0)->first();
         return responseToJson(0,'success',$result);
     }
 }
