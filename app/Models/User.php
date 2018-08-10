@@ -44,4 +44,21 @@ class User
             ->groupBy('grade');
         return $users;
     }
+
+    /**
+     * @param $user 数组，包含要更新的字段
+     * @return mixed
+     */
+    public static function update($user){
+        return DB::table(self::$sTable)->where('code', session('user')->code)->update($user);
+    }
+
+    /**
+     * @param $name 用户账号
+     * @param $password 用户要更新的密码
+     * @return mixed
+     */
+    public static function resetPassword($name,$password){
+        return DB::table(self::$sTable)->where('code', $name)->update(['password' => $password]);
+    }
 }

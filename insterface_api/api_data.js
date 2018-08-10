@@ -218,6 +218,65 @@ define({ "api": [
     "groupTitle": "User"
   },
   {
+    "type": "post",
+    "url": "user/checkCode",
+    "title": "检测验证码是否正确",
+    "name": "checkCode",
+    "group": "User",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "code",
+            "description": "<p>验证码</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "code",
+            "description": "<p>状态码：0 成功，其他数值 失败</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "msg",
+            "description": "<p>响应信息</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response：成功",
+          "content": "HTTP/1.1 200 OK\n{\n \"code\": 0,\n \"msg\": \"success\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "Error-Response: 失败",
+          "content": "HTTP/1.1 200\n{\n \"code\": 1,\n \"msg\": \"验证码错误\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "app/Http/Controllers/User/LoginController.php",
+    "groupTitle": "User"
+  },
+  {
     "type": "get",
     "url": "user/record/countList?countGrade&startDate&endDate",
     "title": "显示点赞币统计记录",
@@ -542,6 +601,72 @@ define({ "api": [
     },
     "version": "0.0.0",
     "filename": "app/Http/Controllers/User/PersonalCenter.php",
+    "groupTitle": "User"
+  },
+  {
+    "type": "post",
+    "url": "user/getCode",
+    "title": "获得验证码",
+    "name": "getCode",
+    "group": "User",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "userName",
+            "description": "<p>账号</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "phone",
+            "description": "<p>预留的手机号码</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "code",
+            "description": "<p>状态码：0 成功，其他数值 失败</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "msg",
+            "description": "<p>响应信息</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response：获得验证码成功",
+          "content": "HTTP/1.1 200 OK\n{\n \"code\": 0,\n \"msg\": \"success\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "Error-Response: 获得验证码失败",
+          "content": "HTTP/1.1 200\n{\n \"code\": 1,\n \"msg\": \"该账号预留电话号码不符\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "app/Http/Controllers/User/LoginController.php",
     "groupTitle": "User"
   },
   {
@@ -1498,6 +1623,72 @@ define({ "api": [
   },
   {
     "type": "post",
+    "url": "user/resetPassword",
+    "title": "登录界面重置密码",
+    "name": "resetPassword",
+    "group": "User",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "userName",
+            "description": "<p>账号</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "password",
+            "description": "<p>密码</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "code",
+            "description": "<p>状态码：0 成功，其他数值 失败</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "msg",
+            "description": "<p>响应信息</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response：重置密码成功",
+          "content": "HTTP/1.1 200 OK\n{\n \"code\": 0,\n \"msg\": \"success\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "Error-Response: 重置密码失败",
+          "content": "HTTP/1.1 200\n{\n \"code\": 1,\n \"msg\": \"更新失败\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "app/Http/Controllers/User/LoginController.php",
+    "groupTitle": "User"
+  },
+  {
+    "type": "post",
     "url": "user/thumbsUp",
     "title": "点赞",
     "name": "thumbsUp",
@@ -1773,6 +1964,86 @@ define({ "api": [
         {
           "title": "Error-Response:",
           "content": "HTTP/1.1 200\n{\n  \"code\": \"1\",\n   \"msg\": '响应的报错信息'\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "app/Http/Controllers/User/PersonalCenter.php",
+    "groupTitle": "User"
+  },
+  {
+    "type": "post",
+    "url": "user/updateUserInfo",
+    "title": "更新用户信息",
+    "name": "updateUserInfo",
+    "group": "User",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "name",
+            "description": "<p>姓名</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "qq",
+            "description": ""
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "phone",
+            "description": "<p>手机号码</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "group_id",
+            "description": "<p>组别id</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "code",
+            "description": "<p>状态码：0 更新成功，其他数值 更新失败</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "msg",
+            "description": "<p>响应信息</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response：更新成功",
+          "content": "HTTP/1.1 200 OK\n{\n \"code\": 0,\n \"msg\": \"success\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "Error-Response: 更新失败",
+          "content": "HTTP/1.1 200\n{\n \"code\": 1,\n \"msg\": \"信息不完整 / failed\"\n}",
           "type": "json"
         }
       ]

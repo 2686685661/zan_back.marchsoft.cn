@@ -10,8 +10,11 @@ namespace App\Http\Controllers\User;
 
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\User\Msg\MsgController;
+use App\Models\User;
 use Illuminate\Http\Request;
 use DB;
+use Log;
 use Cookie;
 
 class LoginController extends Controller
@@ -121,5 +124,116 @@ class LoginController extends Controller
         // session('user')->id
         $result = DB::table('user')->where('id','11010')->where('is_delete',0)->first();
         return responseToJson(0,'success',$result);
+    }
+
+    /**
+     * @api {post} user/getCode 获得验证码
+     * @apiName getCode
+     * @apiGroup User
+     *
+     * @apiParam {String} userName 账号
+     * @apiParam {String} phone 预留的手机号码
+     *
+     * @apiSuccess {Number} code 状态码：0 成功，其他数值 失败
+     * @apiSuccess {String} msg 响应信息
+     * @apiSuccessExample Success-Response：获得验证码成功
+     * HTTP/1.1 200 OK
+     * {
+     *  "code": 0,
+     *  "msg": "success"
+     * }
+     *
+     * @apiErrorExample Error-Response: 获得验证码失败
+     * HTTP/1.1 200
+     * {
+     *  "code": 1,
+     *  "msg": "该账号预留电话号码不符"
+     * }
+     *
+     */
+    function getCode(Request $request){
+        $name  = trim($request->userName);
+        $phone = trim($request->phone);
+        $count = DB::table('user')->where('code',$name)->where('phone',$phone)->count();
+
+        if($count){
+            $code = strRand(6,'0123456789');
+            session(['code' => $code]);
+            $res = MsgController::sendSms($phone,$code);
+            Log::info(json_encode($res));
+            return responseToJson(0,'success');
+        }else{
+            return responseToJson(1,'该账号预留电话号码不符');
+        }
+    }
+
+
+    /**
+     * @api {post} user/resetPassword 登录界面重置密码
+     * @apiName resetPassword
+     * @apiGroup User
+     *
+     * @apiParam {String} userName 账号
+     * @apiParam {String} password 密码
+     *
+     * @apiSuccess {Number} code 状态码：0 成功，其他数值 失败
+     * @apiSuccess {String} msg 响应信息
+     * @apiSuccessExample Success-Response：重置密码成功
+     * HTTP/1.1 200 OK
+     * {
+     *  "code": 0,
+     *  "msg": "success"
+     * }
+     *
+     * @apiErrorExample Error-Response: 重置密码失败
+     * HTTP/1.1 200
+     * {
+     *  "code": 1,
+     *  "msg": "更新失败"
+     * }
+     *
+     */
+    function resetPassword(Request $request){
+        $name           = trim($request->userName);
+        $password       = trim($request->password);
+
+        if(User::resetPassword($name,$password)){
+            return responseToJson(0,'success');
+        }else{
+            return responseToJson(1,'更新失败');
+        }
+    }
+
+    /**
+     * @api {post} user/checkCode 检测验证码是否正确
+     * @apiName checkCode
+     * @apiGroup User
+     *
+     * @apiParam {String} code 验证码
+     *
+     * @apiSuccess {Number} code 状态码：0 成功，其他数值 失败
+     * @apiSuccess {String} msg 响应信息
+     * @apiSuccessExample Success-Response：成功
+     * HTTP/1.1 200 OK
+     * {
+     *  "code": 0,
+     *  "msg": "success"
+     * }
+     *
+     * @apiErrorExample Error-Response: 失败
+     * HTTP/1.1 200
+     * {
+     *  "code": 1,
+     *  "msg": "验证码错误"
+     * }
+     *
+     */
+    function checkCode(Request $request){
+        $code = trim($request->code);
+        if($code != session('code')){
+            return responseToJson(1,'验证码错误');
+        }else{
+            return responseToJson(0,'success');
+        }
     }
 }

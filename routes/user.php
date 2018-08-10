@@ -48,6 +48,7 @@ Route::group(['prefix' => 'user','namespace' => 'User'],function() {
         Route::any('/addTalk','PersonalCenter@addTalk');
         Route::any('/updatePassword','PersonalCenter@updatePassword');
         Route::any('/getRule','PersonalCenter@getRule');
+        Route::post('/updateUserInfo','PersonalCenter@updateUserInfo');
     });
 
 });
