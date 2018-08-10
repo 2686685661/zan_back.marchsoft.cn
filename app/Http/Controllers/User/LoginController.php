@@ -10,9 +10,11 @@ namespace App\Http\Controllers\User;
 
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\User\Msg\MsgController;
 use App\Models\User;
 use Illuminate\Http\Request;
 use DB;
+use Log;
 use Cookie;
 
 class LoginController extends Controller
@@ -154,8 +156,10 @@ class LoginController extends Controller
         $count = DB::table('user')->where('code',$name)->where('phone',$phone)->count();
 
         if($count){
-            //TODO::调用短信验证码接口
-
+            $code = strRand(6,'0123456789');
+            session(['code' => $code]);
+            $res = MsgController::sendSms($phone,$code);
+            Log::info($res);
             return responseToJson(0,'success');
         }else{
             return responseToJson(1,'该账号预留电话号码不符');
@@ -197,7 +201,7 @@ class LoginController extends Controller
         $affirmPassword = trim($request->affirmPassword);
 
         //TODO::判断验证码是否正确
-        if($code != '???'){
+        if($code != session('code')){
             return responseToJson(0,'验证码错误');
         }
 
