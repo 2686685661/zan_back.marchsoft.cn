@@ -190,7 +190,7 @@ class LoginController extends Controller
      * HTTP/1.1 200
      * {
      *  "code": 1,
-     *  "msg": "验证码错误 / 两次密码不一致 / 更新失败"
+     *  "msg": "验证码错误  / 更新失败"
      * }
      *
      */
@@ -198,15 +198,10 @@ class LoginController extends Controller
         $name           = trim($request->userName);
         $code           = trim($request->code);
         $password       = trim($request->password);
-        $affirmPassword = trim($request->affirmPassword);
 
         //TODO::判断验证码是否正确
         if($code != session('code')){
             return responseToJson(0,'验证码错误');
-        }
-
-        if($password != $affirmPassword){
-            return responseToJson(0,'两次密码不一致');
         }
 
         if(User::resetPassword($name,$password)){
