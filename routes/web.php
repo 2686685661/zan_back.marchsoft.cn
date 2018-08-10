@@ -23,6 +23,7 @@ Route::group(['middleware'=>['cors']], function() {
     Route::any('user/login_out','User\LoginController@login_out');
     Route::post('user/getCode','User\LoginController@getCode');
     Route::post('user/resetPassword','User\LoginController@resetPassword');
+    Route::post('user/checkCode','User\LoginController@checkCode');
 
     Route::group(['middleware'=>['login.check']], function() {
 

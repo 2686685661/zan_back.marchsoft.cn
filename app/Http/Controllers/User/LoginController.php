@@ -159,7 +159,7 @@ class LoginController extends Controller
             $code = strRand(6,'0123456789');
             session(['code' => $code]);
             $res = MsgController::sendSms($phone,$code);
-            Log::info($res);
+            Log::info(json_encode($res));
             return responseToJson(0,'success');
         }else{
             return responseToJson(1,'该账号预留电话号码不符');
@@ -173,9 +173,7 @@ class LoginController extends Controller
      * @apiGroup User
      *
      * @apiParam {String} userName 账号
-     * @apiParam {String} code 验证码
      * @apiParam {String} password 密码
-     * @apiParam {String} affirmPassword 确认密码
      *
      * @apiSuccess {Number} code 状态码：0 成功，其他数值 失败
      * @apiSuccess {String} msg 响应信息
@@ -190,24 +188,51 @@ class LoginController extends Controller
      * HTTP/1.1 200
      * {
      *  "code": 1,
-     *  "msg": "验证码错误  / 更新失败"
+     *  "msg": "更新失败"
      * }
      *
      */
     function resetPassword(Request $request){
         $name           = trim($request->userName);
-        $code           = trim($request->code);
         $password       = trim($request->password);
-
-        //TODO::判断验证码是否正确
-        if($code != session('code')){
-            return responseToJson(0,'验证码错误');
-        }
 
         if(User::resetPassword($name,$password)){
             return responseToJson(0,'success');
         }else{
-            return responseToJson(0,'更新失败');
+            return responseToJson(1,'更新失败');
+        }
+    }
+
+    /**
+     * @api {post} user/checkCode 检测验证码是否正确
+     * @apiName checkCode
+     * @apiGroup User
+     *
+     * @apiParam {String} code 验证码
+     *
+     * @apiSuccess {Number} code 状态码：0 成功，其他数值 失败
+     * @apiSuccess {String} msg 响应信息
+     * @apiSuccessExample Success-Response：成功
+     * HTTP/1.1 200 OK
+     * {
+     *  "code": 0,
+     *  "msg": "success"
+     * }
+     *
+     * @apiErrorExample Error-Response: 失败
+     * HTTP/1.1 200
+     * {
+     *  "code": 1,
+     *  "msg": "验证码错误"
+     * }
+     *
+     */
+    function checkCode(Request $request){
+        $code = trim($request->code);
+        if($code != session('code')){
+            return responseToJson(1,'验证码错误');
+        }else{
+            return responseToJson(0,'success');
         }
     }
 }
